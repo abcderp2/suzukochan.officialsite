@@ -75,19 +75,25 @@
 
       <div class="controls" aria-label="ギャラリー画像の位置調整">
         <p class="controls-note">
-          ギャラリーの画像だけ、表示位置を動かせます。調整はこの端末のブラウザに保存されます。
+          ギャラリーの画像だけ、上下左右に動かせます。ズームも調整できます。設定はこの端末のブラウザに保存されます。
         </p>
 
         <div class="controls-row">
-          <label class="controls-label" for="thumbX">左右</label>
-          <input id="thumbX" class="range" type="range" min="0" max="100" value="50" step="1">
-          <output id="thumbXOut" class="out" for="thumbX">50</output>
+          <label class="controls-label" for="panX">左右</label>
+          <input id="panX" class="range" type="range" min="-40" max="40" value="0" step="1">
+          <output id="panXOut" class="out" for="panX">0</output>
         </div>
 
         <div class="controls-row">
-          <label class="controls-label" for="thumbY">上下</label>
-          <input id="thumbY" class="range" type="range" min="0" max="100" value="92" step="1">
-          <output id="thumbYOut" class="out" for="thumbY">92</output>
+          <label class="controls-label" for="panY">上下</label>
+          <input id="panY" class="range" type="range" min="-40" max="40" value="12" step="1">
+          <output id="panYOut" class="out" for="panY">12</output>
+        </div>
+
+        <div class="controls-row">
+          <label class="controls-label" for="zoom">拡大</label>
+          <input id="zoom" class="range" type="range" min="105" max="140" value="118" step="1">
+          <output id="zoomOut" class="out" for="zoom">118</output>
         </div>
 
         <div class="controls-buttons" aria-label="微調整ボタン">
@@ -95,19 +101,21 @@
           <button type="button" class="btn" data-nudge="down">下へ</button>
           <button type="button" class="btn" data-nudge="left">左へ</button>
           <button type="button" class="btn" data-nudge="right">右へ</button>
-          <button type="button" class="btn btn-ghost" data-nudge="reset">リセット</button>
+          <button type="button" class="btn btn-ghost" data-nudge="reset">顔を基準に戻す</button>
         </div>
       </div>
 
       <div class="grid">
         <figure class="thumb">
-          <img
-            class="thumb-img"
-            src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
-            alt="鈴子ちゃん ビジュアル"
-            loading="lazy"
-            decoding="async"
-          >
+          <div class="thumb-frame" aria-label="ギャラリー画像表示枠">
+            <img
+              class="thumb-img"
+              src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
+              alt="鈴子ちゃん ビジュアル"
+              loading="lazy"
+              decoding="async"
+            >
+          </div>
           <figcaption>公式ビジュアル</figcaption>
         </figure>
       </div>
