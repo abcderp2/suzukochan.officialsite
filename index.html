@@ -7,7 +7,9 @@
   <title>鈴子ちゃん公式サイト</title>
   <meta name="description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドライン、ギャラリーを掲載します。">
 
+  <link rel="canonical" href="https://abcderp2.github.io/suzukochan.officialsite/">
   <meta name="referrer" content="no-referrer">
+
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     base-uri 'self';
@@ -20,39 +22,41 @@
     upgrade-insecure-requests;
     block-all-mixed-content
   ">
-  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
+  <a class="skip" href="#main">本文へ移動</a>
+
   <header class="site-header">
     <div class="wrap header-inner">
       <div class="title-area">
-        <h1>鈴子ちゃん公式サイト</h1>
-        <p class="lead">
-          プロフィール、更新情報、ガイドライン、ギャラリーをまとめます。
-        </p>
+        <h1 class="site-title">鈴子ちゃん公式サイト</h1>
+        <p class="lead">プロフィール、更新情報、ガイドライン、ギャラリーをまとめます。</p>
 
-        <nav class="nav">
+        <nav class="nav" aria-label="ページ内ナビゲーション">
           <a href="#news">更新情報</a>
           <a href="#guidelines">ガイドライン</a>
           <a href="#gallery">ギャラリー</a>
         </nav>
       </div>
 
-      <div class="hero" aria-label="公式ビジュアル">
+      <figure class="hero" aria-label="公式ビジュアル">
         <img
+          class="hero-img"
           src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
           alt="鈴子ちゃん 公式ビジュアル"
           loading="eager"
           decoding="async"
         >
-      </div>
+        <figcaption class="hero-cap">公式ビジュアル</figcaption>
+      </figure>
     </div>
   </header>
 
-  <main class="wrap">
+  <main id="main" class="wrap">
     <section id="news" class="card">
       <h2>更新情報</h2>
       <ul class="list">
@@ -62,16 +66,16 @@
 
     <section id="guidelines" class="card">
       <h2>ガイドライン</h2>
-      <p class="muted">
-        ここに掲載します。
-      </p>
+      <p class="muted">ここに掲載します。</p>
     </section>
 
     <section id="gallery" class="card">
       <h2>ギャラリー</h2>
+
       <div class="grid">
         <figure class="thumb">
           <img
+            class="thumb-img"
             src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
             alt="鈴子ちゃん ビジュアル"
             loading="lazy"
@@ -80,6 +84,8 @@
           <figcaption>公式ビジュアル</figcaption>
         </figure>
       </div>
+
+      <p class="note">ギャラリー画像は表示位置を下寄せにして、顔が見えにくい切り取りにしています。</p>
     </section>
 
     <footer class="footer">
