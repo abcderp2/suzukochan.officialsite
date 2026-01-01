@@ -8,8 +8,10 @@
   --shadow: 0 6px 24px rgba(0,0,0,0.08);
   --radius: 16px;
 
-  --thumb-x: 50%;
-  --thumb-y: 92%;
+  /* ギャラリー調整用（初期は顔が出やすい寄せ方） */
+  --pan-x: 0%;
+  --pan-y: 12%;
+  --zoom: 1.18;
 }
 
 body{
@@ -208,12 +210,20 @@ h2{
   background: #fafafa;
 }
 
+.thumb-frame{
+  height: 220px;
+  overflow: hidden;
+  background: #00000008;
+}
+
 .thumb-img{
   width: 100%;
-  height: 220px;
+  height: 100%;
   object-fit: cover;
-  object-position: var(--thumb-x) var(--thumb-y);
+  transform: translate(var(--pan-x), var(--pan-y)) scale(var(--zoom));
+  transform-origin: center;
   display: block;
+  will-change: transform;
 }
 
 .thumb figcaption{
