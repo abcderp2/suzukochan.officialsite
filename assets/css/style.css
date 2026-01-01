@@ -1,1 +1,149 @@
+:root{
+  color-scheme: light;
+}
 
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background:#f6f7f9;
+  color:#111;
+  line-height: 1.6;
+}
+
+.wrap{
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.site-header{
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.header-inner{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+h1{
+  margin: 0 0 8px;
+  font-size: 30px;
+  letter-spacing: 0.02em;
+}
+
+.lead{
+  margin: 0 0 12px;
+  color: #444;
+  max-width: 60ch;
+}
+
+.nav{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav a{
+  color: #111;
+  text-decoration: none;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.02);
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+
+.nav a:hover{
+  background: rgba(0,0,0,0.05);
+}
+
+.hero{
+  background:#fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  max-height: 360px;
+}
+
+.hero img{
+  display:block;
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+
+.card{
+  background:#fff;
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  margin-top: 16px;
+}
+
+h2{
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.muted{
+  color:#444;
+  margin: 0;
+}
+
+.list{
+  margin: 0;
+  padding-left: 18px;
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.thumb{
+  margin: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.thumb img{
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.thumb figcaption{
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #444;
+}
+
+.footer{
+  margin-top: 22px;
+  color:#666;
+}
+
+@media (min-width: 900px){
+  .header-inner{
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 22px;
+  }
+  .hero{
+    max-height: 320px;
+  }
+  .hero img{
+    height: 320px;
+  }
+  .grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
