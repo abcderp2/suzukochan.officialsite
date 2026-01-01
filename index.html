@@ -25,6 +25,7 @@
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/app.js" defer></script>
 </head>
 
 <body>
@@ -72,6 +73,32 @@
     <section id="gallery" class="card">
       <h2>ギャラリー</h2>
 
+      <div class="controls" aria-label="ギャラリー画像の位置調整">
+        <p class="controls-note">
+          ギャラリーの画像だけ、表示位置を動かせます。調整はこの端末のブラウザに保存されます。
+        </p>
+
+        <div class="controls-row">
+          <label class="controls-label" for="thumbX">左右</label>
+          <input id="thumbX" class="range" type="range" min="0" max="100" value="50" step="1">
+          <output id="thumbXOut" class="out" for="thumbX">50</output>
+        </div>
+
+        <div class="controls-row">
+          <label class="controls-label" for="thumbY">上下</label>
+          <input id="thumbY" class="range" type="range" min="0" max="100" value="92" step="1">
+          <output id="thumbYOut" class="out" for="thumbY">92</output>
+        </div>
+
+        <div class="controls-buttons" aria-label="微調整ボタン">
+          <button type="button" class="btn" data-nudge="up">上へ</button>
+          <button type="button" class="btn" data-nudge="down">下へ</button>
+          <button type="button" class="btn" data-nudge="left">左へ</button>
+          <button type="button" class="btn" data-nudge="right">右へ</button>
+          <button type="button" class="btn btn-ghost" data-nudge="reset">リセット</button>
+        </div>
+      </div>
+
       <div class="grid">
         <figure class="thumb">
           <img
@@ -85,7 +112,9 @@
         </figure>
       </div>
 
-      <p class="note">ギャラリー画像は表示位置を下寄せにして、顔が見えにくい切り取りにしています。</p>
+      <noscript>
+        <p class="note">JavaScriptが無効な場合、位置調整は使えません。</p>
+      </noscript>
     </section>
 
     <footer class="footer">
