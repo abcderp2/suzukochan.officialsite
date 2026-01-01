@@ -1,52 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>鈴子ちゃん公式サイト</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background:#f6f7f9;
-      color:#111;
-    }
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 24px 16px 40px;
-    }
-    h1{
-      margin: 8px 0 16px;
-      font-size: 28px;
-      letter-spacing: 0.02em;
-    }
-    .hero{
-      background:#fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.08);
-    }
-    .hero img{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-    .caption{
-      padding: 12px 14px 14px;
-      font-size: 14px;
-      color:#444;
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <h1>鈴子ちゃん公式サイト</h1>
 
-    <div class="hero">
-      <img src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg" alt="鈴子ちゃん 公式ビジュアル">
-      <div class="caption">公式ビジュアル</div>
+  <title>鈴子ちゃん公式サイト</title>
+  <meta name="description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドライン、ギャラリーを掲載します。">
+
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    base-uri 'self';
+    object-src 'none';
+    frame-ancestors 'none';
+    form-action 'none';
+    img-src 'self' data:;
+    style-src 'self';
+    script-src 'self';
+    upgrade-insecure-requests;
+    block-all-mixed-content
+  ">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="title-area">
+        <h1>鈴子ちゃん公式サイト</h1>
+        <p class="lead">
+          プロフィール、更新情報、ガイドライン、ギャラリーをまとめます。
+        </p>
+
+        <nav class="nav">
+          <a href="#news">更新情報</a>
+          <a href="#guidelines">ガイドライン</a>
+          <a href="#gallery">ギャラリー</a>
+        </nav>
+      </div>
+
+      <div class="hero" aria-label="公式ビジュアル">
+        <img
+          src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
+          alt="鈴子ちゃん 公式ビジュアル"
+          loading="eager"
+          decoding="async"
+        >
+      </div>
     </div>
-  </div>
+  </header>
+
+  <main class="wrap">
+    <section id="news" class="card">
+      <h2>更新情報</h2>
+      <ul class="list">
+        <li><time datetime="2026-01-02">2026-01-02</time> サイト公開</li>
+      </ul>
+    </section>
+
+    <section id="guidelines" class="card">
+      <h2>ガイドライン</h2>
+      <p class="muted">
+        ここに掲載します。
+      </p>
+    </section>
+
+    <section id="gallery" class="card">
+      <h2>ギャラリー</h2>
+      <div class="grid">
+        <figure class="thumb">
+          <img
+            src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
+            alt="鈴子ちゃん ビジュアル"
+            loading="lazy"
+            decoding="async"
+          >
+          <figcaption>公式ビジュアル</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>© 鈴子ちゃん</small>
+    </footer>
+  </main>
 </body>
 </html>
