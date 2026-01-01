@@ -1,62 +1,87 @@
 (() => {
   "use strict";
 
-  const KEY_X = "suzukoThumbX";
-  const KEY_Y = "suzukoThumbY";
+  const KEY_X = "suzukoPanX";
+  const KEY_Y = "suzukoPanY";
+  const KEY_Z = "suzukoZoom";
 
   const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
   const root = document.documentElement;
-  const x = document.getElementById("thumbX");
-  const y = document.getElementById("thumbY");
-  const xOut = document.getElementById("thumbXOut");
-  const yOut = document.getElementById("thumbYOut");
+
+  const panX = document.getElementById("panX");
+  const panY = document.getElementById("panY");
+  const zoom = document.getElementById("zoom");
+
+  const panXOut = document.getElementById("panXOut");
+  const panYOut = document.getElementById("panYOut");
+  const zoomOut = document.getElementById("zoomOut");
+
   const buttons = document.querySelectorAll("[data-nudge]");
 
-  if (!x || !y || !xOut || !yOut) return;
+  if (!panX || !panY || !zoom || !panXOut || !panYOut || !zoomOut) return;
 
-  const setVars = (xVal, yVal) => {
-    const xv = clamp(Number(xVal), 0, 100);
-    const yv = clamp(Number(yVal), 0, 100);
-    root.style.setProperty("--thumb-x", `${xv}%`);
-    root.style.setProperty("--thumb-y", `${yv}%`);
-    x.value = String(xv);
-    y.value = String(yv);
-    xOut.textContent = String(xv);
-    yOut.textContent = String(yv);
+  const DEFAULT = { x: 0, y: 12, z: 118 }; // 顔が出やすい初期値
+
+  const setVars = (xVal, yVal, zVal) => {
+    const xv = clamp(Number(xVal), -40, 40);
+    const yv = clamp(Number(yVal), -40, 40);
+    const zv = clamp(Number(zVal), 105, 140);
+
+    root.style.setProperty("--pan-x", `${xv}%`);
+    root.style.setProperty("--pan-y", `${yv}%`);
+    root.style.setProperty("--zoom", String(zv / 100));
+
+    panX.value = String(xv);
+    panY.value = String(yv);
+    zoom.value = String(zv);
+
+    panXOut.textContent = String(xv);
+    panYOut.textContent = String(yv);
+    zoomOut.textContent = String(zv);
+
     try {
       localStorage.setItem(KEY_X, String(xv));
       localStorage.setItem(KEY_Y, String(yv));
+      localStorage.setItem(KEY_Z, String(zv));
     } catch (_) {}
   };
 
   const load = () => {
-    let xv = 50;
-    let yv = 92;
+    let x = DEFAULT.x;
+    let y = DEFAULT.y;
+    let z = DEFAULT.z;
     try {
       const lx = localStorage.getItem(KEY_X);
       const ly = localStorage.getItem(KEY_Y);
-      if (lx !== null) xv = Number(lx);
-      if (ly !== null) yv = Number(ly);
+      const lz = localStorage.getItem(KEY_Z);
+      if (lx !== null && !Number.isNaN(Number(lx))) x = Number(lx);
+      if (ly !== null && !Number.isNaN(Number(ly))) y = Number(ly);
+      if (lz !== null && !Number.isNaN(Number(lz))) z = Number(lz);
     } catch (_) {}
-    setVars(xv, yv);
+    setVars(x, y, z);
   };
 
-  x.addEventListener("input", () => setVars(x.value, y.value));
-  y.addEventListener("input", () => setVars(x.value, y.value));
+  const sync = () => setVars(panX.value, panY.value, zoom.value);
+
+  panX.addEventListener("input", sync);
+  panY.addEventListener("input", sync);
+  zoom.addEventListener("input", sync);
 
   buttons.forEach((b) => {
     b.addEventListener("click", () => {
       const mode = b.getAttribute("data-nudge");
       const step = 2;
-      const curX = Number(x.value);
-      const curY = Number(y.value);
 
-      if (mode === "reset") return setVars(50, 92);
-      if (mode === "up") return setVars(curX, curY - step);
-      if (mode === "down") return setVars(curX, curY + step);
-      if (mode === "left") return setVars(curX - step, curY);
-      if (mode === "right") return setVars(curX + step, curY);
+      const curX = Number(panX.value);
+      const curY = Number(panY.value);
+      const curZ = Number(zoom.value);
+
+      if (mode === "reset") return setVars(DEFAULT.x, DEFAULT.y, DEFAULT.z);
+      if (mode === "up") return setVars(curX, curY - step, curZ);
+      if (mode === "down") return setVars(curX, curY + step, curZ);
+      if (mode === "left") return setVars(curX - step, curY, curZ);
+      if (mode === "right") return setVars(curX + step, curY, curZ);
     });
   });
 
