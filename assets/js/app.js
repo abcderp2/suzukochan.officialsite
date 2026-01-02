@@ -1,9 +1,10 @@
 (() => {
   "use strict";
 
-  const KEY_X = "suzukoPanX";
-  const KEY_Y = "suzukoPanY";
-  const KEY_Z = "suzukoZoom";
+  // 旧保存値の影響を避けるため v2 に変更
+  const KEY_X = "suzukoPanX_v2";
+  const KEY_Y = "suzukoPanY_v2";
+  const KEY_Z = "suzukoZoom_v2";
 
   const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
@@ -21,13 +22,32 @@
 
   if (!panX || !panY || !zoom || !panXOut || !panYOut || !zoomOut) return;
 
-  const DEFAULT = { x: 0, y: 12, z: 118 }; // 顔が出やすい初期値
+  // index.html 側で指定した min/max をそのまま使う
+  const getLimits = (el, fallbackMin, fallbackMax) => {
+    const min = Number(el.min);
+    const max = Number(el.max);
+    const okMin = Number.isFinite(min) ? min : fallbackMin;
+    const okMax = Number.isFinite(max) ? max : fallbackMax;
+    return { min: okMin, max: okMax };
+  };
+
+  const limitsX = () => getLimits(panX, -40, 40);
+  const limitsY = () => getLimits(panY, -240, 240);
+  const limitsZ = () => getLimits(zoom, 80, 140);
+
+  // 頭が入るように初期値を上寄り、拡大も弱めに
+  const DEFAULT = { x: 0, y: -80, z: 95 };
 
   const setVars = (xVal, yVal, zVal) => {
-    const xv = clamp(Number(xVal), -40, 40);
-    const yv = clamp(Number(yVal), -40, 40);
-    const zv = clamp(Number(zVal), 105, 140);
+    const lx = limitsX();
+    const ly = limitsY();
+    const lz = limitsZ();
 
+    const xv = clamp(Number(xVal), lx.min, lx.max);
+    const yv = clamp(Number(yVal), ly.min, ly.max);
+    const zv = clamp(Number(zVal), lz.min, lz.max);
+
+    // CSS 側が % 前提の想定のまま。数値レンジだけ広げる
     root.style.setProperty("--pan-x", `${xv}%`);
     root.style.setProperty("--pan-y", `${yv}%`);
     root.style.setProperty("--zoom", String(zv / 100));
@@ -51,14 +71,17 @@
     let x = DEFAULT.x;
     let y = DEFAULT.y;
     let z = DEFAULT.z;
+
     try {
       const lx = localStorage.getItem(KEY_X);
       const ly = localStorage.getItem(KEY_Y);
       const lz = localStorage.getItem(KEY_Z);
+
       if (lx !== null && !Number.isNaN(Number(lx))) x = Number(lx);
       if (ly !== null && !Number.isNaN(Number(ly))) y = Number(ly);
       if (lz !== null && !Number.isNaN(Number(lz))) z = Number(lz);
     } catch (_) {}
+
     setVars(x, y, z);
   };
 
@@ -71,7 +94,7 @@
   buttons.forEach((b) => {
     b.addEventListener("click", () => {
       const mode = b.getAttribute("data-nudge");
-      const step = 2;
+      const step = 5;
 
       const curX = Number(panX.value);
       const curY = Number(panY.value);
