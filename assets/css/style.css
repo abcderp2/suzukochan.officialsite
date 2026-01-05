@@ -10,8 +10,8 @@
 
   /* ギャラリー調整用（初期は顔が出やすい寄せ方） */
   --pan-x: 0%;
-  --pan-y: 12%;
-  --zoom: 1.18;
+  --pan-y: 0%;
+  --zoom: 1;
 }
 
 body{
@@ -218,10 +218,9 @@ h2{
 
 .thumb-img{
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   transform: translate(var(--pan-x), var(--pan-y)) scale(var(--zoom));
-  transform-origin: center;
+  transform-origin: top center;
   display: block;
   will-change: transform;
 }
