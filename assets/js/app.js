@@ -2,9 +2,10 @@
   "use strict";
 
   // 旧保存値の影響を避けるため v2 に変更
-  const KEY_X = "suzukoPanX_v2";
-  const KEY_Y = "suzukoPanY_v2";
-  const KEY_Z = "suzukoZoom_v2";
+  // 設定構造が変わったため v3 に移行し初期化を促す
+  const KEY_X = "suzukoPanX_v3";
+  const KEY_Y = "suzukoPanY_v3";
+  const KEY_Z = "suzukoZoom_v3";
 
   const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
@@ -32,11 +33,11 @@
   };
 
   const limitsX = () => getLimits(panX, -40, 40);
-  const limitsY = () => getLimits(panY, -240, 240);
-  const limitsZ = () => getLimits(zoom, 80, 140);
+  const limitsY = () => getLimits(panY, -150, 150);
+  const limitsZ = () => getLimits(zoom, 30, 150);
 
-  // 頭が入るように初期値を上寄り、拡大も弱めに
-  const DEFAULT = { x: 0, y: -80, z: 95 };
+  // 頭が入るように初期値は 0 (上端)、zoom 100
+  const DEFAULT = { x: 0, y: 0, z: 100 };
 
   const setVars = (xVal, yVal, zVal) => {
     const lx = limitsX();
