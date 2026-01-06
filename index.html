@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>鈴子ちゃん公式サイト</title>
-  <meta name="description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドライン、ギャラリーを掲載します。">
+  <meta name="description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドラインを掲載します。">
 
   <link rel="canonical" href="https://abcderp2.github.io/suzukochan.officialsite/">
   <meta name="referrer" content="no-referrer">
@@ -35,12 +35,11 @@
     <div class="wrap header-inner">
       <div class="title-area">
         <h1 class="site-title">鈴子ちゃん公式サイト</h1>
-        <p class="lead">プロフィール、更新情報、ガイドライン、ギャラリーをまとめます。</p>
+        <p class="lead">プロフィール、更新情報、ガイドラインをまとめます。</p>
 
         <nav class="nav" aria-label="ページ内ナビゲーション">
           <a href="#news">更新情報</a>
           <a href="#guidelines">ガイドライン</a>
-          <a href="#gallery">ギャラリー</a>
         </nav>
       </div>
 
@@ -52,7 +51,6 @@
           loading="eager"
           decoding="async"
         >
-        <figcaption class="hero-cap">公式ビジュアル</figcaption>
       </figure>
     </div>
   </header>
@@ -68,61 +66,6 @@
     <section id="guidelines" class="card">
       <h2>ガイドライン</h2>
       <p class="muted">ここに掲載します。</p>
-    </section>
-
-    <section id="gallery" class="card">
-      <h2>ギャラリー</h2>
-
-      <div class="controls" aria-label="ギャラリー画像の位置調整">
-        <p class="controls-note">
-          ギャラリーの画像だけ、上下左右に動かせます。ズームも調整できます。設定はこの端末のブラウザに保存されます。
-        </p>
-
-        <div class="controls-row">
-          <label class="controls-label" for="panX">左右</label>
-          <input id="panX" class="range" type="range" min="-40" max="40" value="0" step="1">
-          <output id="panXOut" class="out" for="panX">0</output>
-        </div>
-
-        <div class="controls-row">
-          <label class="controls-label" for="panY">上下</label>
-          <input id="panY" class="range" type="range" min="-150" max="150" value="0" step="1">
-          <output id="panYOut" class="out" for="panY">0</output>
-        </div>
-
-        <div class="controls-row">
-          <label class="controls-label" for="zoom">拡大</label>
-          <input id="zoom" class="range" type="range" min="30" max="150" value="100" step="1">
-          <output id="zoomOut" class="out" for="zoom">100</output>
-        </div>
-
-        <div class="controls-buttons" aria-label="微調整ボタン">
-          <button type="button" class="btn" data-nudge="up">上へ</button>
-          <button type="button" class="btn" data-nudge="down">下へ</button>
-          <button type="button" class="btn" data-nudge="left">左へ</button>
-          <button type="button" class="btn" data-nudge="right">右へ</button>
-          <button type="button" class="btn btn-ghost" data-nudge="reset">顔を基準に戻す</button>
-        </div>
-      </div>
-
-      <div class="grid">
-        <figure class="thumb">
-          <div class="thumb-frame" aria-label="ギャラリー画像表示枠">
-            <img
-              class="thumb-img"
-              src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
-              alt="鈴子ちゃん ビジュアル"
-              loading="lazy"
-              decoding="async"
-            >
-          </div>
-          <figcaption>公式ビジュアル</figcaption>
-        </figure>
-      </div>
-
-      <noscript>
-        <p class="note">JavaScriptが無効な場合、位置調整は使えません。</p>
-      </noscript>
     </section>
 
     <footer class="footer">

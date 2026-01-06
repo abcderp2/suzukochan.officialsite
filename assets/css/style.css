@@ -7,11 +7,6 @@
   --line: rgba(0,0,0,0.08);
   --shadow: 0 6px 24px rgba(0,0,0,0.08);
   --radius: 16px;
-
-  /* ギャラリー調整用（初期は顔が出やすい寄せ方） */
-  --pan-x: 0%;
-  --pan-y: 0%;
-  --zoom: 1;
 }
 
 body{
@@ -94,21 +89,13 @@ body{
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  height: 600px;
 }
 
 .hero-img{
   display: block;
   width: 100%;
-  height: 320px;
-  object-fit: cover;
-  object-position: 50% 18%;
-}
-
-.hero-cap{
-  padding: 10px 12px 12px;
-  font-size: 13px;
-  color: var(--muted);
-  border-top: 1px solid var(--line);
+  height: auto;
 }
 
 .card{
@@ -134,111 +121,6 @@ h2{
   padding-left: 18px;
 }
 
-.controls{
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px 12px 10px;
-  background: rgba(0,0,0,0.02);
-}
-
-.controls-note{
-  margin: 0 0 10px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.controls-row{
-  display: grid;
-  grid-template-columns: 56px 1fr 44px;
-  gap: 10px;
-  align-items: center;
-  margin-top: 8px;
-}
-
-.controls-label{
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.range{
-  width: 100%;
-}
-
-.out{
-  font-variant-numeric: tabular-nums;
-  font-size: 13px;
-  color: var(--muted);
-  text-align: right;
-}
-
-.controls-buttons{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.btn{
-  border: 1px solid rgba(0,0,0,0.12);
-  background: #ffffff;
-  padding: 8px 10px;
-  border-radius: 12px;
-  color: var(--text);
-}
-.btn:hover{
-  background: rgba(0,0,0,0.03);
-}
-.btn:active{
-  background: rgba(0,0,0,0.06);
-}
-.btn-ghost{
-  background: rgba(0,0,0,0.02);
-}
-
-.grid{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.thumb{
-  margin: 0;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  overflow: hidden;
-  background: #fafafa;
-}
-
-.thumb-frame{
-  height: 550px;
-  overflow: hidden;
-  background: #00000008;
-}
-
-.thumb-img{
-  width: 100%;
-  height: auto;
-  transform: translate(var(--pan-x), var(--pan-y)) scale(var(--zoom));
-  transform-origin: top center;
-  display: block;
-  will-change: transform;
-}
-
-.thumb figcaption{
-  padding: 10px 12px;
-  font-size: 13px;
-  color: var(--muted);
-  border-top: 1px solid var(--line);
-  background: #ffffff;
-}
-
-.note{
-  margin: 10px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-
 .footer{
   margin-top: 22px;
   color: #666666;
@@ -248,13 +130,5 @@ h2{
   .header-inner{
     grid-template-columns: 1.15fr 0.85fr;
     gap: 22px;
-  }
-
-  .hero-img{
-    height: 300px;
-  }
-
-  .grid{
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
