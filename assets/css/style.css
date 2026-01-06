@@ -89,12 +89,16 @@ body{
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
-  height: 600px;
+  display: flex;
+  justify-content: center; /* 画像を中央寄せ */
+  padding: 16px 0; /* 上下に少し余白 */
 }
 
 .hero-img{
   display: block;
-  width: 100%;
+  max-width: 100%;
+  max-height: 80vh; /* 画面高さの80%に収める */
+  width: auto;
   height: auto;
 }
 
