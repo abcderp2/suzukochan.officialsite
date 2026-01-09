@@ -45,10 +45,10 @@ body{
 }
 
 .header-inner{
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
-  align-items: center;
+  align-items: flex-start;
   padding-top: 18px;
   padding-bottom: 18px;
 }
@@ -85,13 +85,11 @@ body{
 
 /* Gallery Section */
 .gallery-section {
-  background: var(--card);
-  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow);
   padding: 0;
   display: flex;
   flex-direction: column;
+  margin-top: 16px;
 }
 
 .gallery-container {
@@ -100,8 +98,9 @@ body{
   height: 60vh; /* Fixed height for viewport */
   max-height: 800px;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: #eef2f6; /* Slightly darker/blueish for better contrast */
   cursor: grab;
+  border-radius: 8px; /* Inner radius */
 }
 
 .gallery-img {
@@ -186,10 +185,7 @@ h2{
 }
 
 @media (min-width: 920px){
-  .header-inner{
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 22px;
-  }
+  /* No grid needed for simple header */
 }
 
 /* Profile Section */
