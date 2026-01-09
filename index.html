@@ -17,14 +17,15 @@
     frame-ancestors 'none';
     form-action 'none';
     img-src 'self' data:;
-    style-src 'self';
+    style-src 'self' 'unsafe-inline';
     script-src 'self';
     upgrade-insecure-requests;
     block-all-mixed-content
   ">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
-  <link rel="stylesheet" href="assets/css/style.css?v=20260102a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260102b">
+  <script src="assets/js/gallery.js" defer></script>
 </head>
 
 <body>
@@ -43,15 +44,41 @@
         </nav>
       </div>
 
-      <figure class="hero" aria-label="公式ビジュアル">
-        <img
-          class="hero-img"
-          src="assets/images/ca8dc29b-c92c-495e-8deb-b3894adb6982-1_all_10.jpg"
-          alt="鈴子ちゃん 公式ビジュアル"
-          loading="eager"
-          decoding="async"
-        >
-      </figure>
+      <div id="gallery" class="gallery-section" aria-label="公式ビジュアルギャラリー">
+        <div class="gallery-container">
+          <img
+            class="gallery-img"
+            src="assets/images/suzuko-gallery.jpg"
+            alt="鈴子ちゃん 公式ビジュアル"
+            loading="eager"
+            decoding="async"
+          >
+        </div>
+        <div class="gallery-controls">
+           <div class="control-group">
+             <label for="panX">Pan X <span id="panXOut">0</span></label>
+             <button class="btn" data-nudge="-5" data-type="x">&larr;</button>
+             <input type="range" id="panX" min="-100" max="100" step="1">
+             <button class="btn" data-nudge="5" data-type="x">&rarr;</button>
+           </div>
+
+           <div class="control-group">
+             <label for="panY">Pan Y <span id="panYOut">0</span></label>
+             <button class="btn" data-nudge="-5" data-type="y">&uarr;</button>
+             <input type="range" id="panY" min="-100" max="100" step="1">
+             <button class="btn" data-nudge="5" data-type="y">&darr;</button>
+           </div>
+
+           <div class="control-group">
+             <label for="zoom">Zoom <span id="zoomOut">1.0</span></label>
+             <button class="btn" data-nudge="-0.1" data-type="zoom">-</button>
+             <input type="range" id="zoom" min="0.1" max="3.0" step="0.1">
+             <button class="btn" data-nudge="0.1" data-type="zoom">+</button>
+           </div>
+
+           <button class="btn" id="resetBtn">Reset</button>
+        </div>
+      </div>
     </div>
   </header>
 
