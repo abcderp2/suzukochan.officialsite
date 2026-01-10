@@ -1,0 +1,83 @@
+ライセンス情報
+
+このプロジェクトはデュアルライセンス制です。
+
+---
+
+1. キャラクター「鈴子ちゃん」について
+
+鈴子ちゃんのデザイン、設定、イラストは、著作権により保護されています。
+
+著作権所有者： 鈴木
+
+使用許諾： サイト内の「ガイドライン」をお読みください。
+https://abcderp2.github.io/suzukochan.officialsite/#guidelines
+
+以下は特に重要です：
+
+- 全年齢向けのファンアートは歓迎します
+- R-18・R-18G表現は禁止です
+- 無断での商用利用は禁止です
+- 学習モデル（LoRA等）の公開・配布は禁止です
+- キャラクターを自分の創作だと偽ることは禁止です
+
+詳細は公式サイトのガイドラインをご確認ください。
+
+---
+
+2. ウェブサイトコード（HTML・CSS）について
+
+以下の MIT License に従います。
+
+MIT License
+
+Copyright (c) 2026 Suzuki (Author of Suzuko-chan Official Site)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+3. 画像アセットについて
+
+assets/images/ 内の画像は、キャラクター「鈴子ちゃん」の一部です。
+
+- 商用利用：禁止
+- 改変：私的利用の範囲内で許可（ただし配布・共有は禁止）
+- 再配布：禁止
+
+詳細はガイドラインをご確認ください。
+
+---
+
+使用時の確認事項
+
+本プロジェクトを利用する場合：
+
+1. ウェブサイトのコードのみを利用する場合
+   → MIT License に従う必要があります
+
+2. キャラクター「鈴子ちゃん」を利用する場合
+   → サイトのガイドラインに従う必要があります
+
+3. 両方を利用する場合
+   → 両方のルールに従う必要があります
+
+---
+
+更新日：2026年1月10日
