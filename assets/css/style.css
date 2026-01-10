@@ -90,12 +90,13 @@ body{
   display: flex;
   flex-direction: column;
   margin-top: 16px;
+  gap: 16px;
 }
 
 .gallery-container {
   width: 100%;
-  background-color: #eef2f6; /* Slightly darker/blueish for better contrast */
-  border-radius: 8px; /* Inner radius */
+  background-color: #eef2f6;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,6 +108,18 @@ body{
   max-width: 100%;
   height: auto;
   border-radius: 4px;
+}
+
+.gallery-item {
+  margin: 0;
+  text-align: center;
+}
+
+.gallery-item figcaption {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
 }
 
 /* Rest of styles */
