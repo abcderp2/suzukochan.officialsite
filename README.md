@@ -148,7 +148,7 @@ python -m http.server 8000
 
 
 
-このサイトはセキュリティを考慮した実装になっています。詳細は [SECURITY.md](.github/SECURITY.md) をご覧ください。
+このサイトはセキュリティを考慮した実装になっています。
 
 
 
@@ -177,10 +177,6 @@ python -m http.server 8000
 
 
 バグ報告がある場合は、Issues や Pull Request でお知らせください。
-
-
-
-セキュリティ脆弱性を発見した場合は、公開せず [SECURITY.md](.github/SECURITY.md) に記載の方法でご報告ください。
 
 
 
