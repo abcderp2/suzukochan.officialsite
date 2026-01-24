@@ -43,7 +43,7 @@ GitHub Pages で公開している、オリジナルキャラクター「鈴子�
 キャラクターや作者に関する最新情報はこちらでも発信しています。
 
 - **YouTube**: [https://www.youtube.com/@abc-l2g6k/shorts](https://www.youtube.com/@abc-l2g6k/shorts)
-- **Note (作者について)**: [https://note.com/stocktrading0_ai](https://note.com/stocktrading0_ai)
+- **note (作者について)**: [https://note.com/stocktrading0_ai](https://note.com/stocktrading0_ai)
 - **X (作者 鈴木)**: [@stocktrading0](https://x.com/stocktrading0)
 - **X (鈴子ちゃん)**: [@suzuko_ai_](https://x.com/suzuko_ai_)
 
