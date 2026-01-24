@@ -93,7 +93,7 @@ python -m http.server 8000
 ### 更新履歴
 
 * 2026-01-25 - READMEにSNSリンクを追加。
-* 2026-01-10 - README.md を充実させた。https://www.google.com/search?q=LICENSE ファイルを追加。セキュリティドキュメントを整備。
+* 2026-01-10 - README.md を充実させた。LICENSE ファイルを追加。セキュリティドキュメントを整備。
 * 2026-01-02 - サイト公開。
 
 ---
