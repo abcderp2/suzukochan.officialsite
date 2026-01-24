@@ -77,7 +77,7 @@ python -m http.server 8000
 
 ### キャラクター「鈴子ちゃん」について
 
-キャラクターのデザイン、設定、イラストなどはすべて著作権で保護されています。利用時はサイト内の[ガイドライン](https://www.google.com/search?q=https://abcderp2.github.io/suzukochan.officialsite/%23guidelines)をお守りください。
+キャラクターのデザイン、設定、イラストなどはすべて著作権で保護されています。利用時はサイト内の[ガイドライン](https://abcderp2.github.io/suzukochan.officialsite/#guidelines)をお守りください。
 
 ### ウェブサイトのコード
 
@@ -93,7 +93,7 @@ python -m http.server 8000
 ### 更新履歴
 
 * 2026-01-25 - READMEにSNSリンクを追加。
-* 2026-01-10 - README.md を充実させた。LICENSE ファイルを追加。セキュリティドキュメントを整備。
+* 2026-01-10 - README.md を充実させた。https://www.google.com/search?q=LICENSE ファイルを追加。セキュリティドキュメントを整備。
 * 2026-01-02 - サイト公開。
 
 ---
