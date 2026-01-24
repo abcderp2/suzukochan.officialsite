@@ -81,7 +81,7 @@ python -m http.server 8000
 
 ### ウェブサイトのコード
 
-ウェブサイトのソースコード（HTML、CSS）は **MIT ライセンス** のもとで公開されています。詳細は [LICENSE](https://www.google.com/search?q=LICENSE) ファイルをご確認ください。
+ウェブサイトのソースコード（HTML、CSS）は **MIT ライセンス** のもとで公開されています。詳細は [LICENSE](LICENSE) ファイルをご確認ください。
 
 ---
 
