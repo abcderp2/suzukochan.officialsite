@@ -251,3 +251,11 @@ h2{
 .sns-item a:hover {
   text-decoration: underline;
 }
+/* 追加したデザイン設定 */
+.text-spacing {
+  line-height: 1.8;
+}
+
+.no-margin-top {
+  margin-top: 0;
+}
