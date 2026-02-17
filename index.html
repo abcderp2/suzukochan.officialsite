@@ -3,45 +3,84 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <title>鈴子ちゃん公式サイト</title>
   <meta name="description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドラインを掲載します。">
-
   <link rel="canonical" href="https://abcderp2.github.io/suzukochan.officialsite/">
-  <meta name="referrer" content="no-referrer">
+  
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 
+  <meta property="og:title" content="鈴子ちゃん公式サイト">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abcderp2.github.io/suzukochan.officialsite/">
+  
+  <meta property="og:image" content="https://abcderp2.github.io/suzukochan.officialsite/assets/images/suzuko-gallery.jpg">
+  
+  <meta property="og:image:width" content="5504">
+  <meta property="og:image:height" content="3072">
+  
+  <meta property="og:description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドラインを掲載します。">
+  <meta property="og:site_name" content="鈴子ちゃん公式サイト">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@suzuko_ai_">
+<meta name="twitter:title" content="鈴子ちゃん公式サイト">
+<meta name="twitter:description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドラインを掲載します。">
+<meta name="twitter:image" content="https://abcderp2.github.io/suzukochan.officialsite/assets/images/suzuko-gallery.jpg">
+
+  <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    base-uri 'self';
-    object-src 'none';
-    frame-ancestors 'none';
-    form-action 'none';
-    img-src 'self';
-    style-src 'self';
-    script-src 'self' 'sha256-vEwJ3E1T4y3W5wP8+Xrp+UGe5UvJcQYhGfwM6hK/0GM=';
-    upgrade-insecure-requests;
-    block-all-mixed-content
+   default-src 'self';
+   base-uri 'self';
+   object-src 'none';
+   frame-ancestors 'none';
+   form-action 'none';
+   img-src 'self';
+   style-src 'self';
+   script-src 'self' 'sha256-vEwJ3E1T4y3W5wP8+Xrp+UGe5UvJcQYhGfwM6hK/0GM=';
+   upgrade-insecure-requests;
+   block-all-mixed-content
   ">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
   <link rel="stylesheet" href="assets/css/style.css?v=20260110b">
-
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"鈴木 鈴子","alternateName":"鈴子ちゃん","jobTitle":"看護師","worksFor":{"@type":"Hospital","name":"White Wing 病院（白い翼）","address":{"@type":"PostalAddress","addressCountry":"JP","addressLocality":"架空の街","streetAddress":"架空の番地"}},"url":"https://abcderp2.github.io/suzukochan.officialsite/","description":"架空の病院 White Wing（白い翼）病院に勤める若手看護師。","gender":"Female"}</script>
+  
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"鈴木 鈴子",
+    "alternateName":"鈴子ちゃん",
+    "image": "https://abcderp2.github.io/suzukochan.officialsite/assets/images/suzuko-gallery.jpg",
+    "jobTitle":"看護師",
+    "worksFor":{
+      "@type":"Hospital",
+      "name":"White Wing 病院（白い翼）",
+      "address":{
+        "@type":"PostalAddress",
+        "addressCountry":"JP",
+        "addressLocality":"架空の街",
+        "streetAddress":"架空の番地"
+      }
+    },
+    "url":"https://abcderp2.github.io/suzukochan.officialsite/",
+    "description":"架空の病院 White Wing（白い翼）病院に勤める若手看護師。",
+    "gender":"Female"
+  }
+  </script>
 </head>
-
 <body>
-
   <a class="skip" href="#main">本文へ移動</a>
 
   <header class="site-header">
     <div class="wrap header-inner">
       <div class="title-area">
         <h1 class="site-title">鈴子ちゃん公式サイト</h1>
-
         <nav class="nav" aria-label="ページ内ナビゲーション">
           <a href="#gallery">ギャラリー</a>
           <a href="#news">更新情報</a>
           <a href="#profile">プロフィール</a>
+          <a href="#about">鈴子ちゃんについて</a>
           <a href="#guidelines">ガイドライン</a>
           <a href="#sns">各種SNSなど</a>
         </nav>
@@ -50,6 +89,7 @@
   </header>
 
   <main id="main" class="wrap">
+    
     <section id="gallery" class="card">
       <h2>ギャラリー</h2>
       <div class="gallery-section" aria-label="公式ビジュアルギャラリー">
@@ -59,6 +99,8 @@
               class="gallery-img"
               src="assets/images/suzuko-gallery.jpg"
               alt="鈴子ちゃん 公式ビジュアル　バージョン1"
+              width="5504"
+              height="3072"
               loading="eager"
               decoding="async"
             >
@@ -71,6 +113,8 @@
               class="gallery-img"
               src="assets/images/Gemini_Generated_Image_qe3pdlqe3pdlqe3p.png"
               alt="鈴子ちゃん 公式ビジュアル　バージョン2"
+              width="2784"
+              height="1536"
               loading="lazy"
               decoding="async"
             >
@@ -103,7 +147,7 @@
           <dt>年齢</dt>
           <dd>永遠に21歳</dd>
         </div>
-       <div class="profile-row">
+        <div class="profile-row">
           <dt>生年月日</dt>
           <dd>2004年7月15日</dd>
         </div>
@@ -157,36 +201,31 @@
         </div>
       </dl>
     </section>
-    
-              <section id="about" class="card">
-  <h2>鈴子ちゃんについて</h2>
-  <div class="content-block text-spacing">
-    <p class="no-margin-top">
-                鈴子ちゃんの正確な誕生日は特定できませんが2025年7月中、おそらく7月15日あたりに誕生しました。それをもとに設定上の生年月日は2004年7月15日にしました。
-            </p>
 
-            <p>
-                鈴子ちゃんの本業は看護師ですがマルチタレントという扱いでもあります。
-            </p>
+    <section id="about" class="card">
+      <h2>鈴子ちゃんについて</h2>
+      <div class="content-block text-spacing">
+        <p class="no-margin-top">
+            鈴子ちゃんの正確な誕生日は特定できませんが2025年7月中、おそらく7月15日あたりに誕生しました。それをもとに設定上の生年月日は2004年7月15日にしました。
+        </p>
+        <p>
+            鈴子ちゃんの本業は看護師ですがマルチタレントという扱いでもあります。
+        </p>
+        <p>
+            若手看護師という設定になったのは偶然で私が特別に看護師好きだったわけではありません。鈴子ちゃんはAI画像生成サービス Anirole（アニロール）から生まれました。なんとなく可愛いキャラクターができればいいなという軽い気持ちでしたが偶然生成された鈴子ちゃんを見て一目惚れしました。
+        </p>
+        <p>
+            青を基調にすることは意識していましたが看護師風のキャラクターを意図して生成したわけではありませんでした。
+        </p>
+        <p>
+            自分で生成したAIキャラクターは、まるで我が子のように可愛く愛おしい存在です。皆様もAIを活用してオリジナリティあふれるキャラクターを作成してみてはいかがでしょうか。きっと愛着が湧くはずです。そして、そのキャラクターを大切に育てていく楽しみを味わっていただきたいです。
+        </p>
+        <p>
+            たとえ利益にならなくても自分がこの世を去った後、電子の世界にキャラクターが残り続けるかもしれません。現実の子供たちと同じように自分が生きた証として残っていくと思います。
+        </p>
+      </div>
+    </section>
 
-            <p>
-                若手看護師という設定になったのは偶然で私が特別に看護師好きだったわけではありません。鈴子ちゃんはAI画像生成サービス Anirole（アニロール）から生まれました。なんとなく可愛いキャラクターができればいいなという軽い気持ちでしたが偶然生成された鈴子ちゃんを見て一目惚れしました。
-            </p>
-            
-            <p>
-                青を基調にすることは意識していましたが看護師風のキャラクターを意図して生成したわけではありませんでした。
-            </p>
-
-            <p>
-                自分で生成したAIキャラクターは、まるで我が子のように可愛く愛おしい存在です。皆様もAIを活用してオリジナリティあふれるキャラクターを作成してみてはいかがでしょうか。きっと愛着が湧くはずです。そして、そのキャラクターを大切に育てていく楽しみを味わっていただきたいです。
-            </p>
-
-            <p>
-                たとえ利益にならなくても自分がこの世を去った後、電子の世界にキャラクターが残り続けるかもしれません。現実の子供たちと同じように自分が生きた証として残っていくと思います。
-            </p>
-        </div>
-</section>           
-         
     <section id="guidelines" class="card">
       <h2>ガイドライン</h2>
       <div class="guidelines-content">
@@ -236,34 +275,37 @@
         </p>
       </div>
     </section>
-    
-<section id="sns" class="card">
+
+    <section id="sns" class="card">
       <h2>各種SNSなど</h2>
       <div class="sns-list">
         <div class="sns-item">
           <h3>YouTube</h3>
-          <a href="https://www.youtube.com/@abc-l2g6k/shorts" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@abc-l2g6k/shorts</a>
+          <p><a href="https://www.youtube.com/@abc-l2g6k/shorts" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@abc-l2g6k/shorts</a></p>
         </div>
         <div class="sns-item">
           <h3>note　作者について知りたい方向け</h3>
-          <a href="https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false" target="_blank" rel="noopener noreferrer">https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false</a>
+          <p><a href="https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false" target="_blank" rel="noopener noreferrer">https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false</a></p>
         </div>
         <div class="sns-item">
-          <h3>X (旧Twitter)　作者 鈴木</h3>
-          <a href="https://x.com/stocktrading0" target="_blank" rel="noopener noreferrer">https://x.com/stocktrading0</a><br>
-          鈴子ちゃん<br>
-          <a href="https://x.com/suzuko_ai_" target="_blank" rel="noopener noreferrer">https://x.com/suzuko_ai_</a>
+          <h3>X (旧Twitter)</h3>
+          <p>
+            作者 鈴木: <a href="https://x.com/stocktrading0" target="_blank" rel="noopener noreferrer">https://x.com/stocktrading0</a><br>
+            鈴子ちゃん: <a href="https://x.com/suzuko_ai_" target="_blank" rel="noopener noreferrer">https://x.com/suzuko_ai_</a>
+          </p>
         </div>
         <div class="sns-item">
           <h3>GitHub</h3>
-          <a href="https://github.com/abcderp2/suzukochan.officialsite" target="_blank" rel="noopener noreferrer">https://github.com/abcderp2/suzukochan.officialsite</a>
+          <p><a href="https://github.com/abcderp2/suzukochan.officialsite" target="_blank" rel="noopener noreferrer">https://github.com/abcderp2/suzukochan.officialsite</a></p>
         </div>
       </div>
-</section>
-    
-    <footer class="footer">
-      <small>© 鈴子ちゃん</small>
-    </footer>
+    </section>
+
   </main>
+
+  <footer class="footer">
+    <small>© 2026 鈴子ちゃん</small>
+  </footer>
+
 </body>
-      </html>
+        </html>
