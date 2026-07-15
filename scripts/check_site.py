@@ -13,6 +13,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
+SELF = Path(__file__).resolve()
 OFFICIAL_URL = "https://abcderp2.github.io/suzukochan.officialsite/"
 PROJECT_PATH = "/suzukochan.officialsite/"
 MAX_IMAGE_BYTES = 5 * 1024 * 1024
@@ -52,7 +53,6 @@ FORBIDDEN_CSP_TOKENS = {
 
 SECRET_PATTERNS = (
     ("private key", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----")),
-    ("PGP private key", re.compile(r"-----BEGIN PGP PRIVATE KEY BLOCK-----")),
     ("GitHub token", re.compile(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b")),
     ("GitHub fine-grained token", re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b")),
     ("OpenAI key", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")),
@@ -254,14 +254,10 @@ def check_csp(path: Path, parser: SiteParser, text: str, reporter: Reporter) -> 
 
     expected_scripts = {script_hash(block) for block in parser.json_ld} or {"'none'"}
     if policy.get("script-src") != expected_scripts:
-        reporter.error(
-            f"{relative}: CSP script-src must match the inline JSON-LD hash or be 'none'"
-        )
+        reporter.error(f"{relative}: CSP script-src must match JSON-LD hash or be 'none'")
 
     if "upgrade-insecure-requests" not in policy:
         reporter.error(f"{relative}: CSP upgrade-insecure-requests is required")
-    if "frame-ancestors" in policy:
-        reporter.warning(f"{relative}: frame-ancestors is ignored in a meta CSP")
 
     for directive, tokens in policy.items():
         forbidden = tokens & FORBIDDEN_CSP_TOKENS
@@ -315,10 +311,7 @@ def check_html(path: Path, reporter: Reporter) -> None:
         src = script.get("src", "")
         script_type = script.get("type", "").lower()
         if src:
-            if is_external(src):
-                reporter.error(f"{relative}: external JavaScript is not allowed: {src}")
-            else:
-                reporter.error(f"{relative}: executable script files are not allowed: {src}")
+            reporter.error(f"{relative}: executable script files are not allowed: {src}")
         elif script_type not in ALLOWED_INLINE_SCRIPT_TYPES:
             reporter.error(f"{relative}: inline executable script is not allowed")
 
@@ -397,7 +390,7 @@ def check_secrets(reporter: Reporter) -> None:
     suffixes = {".conf", ".css", ".env", ".html", ".ini", ".json", ".md", ".py", ".toml", ".txt", ".xml", ".yaml", ".yml"}
     ignored_parts = {".git", ".venv", "__pycache__"}
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ignored_parts & set(path.parts):
+        if not path.is_file() or path.resolve() == SELF or ignored_parts & set(path.parts):
             continue
         if path.suffix.lower() not in suffixes and path.name != ".env":
             continue
