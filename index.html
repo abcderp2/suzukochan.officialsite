@@ -3,6 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="
+   default-src 'none';
+   base-uri 'none';
+   connect-src 'none';
+   form-action 'none';
+   frame-src 'none';
+   img-src 'self';
+   manifest-src 'none';
+   media-src 'none';
+   object-src 'none';
+   script-src 'sha256-E4igmuOyPOW9UM1fojiTJTk3yw/EV3vCAGP3yVlnDRo=';
+   style-src 'self';
+   worker-src 'none';
+   upgrade-insecure-requests
+  ">
   <title>鈴子ちゃん公式サイト</title>
   <meta name="description" content="鈴子ちゃんの公式サイト。プロフィール、更新情報、ガイドラインを掲載します。">
   
@@ -35,18 +50,6 @@
 
   <meta name="google-site-verification" content="cf9o8v22j_C0YdGsQ4f2-4ed3n1r4ws3bslWBG7rEcE">
 
-  <meta http-equiv="Content-Security-Policy" content="
-   default-src 'self';
-   base-uri 'self';
-   object-src 'none';
-   frame-ancestors 'none';
-   form-action 'none';
-   img-src 'self';
-   style-src 'self';
-   script-src 'self' 'unsafe-inline';
-   upgrade-insecure-requests;
-   block-all-mixed-content
-  ">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
   <link rel="stylesheet" href="assets/css/style.css?v=20260110b">
