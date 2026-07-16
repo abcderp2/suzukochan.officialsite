@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only security and integrity checks for the static GitHub Pages site."""
+"""Read-only checks for the static site and its maintenance contract."""
 
 from __future__ import annotations
 
@@ -15,13 +15,20 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 SELF = Path(__file__).resolve()
 OFFICIAL_URL = "https://abcderp2.github.io/suzukochan.officialsite/"
+REPOSITORY_URL = "https://github.com/abcderp2/suzukochan.officialsite"
 PROJECT_PATH = "/suzukochan.officialsite/"
 MAX_IMAGE_BYTES = 5 * 1024 * 1024
 WARN_IMAGE_BYTES = 1 * 1024 * 1024
 
-KNOWN_MISSING_REFERENCES = {
-    "favicon.ico",
-    "assets/images/apple-touch-icon.png",
+REQUIRED_MAINTENANCE_FILES = {
+    "MAINTENANCE.md",
+    "CHANGELOG.md",
+}
+
+OBSOLETE_MAINTENANCE_FILES = {
+    "AI_HANDOFF.md",
+    "FACTS.md",
+    "PUBLISH_CHECKLIST.md",
 }
 
 FORBIDDEN_HTML_TAGS = {"base", "embed", "form", "iframe", "object"}
@@ -57,7 +64,7 @@ SECRET_PATTERNS = (
     ("GitHub fine-grained token", re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b")),
     ("OpenAI key", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")),
     ("AWS access key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
-    ("Google API key", re.compile(r"\bAIza[0-9A-Za-z_-]{30,}\b")),
+    ("Google API key", re.compile(r"\bAIza[0-9A-Za-z0-9_-]{30,}\b")),
     ("Slack token", re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{20,}\b")),
     ("npm token", re.compile(r"\bnpm_[A-Za-z0-9]{30,}\b")),
     ("Stripe live key", re.compile(r"\b(?:sk|rk)_live_[A-Za-z0-9]{16,}\b")),
@@ -65,6 +72,8 @@ SECRET_PATTERNS = (
 
 
 class SiteParser(html.parser.HTMLParser):
+    """Collect the small set of HTML facts needed by the checks."""
+
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.ids: list[str] = []
@@ -128,6 +137,8 @@ class SiteParser(html.parser.HTMLParser):
 
 
 class Reporter:
+    """Store all findings so one run gives a complete result."""
+
     def __init__(self) -> None:
         self.errors: list[str] = []
         self.warnings: list[str] = []
@@ -137,6 +148,10 @@ class Reporter:
 
     def warning(self, message: str) -> None:
         self.warnings.append(message)
+
+
+def relative(path: Path) -> str:
+    return path.relative_to(ROOT).as_posix()
 
 
 def is_external(value: str) -> bool:
@@ -150,11 +165,12 @@ def local_reference(value: str) -> Path | None:
         return None
     if is_external(value):
         return None
+
     path = unquote(urlsplit(value).path)
     if path in {PROJECT_PATH, PROJECT_PATH.rstrip("/")}:
         return Path("index.html")
     if path.startswith(PROJECT_PATH):
-        path = path[len(PROJECT_PATH):]
+        path = path[len(PROJECT_PATH) :]
     elif path.startswith("/"):
         return Path("__outside_project__")
     return Path(path)
@@ -186,31 +202,30 @@ def expected_image_format(path: Path) -> str | None:
 def check_reference(current: Path, tag: str, value: str, reporter: Reporter) -> None:
     lowered = value.strip().lower()
     if lowered.startswith(("data:", "javascript:", "vbscript:")):
-        reporter.error(f"{current.relative_to(ROOT)}: forbidden URL scheme in {tag}: {value}")
+        reporter.error(f"{relative(current)}: forbidden URL scheme in {tag}: {value}")
         return
 
     for candidate in value.split(","):
         token = candidate.strip().split()[0] if candidate.strip() else ""
         if tag in {"img", "source"} and is_external(token):
-            reporter.error(f"{current.relative_to(ROOT)}: external image is not allowed: {token}")
+            reporter.error(f"{relative(current)}: external image is not allowed: {token}")
             continue
+
         local = local_reference(token)
         if local is None:
             continue
         if local.as_posix() == "__outside_project__":
-            reporter.error(f"{current.relative_to(ROOT)}: root path outside project: {token}")
+            reporter.error(f"{relative(current)}: root path outside project: {token}")
             continue
+
         resolved = (current.parent / local).resolve()
         try:
-            relative = resolved.relative_to(ROOT).as_posix()
+            resolved.relative_to(ROOT)
         except ValueError:
-            reporter.error(f"{current.relative_to(ROOT)}: reference escapes repository: {token}")
+            reporter.error(f"{relative(current)}: reference escapes repository: {token}")
             continue
         if not resolved.exists():
-            if relative in KNOWN_MISSING_REFERENCES:
-                reporter.warning(f"KNOWN MISSING REFERENCE: {current.relative_to(ROOT)}: {relative}")
-            else:
-                reporter.error(f"{current.relative_to(ROOT)}: missing local file: {relative}")
+            reporter.error(f"{relative(current)}: missing local file: {relative(resolved)}")
 
 
 def parse_csp(content: str) -> dict[str, set[str]]:
@@ -232,77 +247,79 @@ def script_hash(content: str) -> str:
 
 
 def check_csp(path: Path, parser: SiteParser, text: str, reporter: Reporter) -> None:
-    relative = path.relative_to(ROOT).as_posix()
+    name = relative(path)
     csp_values = [
         meta.get("content", "")
         for meta in parser.metas
         if meta.get("http-equiv", "").lower() == "content-security-policy"
     ]
     if len(csp_values) != 1:
-        reporter.error(f"{relative}: exactly one Content-Security-Policy meta is required")
+        reporter.error(f"{name}: exactly one Content-Security-Policy meta is required")
         return
 
     try:
         policy = parse_csp(csp_values[0])
     except ValueError as error:
-        reporter.error(f"{relative}: invalid Content-Security-Policy: {error}")
+        reporter.error(f"{name}: invalid Content-Security-Policy: {error}")
         return
 
     for directive, expected in REQUIRED_CSP.items():
         if policy.get(directive) != expected:
-            reporter.error(f"{relative}: CSP {directive} must be {' '.join(sorted(expected))}")
+            reporter.error(f"{name}: CSP {directive} must be {' '.join(sorted(expected))}")
 
     expected_scripts = {script_hash(block) for block in parser.json_ld} or {"'none'"}
     if policy.get("script-src") != expected_scripts:
-        reporter.error(f"{relative}: CSP script-src must match JSON-LD hash or be 'none'")
+        reporter.error(f"{name}: CSP script-src must match JSON-LD hash or be 'none'")
 
     if "upgrade-insecure-requests" not in policy:
-        reporter.error(f"{relative}: CSP upgrade-insecure-requests is required")
+        reporter.error(f"{name}: CSP upgrade-insecure-requests is required")
 
     for directive, tokens in policy.items():
         forbidden = tokens & FORBIDDEN_CSP_TOKENS
         if forbidden:
             reporter.error(
-                f"{relative}: CSP {directive} contains forbidden token(s): {' '.join(sorted(forbidden))}"
+                f"{name}: CSP {directive} contains forbidden token(s): {' '.join(sorted(forbidden))}"
             )
 
-    csp_position = text.lower().find('http-equiv="content-security-policy"')
-    first_resource = min(
-        (position for position in (text.lower().find("<link"), text.lower().find("<script")) if position >= 0),
-        default=-1,
-    )
-    if first_resource >= 0 and csp_position > first_resource:
-        reporter.error(f"{relative}: CSP meta must appear before resource-loading elements")
+    lowered = text.lower()
+    csp_position = lowered.find('http-equiv="content-security-policy"')
+    resource_positions = [
+        position
+        for position in (lowered.find("<link"), lowered.find("<script"))
+        if position >= 0
+    ]
+    if resource_positions and csp_position > min(resource_positions):
+        reporter.error(f"{name}: CSP meta must appear before resource-loading elements")
 
 
 def check_html(path: Path, reporter: Reporter) -> None:
     parser = SiteParser()
     text = path.read_text(encoding="utf-8")
     parser.feed(text)
-    relative = path.relative_to(ROOT).as_posix()
+    name = relative(path)
 
     seen: set[str] = set()
     for element_id in parser.ids:
         if element_id in seen:
-            reporter.error(f"{relative}: duplicate id: {element_id}")
+            reporter.error(f"{name}: duplicate id: {element_id}")
         seen.add(element_id)
 
     for tag in parser.forbidden_tags:
-        reporter.error(f"{relative}: forbidden HTML element: {tag}")
+        reporter.error(f"{name}: forbidden HTML element: {tag}")
     for tag, attribute in parser.event_handlers:
-        reporter.error(f"{relative}: inline event handler is not allowed: {tag}[{attribute}]")
+        reporter.error(f"{name}: inline event handler is not allowed: {tag}[{attribute}]")
     for tag in parser.inline_styles:
-        reporter.error(f"{relative}: inline style is not allowed: {tag}")
+        reporter.error(f"{name}: inline style is not allowed: {tag}")
 
     for image in parser.images:
         if "alt" not in image:
-            reporter.error(f"{relative}: img is missing alt: {image.get('src', '')}")
+            reporter.error(f"{name}: img is missing alt: {image.get('src', '')}")
 
     for target in parser.target_blanks:
         rel_tokens = set(target.get("rel", "").lower().split())
         for required in ("noopener", "noreferrer"):
             if required not in rel_tokens:
-                reporter.error(f"{relative}: target=_blank without rel={required}")
+                reporter.error(f"{name}: target=_blank without rel={required}")
 
     for tag, value in parser.references:
         check_reference(path, tag, value, reporter)
@@ -311,40 +328,57 @@ def check_html(path: Path, reporter: Reporter) -> None:
         src = script.get("src", "")
         script_type = script.get("type", "").lower()
         if src:
-            reporter.error(f"{relative}: executable script files are not allowed: {src}")
+            reporter.error(f"{name}: executable script files are not allowed: {src}")
         elif script_type not in ALLOWED_INLINE_SCRIPT_TYPES:
-            reporter.error(f"{relative}: inline executable script is not allowed")
+            reporter.error(f"{name}: inline executable script is not allowed")
 
     for link in parser.links:
         rel_tokens = set(link.get("rel", "").lower().split())
         href = link.get("href", "")
         if "stylesheet" in rel_tokens and is_external(href):
-            reporter.error(f"{relative}: external stylesheet is not allowed: {href}")
+            reporter.error(f"{name}: external stylesheet is not allowed: {href}")
 
     for block in parser.json_ld:
         try:
             json.loads(block)
         except json.JSONDecodeError as error:
-            reporter.error(f"{relative}: invalid JSON-LD: {error.msg}")
+            reporter.error(f"{name}: invalid JSON-LD: {error.msg}")
 
-    meta_names = {m.get("name", "").lower(): m.get("content", "") for m in parser.metas}
+    meta_names = {
+        meta.get("name", "").lower(): meta.get("content", "")
+        for meta in parser.metas
+    }
     if meta_names.get("referrer", "").lower() != "no-referrer":
-        reporter.error(f"{relative}: referrer policy must be no-referrer")
+        reporter.error(f"{name}: referrer policy must be no-referrer")
     for meta in parser.metas:
         if meta.get("http-equiv", "").lower() == "refresh":
-            reporter.error(f"{relative}: meta refresh is not allowed")
+            reporter.error(f"{name}: meta refresh is not allowed")
 
     check_csp(path, parser, text, reporter)
 
     if path.name == "index.html":
-        meta_props = {m.get("property", "").lower(): m.get("content", "") for m in parser.metas}
+        meta_props = {
+            meta.get("property", "").lower(): meta.get("content", "")
+            for meta in parser.metas
+        }
         if not meta_names.get("viewport") or not meta_names.get("description"):
             reporter.error("index.html: required meta is missing")
-        for name in ("og:title", "og:type", "og:url", "og:image", "og:description", "og:site_name"):
-            if not meta_props.get(name):
-                reporter.error(f"index.html: required meta property={name} is missing")
+        for property_name in (
+            "og:title",
+            "og:type",
+            "og:url",
+            "og:image",
+            "og:description",
+            "og:site_name",
+        ):
+            if not meta_props.get(property_name):
+                reporter.error(f"index.html: required meta property={property_name} is missing")
         canonical = next(
-            (link.get("href", "") for link in parser.links if "canonical" in set(link.get("rel", "").split())),
+            (
+                link.get("href", "")
+                for link in parser.links
+                if "canonical" in set(link.get("rel", "").split())
+            ),
             "",
         )
         if canonical != OFFICIAL_URL:
@@ -354,9 +388,9 @@ def check_html(path: Path, reporter: Reporter) -> None:
 
     for url in re.findall(r"https?://[^\s\"'<>]+", text):
         if url.startswith("http://"):
-            reporter.error(f"{relative}: insecure http URL: {url}")
+            reporter.error(f"{name}: insecure http URL: {url}")
         if "abcderp2.github.io" in url and not url.startswith(OFFICIAL_URL):
-            reporter.error(f"{relative}: official URL typo: {url}")
+            reporter.error(f"{name}: official URL typo: {url}")
 
 
 def check_images(reporter: Reporter) -> None:
@@ -364,31 +398,55 @@ def check_images(reporter: Reporter) -> None:
     if not directory.exists():
         reporter.error("assets/images directory is missing")
         return
+
     for path in sorted(item for item in directory.rglob("*") if item.is_file()):
         expected = expected_image_format(path)
         actual = image_signature(path)
         if expected and actual != expected:
-            reporter.error(f"{path.relative_to(ROOT)}: file extension expects {expected}, but bytes are {actual}")
+            reporter.error(
+                f"{relative(path)}: file extension expects {expected}, but bytes are {actual}"
+            )
         size = path.stat().st_size
         if size > MAX_IMAGE_BYTES:
-            reporter.error(f"{path.relative_to(ROOT)}: image is larger than 5 MiB")
+            reporter.error(f"{relative(path)}: image is larger than 5 MiB")
         elif size > WARN_IMAGE_BYTES:
-            reporter.warning(f"{path.relative_to(ROOT)}: image is larger than 1 MiB")
+            reporter.warning(f"{relative(path)}: image is larger than 1 MiB")
 
 
 def check_css(reporter: Reporter) -> None:
     for path in ROOT.rglob("*.css"):
         text = path.read_text(encoding="utf-8")
         if re.search(r"@import\s", text, flags=re.IGNORECASE):
-            reporter.error(f"{path.relative_to(ROOT)}: CSS @import is not allowed")
-        for url in re.findall(r"url\(\s*['\"]?([^'\"\s)]+)", text, flags=re.IGNORECASE):
+            reporter.error(f"{relative(path)}: CSS @import is not allowed")
+        for url in re.findall(
+            r"url\(\s*['\"]?([^'\"\s)]+)",
+            text,
+            flags=re.IGNORECASE,
+        ):
             if url.startswith(("data:", "http://", "https://")) or is_external(url):
-                reporter.error(f"{path.relative_to(ROOT)}: external, data, or insecure CSS URL: {url}")
+                reporter.error(
+                    f"{relative(path)}: external, data, or insecure CSS URL: {url}"
+                )
 
 
 def check_secrets(reporter: Reporter) -> None:
-    suffixes = {".conf", ".css", ".env", ".html", ".ini", ".json", ".md", ".py", ".toml", ".txt", ".xml", ".yaml", ".yml"}
+    suffixes = {
+        ".conf",
+        ".css",
+        ".env",
+        ".html",
+        ".ini",
+        ".json",
+        ".md",
+        ".py",
+        ".toml",
+        ".txt",
+        ".xml",
+        ".yaml",
+        ".yml",
+    }
     ignored_parts = {".git", ".venv", "__pycache__"}
+
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.resolve() == SELF or ignored_parts & set(path.parts):
             continue
@@ -397,11 +455,11 @@ def check_secrets(reporter: Reporter) -> None:
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
-            reporter.error(f"{path.relative_to(ROOT)}: expected text file is not valid UTF-8")
+            reporter.error(f"{relative(path)}: expected text file is not valid UTF-8")
             continue
         for label, pattern in SECRET_PATTERNS:
             if pattern.search(text):
-                reporter.error(f"{path.relative_to(ROOT)}: possible {label}")
+                reporter.error(f"{relative(path)}: possible {label}")
 
 
 def check_workflows(reporter: Reporter) -> None:
@@ -410,9 +468,13 @@ def check_workflows(reporter: Reporter) -> None:
         reporter.error(".github/workflows directory is missing")
         return
 
-    for path in sorted(list(directory.glob("*.yml")) + list(directory.glob("*.yaml"))):
+    workflows = sorted(list(directory.glob("*.yml")) + list(directory.glob("*.yaml")))
+    if not workflows:
+        reporter.error(".github/workflows: no workflow file found")
+        return
+
+    for path in workflows:
         text = path.read_text(encoding="utf-8")
-        relative = path.relative_to(ROOT)
         required_snippets = (
             "permissions:\n  contents: read",
             "timeout-minutes:",
@@ -421,7 +483,9 @@ def check_workflows(reporter: Reporter) -> None:
         )
         for snippet in required_snippets:
             if snippet not in text:
-                reporter.error(f"{relative}: missing workflow hardening setting: {snippet.splitlines()[0]}")
+                reporter.error(
+                    f"{relative(path)}: missing workflow hardening setting: {snippet.splitlines()[0]}"
+                )
 
         forbidden_patterns = (
             ("third-party or reusable action", r"(?m)^\s*uses:\s*"),
@@ -434,7 +498,7 @@ def check_workflows(reporter: Reporter) -> None:
         )
         for label, pattern in forbidden_patterns:
             if re.search(pattern, text):
-                reporter.error(f"{relative}: forbidden {label}")
+                reporter.error(f"{relative(path)}: forbidden {label}")
 
 
 def check_gitignore(reporter: Reporter) -> None:
@@ -442,6 +506,7 @@ def check_gitignore(reporter: Reporter) -> None:
     if not path.exists():
         reporter.error(".gitignore is missing")
         return
+
     entries = {
         line.strip()
         for line in path.read_text(encoding="utf-8").splitlines()
@@ -467,13 +532,46 @@ def check_gitignore(reporter: Reporter) -> None:
 def check_repository_shape(reporter: Reporter) -> None:
     for path in ROOT.rglob("*"):
         if path.is_symlink():
-            reporter.error(f"{path.relative_to(ROOT)}: symbolic links are not allowed")
+            reporter.error(f"{relative(path)}: symbolic links are not allowed")
         if path.is_file() and path.name in {".env", "id_ed25519", "id_rsa"}:
-            reporter.error(f"{path.relative_to(ROOT)}: sensitive file must not be committed")
+            reporter.error(f"{relative(path)}: sensitive file must not be committed")
+
+
+def check_maintenance_contract(reporter: Reporter) -> None:
+    for filename in sorted(REQUIRED_MAINTENANCE_FILES):
+        if not (ROOT / filename).is_file():
+            reporter.error(f"{filename}: required maintenance file is missing")
+
+    for filename in sorted(OBSOLETE_MAINTENANCE_FILES):
+        if (ROOT / filename).exists():
+            reporter.error(
+                f"{filename}: obsolete maintenance instructions must remain consolidated in MAINTENANCE.md"
+            )
+
+    readme = ROOT / "README.md"
+    if not readme.is_file():
+        reporter.error("README.md is missing")
+    elif "MAINTENANCE.md" not in readme.read_text(encoding="utf-8"):
+        reporter.error("README.md: link or reference to MAINTENANCE.md is required")
+
+    manual = ROOT / "MAINTENANCE.md"
+    if manual.is_file():
+        text = manual.read_text(encoding="utf-8")
+        required_facts = (
+            OFFICIAL_URL,
+            REPOSITORY_URL,
+            "python3 -I scripts/check_site.py",
+            "Squash and merge",
+            "Revert",
+        )
+        for fact in required_facts:
+            if fact not in text:
+                reporter.error(f"MAINTENANCE.md: required fact is missing: {fact}")
 
 
 def main() -> int:
     reporter = Reporter()
+
     for path in sorted(ROOT.rglob("*.html")):
         check_html(path, reporter)
     check_images(reporter)
@@ -482,15 +580,18 @@ def main() -> int:
     check_workflows(reporter)
     check_gitignore(reporter)
     check_repository_shape(reporter)
+    check_maintenance_contract(reporter)
 
-    print("Static site security check")
+    print("Static site and maintenance check")
     for warning in reporter.warnings:
         print(f"WARNING: {warning}")
     for error in reporter.errors:
         print(f"ERROR: {error}")
+
     if reporter.errors:
         print(f"FAILED: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")
         return 1
+
     print(f"PASSED: {len(reporter.warnings)} warning(s)")
     return 0
 
