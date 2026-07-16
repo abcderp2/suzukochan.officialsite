@@ -6,4 +6,5 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-07-16 | 分散していた保守説明をMAINTENANCE.mdへ統合し、無料プランのAIとスマートフォン、タブレットを前提とした手順、AIによるコード解析と学習の扱い、復旧方法を明確化。古い参照例外を検査コードから削除し、説明書の再分散を検査対象へ追加 | MAINTENANCE.md, README.md, CHANGELOG.md, scripts/check_site.py, AI_HANDOFF.md, FACTS.md, PUBLISH_CHECKLIST.md | SquashコミットをRevert
 2026-07-15 | AIとスマートフォンで保守しやすい手順、自動検査、404ページを追加 | AI_HANDOFF.md, MAINTENANCE.md, FACTS.md, PUBLISH_CHECKLIST.md, CHANGELOG.md, 404.html, .nojekyll, scripts/check_site.py, .github/workflows/check-site.yml | SquashコミットをRevert
