@@ -569,6 +569,271 @@ def check_maintenance_contract(reporter: Reporter) -> None:
                 reporter.error(f"MAINTENANCE.md: required fact is missing: {fact}")
 
 
+
+class BilingualParser(html.parser.HTMLParser):
+    """Collect the language and cross-page facts for the bilingual pages."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.html_lang = ""
+        self.title_parts: list[str] = []
+        self.links: list[dict[str, str]] = []
+        self.anchors: list[dict[str, str]] = []
+        self.metas: list[dict[str, str]] = []
+        self.sections: list[str] = []
+        self.images: list[dict[str, str]] = []
+        self.sources: list[dict[str, str]] = []
+        self.news_items: list[dict[str, str]] = []
+        self.json_ld: list[str] = []
+        self._in_title = False
+        self._in_json_ld = False
+        self._json_ld_parts: list[str] = []
+        self._section_id: str | None = None
+        self._news_item: dict[str, str] | None = None
+        self._news_text: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        values = {key.lower(): value or "" for key, value in attrs}
+        if tag == "html":
+            self.html_lang = values.get("lang", "")
+        elif tag == "title":
+            self._in_title = True
+        elif tag == "link":
+            self.links.append(values)
+        elif tag == "a":
+            self.anchors.append(values)
+        elif tag == "meta":
+            self.metas.append(values)
+        elif tag == "img":
+            self.images.append(values)
+        elif tag == "source":
+            self.sources.append(values)
+        elif tag == "section":
+            self.sections.append(values.get("id", ""))
+            self._section_id = values.get("id", "")
+        elif tag == "li" and self._section_id == "news":
+            self._news_item = {"datetime": ""}
+            self._news_text = []
+        elif tag == "time" and self._news_item is not None:
+            self._news_item["datetime"] = values.get("datetime", "")
+        elif tag == "script":
+            if values.get("type", "").lower() == "application/ld+json":
+                self._in_json_ld = True
+                self._json_ld_parts = []
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self.handle_starttag(tag, attrs)
+
+    def handle_data(self, data: str) -> None:
+        if self._in_title:
+            self.title_parts.append(data)
+        if self._in_json_ld:
+            self._json_ld_parts.append(data)
+        if self._news_item is not None:
+            self._news_text.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "title":
+            self._in_title = False
+        elif tag == "script" and self._in_json_ld:
+            self.json_ld.append("".join(self._json_ld_parts))
+            self._in_json_ld = False
+            self._json_ld_parts = []
+        elif tag == "li" and self._news_item is not None:
+            self._news_item["text"] = " ".join("".join(self._news_text).split())
+            self.news_items.append(self._news_item)
+            self._news_item = None
+            self._news_text = []
+        elif tag == "section":
+            self._section_id = None
+
+
+def bilingual_meta(parser: BilingualParser, key: str, attribute: str) -> str:
+    for meta in parser.metas:
+        if meta.get(attribute, "").lower() == key.lower():
+            return meta.get("content", "")
+    return ""
+
+
+def bilingual_link_hrefs(parser: BilingualParser, rel: str) -> list[str]:
+    return [
+        link.get("href", "")
+        for link in parser.links
+        if rel in {token.lower() for token in link.get("rel", "").split()}
+    ]
+
+
+def bilingual_image_sources(parser: BilingualParser) -> list[str]:
+    values: list[str] = []
+    for image in parser.images:
+        if image.get("src"):
+            values.append(image["src"])
+    for source in parser.sources:
+        if source.get("srcset"):
+            values.extend(
+                candidate.strip().split()[0]
+                for candidate in source["srcset"].split(",")
+                if candidate.strip()
+            )
+    return values
+
+
+def bilingual_external_anchors(parser: BilingualParser) -> set[str]:
+    return {
+        anchor.get("href", "")
+        for anchor in parser.anchors
+        if is_external(anchor.get("href", ""))
+        and anchor.get("href", "") not in {OFFICIAL_URL, OFFICIAL_URL + "en.html"}
+    }
+
+
+def check_bilingual_page(
+    path: Path,
+    expected_lang: str,
+    expected_switch_href: str,
+    expected_switch_label: str,
+    expected_switch_lang: str,
+    expected_news_text: str,
+    reporter: Reporter,
+) -> BilingualParser:
+    if not path.is_file():
+        reporter.error(f"{path.relative_to(ROOT)}: bilingual page is missing")
+        return BilingualParser()
+
+    parser = BilingualParser()
+    text = path.read_text(encoding="utf-8")
+    parser.feed(text)
+    name = path.relative_to(ROOT).as_posix()
+    expected_url = OFFICIAL_URL if expected_lang == "ja" else OFFICIAL_URL + "en.html"
+
+    if parser.html_lang != expected_lang:
+        reporter.error(f"{name}: html lang must be {expected_lang}")
+
+    switches = [
+        anchor
+        for anchor in parser.anchors
+        if "language-switch" in anchor.get("class", "").split()
+    ]
+    if len(switches) != 1:
+        reporter.error(f"{name}: exactly one language-switch link is required")
+    else:
+        switch = switches[0]
+        if switch.get("href") != expected_switch_href:
+            reporter.error(f"{name}: language-switch href is incorrect")
+        if switch.get("hreflang") != expected_switch_lang:
+            reporter.error(f"{name}: language-switch hreflang is incorrect")
+        if switch.get("target"):
+            reporter.error(f"{name}: language-switch must be a normal link")
+        if expected_switch_label not in switch.get("class", "") + text:
+            reporter.error(f"{name}: language-switch label is missing")
+
+    canonical = bilingual_link_hrefs(parser, "canonical")
+    if canonical != [expected_url]:
+        reporter.error(f"{name}: canonical must be {expected_url}")
+
+    expected_alternates = {
+        "ja": OFFICIAL_URL,
+        "en": OFFICIAL_URL + "en.html",
+        "x-default": OFFICIAL_URL,
+    }
+    actual_alternates = {
+        link.get("hreflang", ""): link.get("href", "")
+        for link in parser.links
+        if "alternate" in {token.lower() for token in link.get("rel", "").split()}
+    }
+    if actual_alternates != expected_alternates:
+        reporter.error(f"{name}: alternate hreflang links are incorrect")
+
+    expected_sections = ["gallery", "profile", "about", "news", "guidelines", "sns"]
+    if parser.sections != expected_sections:
+        reporter.error(f"{name}: section ids or order are incorrect")
+
+    if not parser.news_items:
+        reporter.error(f"{name}: update history is missing")
+    else:
+        latest = parser.news_items[0]
+        if latest.get("datetime") != "2026-07-18" or expected_news_text not in latest.get("text", ""):
+            reporter.error(f"{name}: latest update history is incorrect")
+
+    if BILINGUAL_TRANSLATION_MARKERS.search(text):
+        reporter.error(f"{name}: external translation service reference is not allowed")
+
+    if expected_lang == "en":
+        if "".join(parser.title_parts).strip() != "Suzuko-chan Official Site":
+            reporter.error("en.html: title is not English")
+        expected_meta = {
+            "description": "The official site of Suzuko-chan, featuring her profile, updates, and guidelines.",
+            "og:title": "Suzuko-chan Official Site",
+            "og:url": OFFICIAL_URL + "en.html",
+            "og:description": "The official site of Suzuko-chan, featuring her profile, updates, and guidelines.",
+            "og:site_name": "Suzuko-chan Official Site",
+            "twitter:title": "Suzuko-chan Official Site",
+            "twitter:description": "The official site of Suzuko-chan, featuring her profile, updates, and guidelines.",
+        }
+        for key, value in expected_meta.items():
+            attribute = "property" if key.startswith("og:") else "name"
+            if bilingual_meta(parser, key, attribute) != value:
+                reporter.error(f"en.html: {key} metadata is not English or has the wrong URL")
+        if not parser.json_ld:
+            reporter.error("en.html: English JSON-LD is missing")
+        else:
+            try:
+                data = json.loads(parser.json_ld[0])
+            except json.JSONDecodeError as error:
+                reporter.error(f"en.html: invalid JSON-LD: {error.msg}")
+            else:
+                if data.get("url") != OFFICIAL_URL + "en.html":
+                    reporter.error("en.html: JSON-LD URL must be the English URL")
+                if re.search(r"[ぁ-んァ-ン一-龯]", data.get("description", "")):
+                    reporter.error("en.html: JSON-LD description must be English")
+
+    return parser
+
+
+def check_bilingual_pages(reporter: Reporter) -> None:
+    translation_markers = (
+        r"translate\.google",
+        r"translate\.goog",
+        r"deepl\.com",
+        r"libretranslate",
+        r"gtranslate",
+        r"translation\.googleapis",
+    )
+    global BILINGUAL_TRANSLATION_MARKERS
+    BILINGUAL_TRANSLATION_MARKERS = re.compile(
+        "|".join(translation_markers),
+        flags=re.IGNORECASE,
+    )
+
+    ja = check_bilingual_page(
+        ROOT / "index.html",
+        "ja",
+        "en.html",
+        "English",
+        "en",
+        "英語版と日本語・英語切り替え機能を追加",
+        reporter,
+    )
+    en = check_bilingual_page(
+        ROOT / "en.html",
+        "en",
+        "index.html",
+        "日本語",
+        "ja",
+        "Added an English version and Japanese–English language switching",
+        reporter,
+    )
+
+    if bilingual_image_sources(ja) != bilingual_image_sources(en):
+        reporter.error("index.html and en.html: image references do not match")
+    ja_css = bilingual_link_hrefs(ja, "stylesheet")
+    en_css = bilingual_link_hrefs(en, "stylesheet")
+    if ja_css != en_css:
+        reporter.error("index.html and en.html: stylesheet references do not match")
+    if bilingual_external_anchors(ja) != bilingual_external_anchors(en):
+        reporter.error("index.html and en.html: external links do not match")
+
+
 def main() -> int:
     reporter = Reporter()
 
@@ -581,6 +846,7 @@ def main() -> int:
     check_gitignore(reporter)
     check_repository_shape(reporter)
     check_maintenance_contract(reporter)
+    check_bilingual_pages(reporter)
 
     print("Static site and maintenance check")
     for warning in reporter.warnings:
