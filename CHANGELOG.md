@@ -6,6 +6,7 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-07-23 | 無料プランのAIとスマートフォンでも確認漏れや検査原因を把握しやすくするため、PRテンプレート、検査の注釈と概要、週次・手動の公開生存確認、AIクローラー許可の明示を追加。公開HTML、CSS、画像は変更しない | .github/pull_request_template.md, .github/workflows/check-site.yml, .github/workflows/live-site-check.yml, robots.txt, CHANGELOG.md | SquashコミットをRevert
 2026-07-20 | 7月18日のCSS変更後も古いキャッシュ識別子が残っていたため、全HTMLのスタイルシート参照を同じ識別子へ更新 | index.html, en.html, 404.html, CHANGELOG.md | SquashコミットをRevert
 2026-07-18 | 英語版と日本語・英語切り替え機能を追加 | index.html, en.html, assets/css/style.css, scripts/check_site.py, CHANGELOG.md | SquashコミットをRevert
 2026-07-16 | 分散していた保守説明をMAINTENANCE.mdへ統合し、無料プランのAIとスマートフォン、タブレットを前提とした手順、AIによるコード解析と学習の扱い、復旧方法を明確化。古い参照例外を検査コードから削除し、説明書の再分散を検査対象へ追加 | MAINTENANCE.md, README.md, CHANGELOG.md, scripts/check_site.py, AI_HANDOFF.md, FACTS.md, PUBLISH_CHECKLIST.md | SquashコミットをRevert
