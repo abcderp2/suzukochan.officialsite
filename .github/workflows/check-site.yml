@@ -38,4 +38,48 @@ jobs:
           test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
 
       - name: Check static site files
-        run: python3 -I scripts/check_site.py
+        run: |
+          log_file="${RUNNER_TEMP}/site-check.log"
+          status=0
+          python3 -I scripts/check_site.py >"${log_file}" 2>&1 || status=$?
+
+          escape_command() {
+            local value="$1"
+            value="${value//'%'/'%25'}"
+            value="${value//$'\r'/'%0D'}"
+            value="${value//$'\n'/'%0A'}"
+            printf '%s' "${value}"
+          }
+
+          while IFS= read -r line; do
+            case "${line}" in
+              ERROR:\ *)
+                message="${line#ERROR: }"
+                printf '::error title=Site checks::%s\n' "$(escape_command "${message}")"
+                ;;
+              WARNING:\ *)
+                message="${line#WARNING: }"
+                printf '::warning title=Site checks::%s\n' "$(escape_command "${message}")"
+                ;;
+            esac
+          done <"${log_file}"
+
+          if [ "${status}" -eq 0 ]; then
+            result="Passed"
+          else
+            result="Failed"
+          fi
+
+          {
+            echo "## Site checks"
+            echo
+            echo "- Result: **${result}**"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Command: \`python3 -I scripts/check_site.py\`"
+            echo
+            echo "### Output"
+            sed 's/^/    /' "${log_file}"
+          } >>"${GITHUB_STEP_SUMMARY}"
+
+          cat "${log_file}"
+          exit "${status}"
