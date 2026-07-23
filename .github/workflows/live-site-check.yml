@@ -1,0 +1,158 @@
+name: Live site check
+
+on:
+  schedule:
+    - cron: "23 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-site-check
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -euo pipefail {0}
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out main without an external action
+        env:
+          REPOSITORY: ${{ github.repository }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          umask 077
+          git init .
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin refs/heads/main
+          git checkout --detach FETCH_HEAD
+
+      - name: Check repository files
+        run: python3 -I scripts/check_site.py
+
+      - name: Check published site
+        env:
+          OFFICIAL_URL: https://abcderp2.github.io/suzukochan.officialsite/
+        run: |
+          python3 -I - <<'PY'
+          from __future__ import annotations
+
+          import os
+          import time
+          import urllib.error
+          import urllib.request
+          from pathlib import Path
+
+          base_url = os.environ["OFFICIAL_URL"].rstrip("/") + "/"
+          summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
+
+          checks = (
+              (
+                  "Japanese page",
+                  base_url,
+                  200,
+                  ("<html lang=\"ja\">", "鈴子ちゃん公式サイト"),
+                  "text/html",
+              ),
+              (
+                  "English page",
+                  base_url + "en.html",
+                  200,
+                  ("<html lang=\"en\">", "Suzuko-chan Official Site"),
+                  "text/html",
+              ),
+              (
+                  "Stylesheet",
+                  base_url + "assets/css/style.css",
+                  200,
+                  ("body{",),
+                  "text/css",
+              ),
+              (
+                  "robots.txt",
+                  base_url + "robots.txt",
+                  200,
+                  ("User-agent: *", "Allow: /", "OAI-SearchBot"),
+                  "text/plain",
+              ),
+              (
+                  "404 page",
+                  base_url + "not-found-check",
+                  404,
+                  ("<meta name=\"robots\" content=\"noindex\">",),
+                  "text/html",
+              ),
+          )
+
+
+          def escape_command(value: str) -> str:
+              return value.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+
+
+          def fetch(url: str) -> tuple[int, str, str]:
+              last_error = "request failed"
+              for attempt in range(3):
+                  request = urllib.request.Request(
+                      url,
+                      headers={"User-Agent": "suzukochan-live-check/1.0"},
+                  )
+                  try:
+                      with urllib.request.urlopen(request, timeout=20) as response:
+                          body = response.read(1_000_000).decode("utf-8", errors="replace")
+                          return response.status, response.headers.get_content_type(), body
+                  except urllib.error.HTTPError as error:
+                      body = error.read(1_000_000).decode("utf-8", errors="replace")
+                      return error.code, error.headers.get_content_type(), body
+                  except (urllib.error.URLError, TimeoutError, OSError) as error:
+                      last_error = str(error)
+                      if attempt < 2:
+                          time.sleep(2 * (attempt + 1))
+              raise RuntimeError(last_error)
+
+
+          rows: list[tuple[str, str, str]] = []
+          failed = False
+
+          for name, url, expected_status, markers, expected_type in checks:
+              try:
+                  status, content_type, body = fetch(url)
+                  problems: list[str] = []
+                  if status != expected_status:
+                      problems.append(f"HTTP {status}, expected {expected_status}")
+                  if content_type != expected_type:
+                      problems.append(f"Content-Type {content_type}, expected {expected_type}")
+                  for marker in markers:
+                      if marker not in body:
+                          problems.append(f"missing marker: {marker}")
+
+                  if problems:
+                      failed = True
+                      detail = "; ".join(problems)
+                      print(f"::error title=Live site check::{escape_command(name + ': ' + detail)}")
+                      rows.append((name, "Failed", detail))
+                  else:
+                      rows.append((name, "Passed", f"HTTP {status}"))
+              except Exception as error:  # noqa: BLE001 - report all network failures
+                  failed = True
+                  detail = str(error)
+                  print(f"::error title=Live site check::{escape_command(name + ': ' + detail)}")
+                  rows.append((name, "Failed", detail))
+
+          with summary_path.open("a", encoding="utf-8") as summary:
+              summary.write("## Live site check\n\n")
+              summary.write(f"- Result: **{'Failed' if failed else 'Passed'}**\n")
+              summary.write(f"- Base URL: `{base_url}`\n\n")
+              summary.write("| Check | Result | Detail |\n")
+              summary.write("|---|---|---|\n")
+              for name, result, detail in rows:
+                  safe_detail = detail.replace("|", "\\|").replace("\n", " ")
+                  summary.write(f"| {name} | {result} | {safe_detail} |\n")
+
+          if failed:
+              raise SystemExit(1)
+          PY
