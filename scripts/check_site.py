@@ -33,10 +33,6 @@ OBSOLETE_MAINTENANCE_FILES = {
 
 FORBIDDEN_HTML_TAGS = {"base", "embed", "form", "iframe", "object"}
 ALLOWED_INLINE_SCRIPT_TYPES = {"application/ld+json"}
-ALLOWED_EXTERNAL_SCRIPTS = {
-    "image-privacy.html": {"assets/js/image-privacy.js"},
-}
-BLOB_IMAGE_PAGES = {"image-privacy.html"}
 
 REQUIRED_CSP = {
     "default-src": {"'none'"},
@@ -268,17 +264,10 @@ def check_csp(path: Path, parser: SiteParser, text: str, reporter: Reporter) -> 
         return
 
     for directive, expected in REQUIRED_CSP.items():
-        expected_tokens = set(expected)
-        if relative(path) in BLOB_IMAGE_PAGES and directive == "img-src":
-            expected_tokens.add("blob:")
-        if policy.get(directive) != expected_tokens:
-            reporter.error(f"{name}: CSP {directive} must be {' '.join(sorted(expected_tokens))}")
+        if policy.get(directive) != expected:
+            reporter.error(f"{name}: CSP {directive} must be {' '.join(sorted(expected))}")
 
-    expected_scripts = {script_hash(block) for block in parser.json_ld}
-    if any(script.get("src", "") for script in parser.scripts):
-        expected_scripts.add("'self'")
-    if not expected_scripts:
-        expected_scripts = {"'none'"}
+    expected_scripts = {script_hash(block) for block in parser.json_ld} or {"'none'"}
     if policy.get("script-src") != expected_scripts:
         reporter.error(f"{name}: CSP script-src must match JSON-LD hash or be 'none'")
 
@@ -287,8 +276,6 @@ def check_csp(path: Path, parser: SiteParser, text: str, reporter: Reporter) -> 
 
     for directive, tokens in policy.items():
         forbidden = tokens & FORBIDDEN_CSP_TOKENS
-        if relative(path) in BLOB_IMAGE_PAGES and directive == "img-src":
-            forbidden.discard("blob:")
         if forbidden:
             reporter.error(
                 f"{name}: CSP {directive} contains forbidden token(s): {' '.join(sorted(forbidden))}"
@@ -341,9 +328,7 @@ def check_html(path: Path, reporter: Reporter) -> None:
         src = script.get("src", "")
         script_type = script.get("type", "").lower()
         if src:
-            allowed = ALLOWED_EXTERNAL_SCRIPTS.get(relative(path), set())
-            if src not in allowed:
-                reporter.error(f"{name}: executable script files are not allowed: {src}")
+            reporter.error(f"{name}: executable script files are not allowed: {src}")
         elif script_type not in ALLOWED_INLINE_SCRIPT_TYPES:
             reporter.error(f"{name}: inline executable script is not allowed")
 
@@ -497,7 +482,7 @@ def check_images(reporter: Reporter) -> None:
             reporter.warning(f"{relative(path)}: image is larger than 1 MiB")
         for finding in image_metadata_findings(path):
             reporter.error(
-                f"{relative(path)}: image metadata is present ({finding}); use image-privacy.html before upload"
+                f"{relative(path)}: image metadata is present ({finding}); use the separate Exif cleaner before upload"
             )
 
 
@@ -524,7 +509,6 @@ def check_secrets(reporter: Reporter) -> None:
         ".env",
         ".html",
         ".ini",
-        ".js",
         ".json",
         ".md",
         ".py",
