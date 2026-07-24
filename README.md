@@ -65,9 +65,11 @@ https://abcderp2.github.io/suzukochan.officialsite/
 
 ## AIクローラー向け補助ファイル
 
-公開ページは検索エンジンとAIによる読み取りを許可しています。機械向けの補助情報として、`robots.txt`、`sitemap.xml`、`llms.txt`を公開します。
+AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切に紹介することを歓迎します。この方針はモデル学習その他の利用許諾ではなく、鈴子ちゃんのキャラクター、画像、設定、公式性に関する権利は鈴木が維持します。詳しい条件は公式サイトのガイドラインと`LICENSE`を確認してください。
 
-GitHub PagesのプロジェクトサイトはURLがサブディレクトリ形式のため、正式なrobots.txtの判定はホスト直下の`https://abcderp2.github.io/robots.txt`で行われます。このリポジトリの`robots.txt`はサイトの希望を明示する補助ファイルです。ホスト直下に拒否設定がない場合、標準に従うクローラーの訪問は妨げられません。
+機械向けの補助情報として、`robots.txt`、`sitemap.xml`、`llms.txt`を公開します。`robots.txt`では検索・利用者向け取得用の既知のクローラーを許可し、GPTBot、ClaudeBot、Google-Extendedは拒否します。Google-ExtendedはGeminiのモデル学習とグラウンディングを一つの設定で扱うため、権利保護を優先した設定です。通常のGoogle検索への掲載には影響しません。
+
+GitHub PagesのプロジェクトサイトはURLがサブディレクトリ形式のため、正式なrobots.txtの判定はホスト直下の`https://abcderp2.github.io/robots.txt`で行われます。このリポジトリの`robots.txt`はサイトの希望を明示する補助ファイルです。ホスト直下に拒否設定がない場合、実際の制御結果はクローラー側の解釈にも依存します。
 
 ## サイト保守
 
