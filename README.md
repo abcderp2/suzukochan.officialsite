@@ -63,6 +63,12 @@ https://abcderp2.github.io/suzukochan.officialsite/
 - GitHub Pages：ホスティング
 - ビルドツール：なし（静的サイト）
 
+## AIクローラー向け補助ファイル
+
+公開ページは検索エンジンとAIによる読み取りを許可しています。機械向けの補助情報として、`robots.txt`、`sitemap.xml`、`llms.txt`を公開します。
+
+GitHub PagesのプロジェクトサイトはURLがサブディレクトリ形式のため、正式なrobots.txtの判定はホスト直下の`https://abcderp2.github.io/robots.txt`で行われます。このリポジトリの`robots.txt`はサイトの希望を明示する補助ファイルです。ホスト直下に拒否設定がない場合、標準に従うクローラーの訪問は妨げられません。
+
 ## サイト保守
 
 保守に必要な事実、AIへの依頼文、スマートフォンとタブレットでの手順、検査、復旧方法は、[MAINTENANCE.md](MAINTENANCE.md)に統合しています。
