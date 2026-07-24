@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-07-24 | AI向けメッセージが既存ガイドラインの個人利用許諾を打ち消さないよう、メッセージ自体は追加許諾を与えず具体的利用はガイドラインに従うことを明確化 | index.html, en.html, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
+
 2026-07-24 | ガイドラインへ短いAI向けメッセージを日英で追加し、検索・利用者向けAI回答は歓迎、モデル学習その他は許諾しない権利方針へ補助ファイルとREADMEを統一 | index.html, en.html, robots.txt, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
 
 2026-07-24 | 公式サイトを見に来る人に不要な画像処理ページと公開リンクを除去し、既存画像のメタデータ検査は維持。今後の画像処理先を別サイトへ変更 | image-privacy.html, assets/js/image-privacy.js, index.html, en.html, assets/css/style.css, scripts/check_site.py, MAINTENANCE.md, README.md, CHANGELOG.md | SquashコミットをRevert
