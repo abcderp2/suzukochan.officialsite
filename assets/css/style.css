@@ -162,6 +162,11 @@ h2{
   padding-left: 18px;
 }
 
+#news > p:first-of-type{
+  display: list-item;
+  margin: 0 0 0 18px;
+}
+
 .footer{
   margin-top: 22px;
   color: #666666;
@@ -291,4 +296,3 @@ h2{
 .back-to-top a:hover{
   text-decoration: none;
     }
-
