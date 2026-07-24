@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-07-24 | 公式サイトを見に来る人に不要な画像処理ページと公開リンクを除去し、既存画像のメタデータ検査は維持。今後の画像処理先を別サイトへ変更 | image-privacy.html, assets/js/image-privacy.js, index.html, en.html, assets/css/style.css, scripts/check_site.py, MAINTENANCE.md, README.md, CHANGELOG.md | SquashコミットをRevert
+
 2026-07-24 | 既存画像のメタデータを除去し、端末内で画像を処理するページと公開前検査を追加。公開ページの更新情報は変更しない | image-privacy.html, assets/js/image-privacy.js, assets/images/*.webp, index.html, en.html, assets/css/style.css, scripts/check_site.py, MAINTENANCE.md, README.md, CHANGELOG.md | SquashコミットをRevert
 
 2026-07-23 | 無料プランのAIとスマートフォンでも確認漏れや検査原因を把握しやすくするため、PRテンプレート、検査の注釈と概要、週次・手動の公開生存確認、AIクローラー許可の明示を追加。公開HTML、CSS、画像は変更しない | .github/pull_request_template.md, .github/workflows/check-site.yml, .github/workflows/live-site-check.yml, robots.txt, CHANGELOG.md | SquashコミットをRevert
