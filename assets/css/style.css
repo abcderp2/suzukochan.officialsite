@@ -291,3 +291,74 @@ h2{
 .back-to-top a:hover{
   text-decoration: none;
     }
+
+
+/* Image privacy tool */
+.privacy-intro,
+.privacy-note{
+  color: var(--muted);
+}
+
+.privacy-form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 44rem;
+}
+
+.privacy-form label{
+  font-weight: 600;
+}
+
+.privacy-file-input{
+  max-width: 100%;
+  min-height: 44px;
+}
+
+.privacy-button{
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid rgba(0,0,0,0.18);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+}
+
+.privacy-button:hover{
+  background: rgba(0,0,0,0.05);
+}
+
+.privacy-button:focus-visible{
+  outline: 3px solid #005fcc;
+  outline-offset: 3px;
+}
+
+.privacy-button:disabled{
+  opacity: 0.6;
+}
+
+.privacy-status{
+  min-height: 1.65em;
+  margin-bottom: 0;
+}
+
+.privacy-status[data-state="error"]{
+  color: #a40000;
+}
+
+.privacy-download{
+  display: inline-block;
+  min-height: 44px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: #0066cc;
+  color: #ffffff;
+  line-height: 1.65;
+}
+
+.privacy-note{
+  margin-bottom: 0;
+}
