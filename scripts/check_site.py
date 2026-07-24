@@ -33,6 +33,10 @@ OBSOLETE_MAINTENANCE_FILES = {
 
 FORBIDDEN_HTML_TAGS = {"base", "embed", "form", "iframe", "object"}
 ALLOWED_INLINE_SCRIPT_TYPES = {"application/ld+json"}
+ALLOWED_EXTERNAL_SCRIPTS = {
+    "image-privacy.html": {"assets/js/image-privacy.js"},
+}
+BLOB_IMAGE_PAGES = {"image-privacy.html"}
 
 REQUIRED_CSP = {
     "default-src": {"'none'"},
@@ -264,10 +268,17 @@ def check_csp(path: Path, parser: SiteParser, text: str, reporter: Reporter) -> 
         return
 
     for directive, expected in REQUIRED_CSP.items():
-        if policy.get(directive) != expected:
-            reporter.error(f"{name}: CSP {directive} must be {' '.join(sorted(expected))}")
+        expected_tokens = set(expected)
+        if relative(path) in BLOB_IMAGE_PAGES and directive == "img-src":
+            expected_tokens.add("blob:")
+        if policy.get(directive) != expected_tokens:
+            reporter.error(f"{name}: CSP {directive} must be {' '.join(sorted(expected_tokens))}")
 
-    expected_scripts = {script_hash(block) for block in parser.json_ld} or {"'none'"}
+    expected_scripts = {script_hash(block) for block in parser.json_ld}
+    if any(script.get("src", "") for script in parser.scripts):
+        expected_scripts.add("'self'")
+    if not expected_scripts:
+        expected_scripts = {"'none'"}
     if policy.get("script-src") != expected_scripts:
         reporter.error(f"{name}: CSP script-src must match JSON-LD hash or be 'none'")
 
@@ -276,6 +287,8 @@ def check_csp(path: Path, parser: SiteParser, text: str, reporter: Reporter) -> 
 
     for directive, tokens in policy.items():
         forbidden = tokens & FORBIDDEN_CSP_TOKENS
+        if relative(path) in BLOB_IMAGE_PAGES and directive == "img-src":
+            forbidden.discard("blob:")
         if forbidden:
             reporter.error(
                 f"{name}: CSP {directive} contains forbidden token(s): {' '.join(sorted(forbidden))}"
@@ -328,7 +341,9 @@ def check_html(path: Path, reporter: Reporter) -> None:
         src = script.get("src", "")
         script_type = script.get("type", "").lower()
         if src:
-            reporter.error(f"{name}: executable script files are not allowed: {src}")
+            allowed = ALLOWED_EXTERNAL_SCRIPTS.get(relative(path), set())
+            if src not in allowed:
+                reporter.error(f"{name}: executable script files are not allowed: {src}")
         elif script_type not in ALLOWED_INLINE_SCRIPT_TYPES:
             reporter.error(f"{name}: inline executable script is not allowed")
 
@@ -393,6 +408,75 @@ def check_html(path: Path, reporter: Reporter) -> None:
             reporter.error(f"{name}: official URL typo: {url}")
 
 
+def image_metadata_findings(path: Path) -> list[str]:
+    data = path.read_bytes()
+    findings: list[str] = []
+
+    if data.startswith(b"\xff\xd8\xff"):
+        offset = 2
+        while offset + 3 < len(data):
+            if data[offset] != 0xFF:
+                break
+            while offset < len(data) and data[offset] == 0xFF:
+                offset += 1
+            if offset >= len(data):
+                break
+            marker = data[offset]
+            offset += 1
+            if marker in {0xD8, 0xD9}:
+                continue
+            if marker == 0xDA:
+                break
+            if offset + 2 > len(data):
+                break
+            segment_length = int.from_bytes(data[offset:offset + 2], "big")
+            if segment_length < 2 or offset + segment_length > len(data):
+                break
+            if marker == 0xFE or 0xE1 <= marker <= 0xEF:
+                findings.append(f"JPEG marker 0x{marker:02X}")
+            offset += segment_length
+        return findings
+
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        offset = 8
+        while offset + 12 <= len(data):
+            length = int.from_bytes(data[offset:offset + 4], "big")
+            chunk = data[offset + 4:offset + 8]
+            end = offset + 12 + length
+            if end > len(data):
+                break
+            if chunk in {b"eXIf", b"iTXt", b"tEXt", b"zTXt", b"iCCP"}:
+                findings.append(f"PNG chunk {chunk.decode('ascii')}")
+            offset = end
+            if chunk == b"IEND":
+                break
+        return findings
+
+    if data.startswith(b"RIFF") and data[8:12] == b"WEBP":
+        offset = 12
+        while offset + 8 <= len(data):
+            chunk = data[offset:offset + 4]
+            size = int.from_bytes(data[offset + 4:offset + 8], "little")
+            end = offset + 8 + size + (size & 1)
+            if end > len(data):
+                break
+            if chunk in {b"EXIF", b"XMP ", b"ICCP"}:
+                findings.append(f"WebP chunk {chunk.decode('ascii', errors='replace')}")
+            if chunk == b"VP8X" and size:
+                flags = data[offset + 8]
+                if flags & 0x20:
+                    findings.append("WebP ICCP flag")
+                if flags & 0x08:
+                    findings.append("WebP EXIF flag")
+                if flags & 0x04:
+                    findings.append("WebP XMP flag")
+            offset = end
+        return findings
+
+    return findings
+
+
+
 def check_images(reporter: Reporter) -> None:
     directory = ROOT / "assets" / "images"
     if not directory.exists():
@@ -411,6 +495,10 @@ def check_images(reporter: Reporter) -> None:
             reporter.error(f"{relative(path)}: image is larger than 5 MiB")
         elif size > WARN_IMAGE_BYTES:
             reporter.warning(f"{relative(path)}: image is larger than 1 MiB")
+        for finding in image_metadata_findings(path):
+            reporter.error(
+                f"{relative(path)}: image metadata is present ({finding}); use image-privacy.html before upload"
+            )
 
 
 def check_css(reporter: Reporter) -> None:
@@ -436,6 +524,7 @@ def check_secrets(reporter: Reporter) -> None:
         ".env",
         ".html",
         ".ini",
+        ".js",
         ".json",
         ".md",
         ".py",

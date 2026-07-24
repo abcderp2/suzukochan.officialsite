@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="
+   default-src 'none';
+   base-uri 'none';
+   connect-src 'none';
+   form-action 'none';
+   frame-src 'none';
+   img-src 'self' blob:;
+   manifest-src 'none';
+   media-src 'none';
+   object-src 'none';
+   script-src 'self';
+   style-src 'self';
+   worker-src 'none';
+   upgrade-insecure-requests
+  ">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="画像を端末内だけで処理し、Exifなどの画像メタデータを削除するためのページです。">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+  <title>画像の個人情報を削除 | 鈴子ちゃん公式サイト</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=20260724a">
+  <script src="assets/js/image-privacy.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip" href="#main">本文へ移動</a>
+
+  <main id="main" class="wrap">
+    <section class="card">
+      <h1>画像の個人情報を削除</h1>
+
+      <p class="privacy-intro">
+        画像はこの端末の中だけで処理され、外部へ送信されません。元の画像はアップロードせず、処理後に保存された画像を使用してください。
+      </p>
+
+      <div class="privacy-form">
+        <label for="image-file">JPEG、PNG、WebP画像を1枚選択</label>
+        <input id="image-file" class="privacy-file-input" type="file" accept="image/jpeg,image/png,image/webp">
+        <button id="process-button" class="privacy-button" type="button">Exifなどを削除する</button>
+      </div>
+
+      <p id="status" class="privacy-status" role="status" aria-live="polite">画像はまだ選択されていません。</p>
+      <a id="download-link" class="privacy-download" hidden>処理済み画像をダウンロード</a>
+
+      <p class="privacy-note">
+        ダウンロードした画像は、元のファイル名のまま保存されます。複数枚ある場合は1枚ずつ繰り返してください。
+      </p>
+    </section>
+
+    <p class="back-to-top">
+      <a href="index.html">公式サイトへ戻る</a>
+    </p>
+  </main>
+
+  <footer class="footer">
+    <small>© 2026 鈴木</small>
+  </footer>
+</body>
+</html>
