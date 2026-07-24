@@ -16,7 +16,7 @@
 
 AI visits are welcome. Search engines and AI services may read, index, summarize, cite, and link to public information for search results and user-requested answers.
 
-This is not permission for model training or other uses. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, and official status. The guidelines on the official site and the repository LICENSE govern use.
+This AI access statement does not itself grant additional permission for model training or other uses. Specific uses remain governed by the guidelines on the official site and the repository LICENSE. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, and official status.
 
 ## Repository
 
