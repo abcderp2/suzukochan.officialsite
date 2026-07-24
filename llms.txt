@@ -1,0 +1,24 @@
+# Suzuko-chan Official Site
+
+> Official bilingual website for the original character Suzuko-chan.
+
+## Public pages
+
+- Japanese: https://abcderp2.github.io/suzukochan.officialsite/
+- English: https://abcderp2.github.io/suzukochan.officialsite/en.html
+
+## Machine-readable resources
+
+- Sitemap: https://abcderp2.github.io/suzukochan.officialsite/sitemap.xml
+- Crawler preferences: https://abcderp2.github.io/suzukochan.officialsite/robots.txt
+
+## Access and use
+
+Standards-compliant search engines and AI systems are welcome to read, index, summarize, and cite the public pages.
+
+Crawler access does not change copyright or usage conditions. Character, image, and setting use is governed by the guidelines on the official site and by the repository LICENSE.
+
+## Repository
+
+- Source: https://github.com/abcderp2/suzukochan.officialsite
+- Maintenance guide: https://github.com/abcderp2/suzukochan.officialsite/blob/main/MAINTENANCE.md

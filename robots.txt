@@ -1,9 +1,15 @@
-# Public pages are open to search engines and AI crawlers.
+# Public pages are open to standards-compliant search engines and AI crawlers.
+# This project-site copy documents the site's preference. Robots Exclusion
+# Protocol rules for this GitHub Pages host are normally read from
+# https://abcderp2.github.io/robots.txt.
 User-agent: *
 Allow: /
 
-# OpenAI search and model-development crawlers.
+# OpenAI search, user-directed access, and model-development crawlers.
 User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: GPTBot
@@ -22,3 +28,5 @@ Allow: /
 # Google token for Gemini training and grounding preferences.
 User-agent: Google-Extended
 Allow: /
+
+Sitemap: https://abcderp2.github.io/suzukochan.officialsite/sitemap.xml
