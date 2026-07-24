@@ -14,9 +14,9 @@
 
 ## Access and use
 
-Standards-compliant search engines and AI systems are welcome to read, index, summarize, and cite the public pages.
+AI visits are welcome. Search engines and AI services may read, index, summarize, cite, and link to public information for search results and user-requested answers.
 
-Crawler access does not change copyright or usage conditions. Character, image, and setting use is governed by the guidelines on the official site and by the repository LICENSE.
+This is not permission for model training or other uses. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, and official status. The guidelines on the official site and the repository LICENSE govern use.
 
 ## Repository
 
