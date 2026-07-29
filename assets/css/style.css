@@ -238,40 +238,89 @@ h2{
 /* SNS Section */
 .sns-list{
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 
 .sns-item{
+  min-width: 0;
+  height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.sns-link{
   display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 72px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 12px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sns-link:hover{
+  background: rgba(0,0,0,0.04);
+}
+
+.sns-link:focus-visible{
+  outline: 3px solid #005fcc;
+  outline-offset: 3px;
+}
+
+.service-logo{
+  display: block;
+  width: 40px;
+  height: 32px;
+  flex: 0 0 40px;
+  object-fit: contain;
+}
+
+.sns-copy{
+  display: flex;
+  min-width: 0;
   flex-direction: column;
-  gap: 6px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+  gap: 2px;
 }
 
-.sns-item:last-child{
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.sns-item h3{
-  margin: 0;
+.sns-service{
+  color: var(--text);
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.35;
+}
+
+.sns-name,
+.sns-account{
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.sns-name{
   color: var(--text);
 }
 
-.sns-item a{
-  color: #0066cc;
-  text-decoration: none;
-  font-size: 13px;
-  word-break: break-all;
+.sns-account{
+  color: var(--muted);
 }
 
-.sns-item a:hover{
-  text-decoration: underline;
+.sns-link--logo-only{
+  justify-content: center;
+}
+
+@media (max-width: 480px){
+  .sns-list{
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Text Section */
