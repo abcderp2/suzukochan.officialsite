@@ -48,11 +48,11 @@ https://abcderp2.github.io/suzukochan.officialsite/
 キャラクターや作者に関する最新情報はこちらでも発信しています。
 
 - YouTube: https://www.youtube.com/@abc-l2g6k/shorts
-- note（作者について）: https://note.com/stocktrading0_ai
+- note（作者について）: https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false
+- X（鈴子ちゃん公式）: https://x.com/suzuko_ai_
 - X（作者 鈴木）: https://x.com/stocktrading0
-- X（鈴子ちゃん）: https://x.com/suzuko_ai_/
-
----
+- pixiv: https://www.pixiv.net/users/116903703
+- GitHub（サイトのソースコード）: https://github.com/abcderp2/suzukochan.officialsite
 
 ## 技術スタック
 
