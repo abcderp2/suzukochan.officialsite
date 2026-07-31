@@ -41,16 +41,6 @@ https://abcderp2.github.io/suzukochan.officialsite/
 
 サイトの更新履歴や、キャラクター関連の最新情報を掲載しています。
 
-### キャラクター画像アニメーター
-
-画像を端末内だけで処理し、上下移動、揺れ、回転、呼吸風の動きを付けたGIFを作成する無料ツールです。外部API、外部CDN、広告、アクセス解析、アカウント登録は使用しません。
-
-公開版
-
-https://abcderp2.github.io/suzukochan.officialsite/tools/character-animator/
-
-公開版はホーム画面へ追加するとオフライン起動できます。ローカル利用はリポジトリをZIPで取得し、`tools/character-animator/index.html`を開きます。iPhoneとiPadでローカルHTMLが動かない場合は、公開版をSafariのホーム画面へ追加します。詳しい制限、検査、戻し方は[ツール用README](tools/character-animator/README.md)にあります。
-
 ---
 
 ## 各種SNS・関連リンク
@@ -68,15 +58,12 @@ https://abcderp2.github.io/suzukochan.officialsite/tools/character-animator/
 
 ## 技術スタック
 
-このサイトは、無料プランのAIとスマートフォンまたはタブレットでも保守できる軽量な静的構成です。
+このサイトはシンプルで軽量な構成を目指しています。
 
 - HTML5：セマンティックなマークアップ
 - CSS3：レスポンシブデザイン対応
-- JavaScript：キャラクター画像アニメーターの端末内処理だけに使用
-- Python標準ライブラリ：読み取り専用のリポジトリ検査
-- GitHub Actions：外部Actionを使わない自動検査
 - GitHub Pages：ホスティング
-- ビルドツール、パッケージ管理、外部ライブラリ：なし
+- ビルドツール：なし（静的サイト）
 
 ## AIクローラー向け補助ファイル
 
