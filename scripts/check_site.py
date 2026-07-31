@@ -217,6 +217,7 @@ def check_reference(current: Path, tag: str, value: str, reporter: Reporter) -> 
         if local.as_posix() == "__outside_project__":
             reporter.error(f"{relative(current)}: root path outside project: {token}")
             continue
+
         resolved = (current.parent / local).resolve()
         try:
             resolved.relative_to(ROOT)
@@ -876,6 +877,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "|".join(translation_markers),
         flags=re.IGNORECASE,
     )
+
     ja = check_bilingual_page(
         ROOT / "index.html",
         "ja",
