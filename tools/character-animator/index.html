@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src 'none'; font-src 'none'; form-action 'none'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' blob:; manifest-src 'self'; media-src 'none'; object-src 'none'; script-src 'self'; style-src 'self'; worker-src 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="画像を端末内だけで上下移動、揺れ、回転などのGIFに変換できる無料ツールです。">
+  <meta name="theme-color" content="#f6f8fc">
+  <link rel="canonical" href="https://abcderp2.github.io/suzukochan.officialsite/tools/character-animator/">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="app.css?v=1">
+  <title>キャラクター画像アニメーター</title>
+  <script src="gif-encoder.js?v=1" defer></script>
+  <script src="app.js?v=1" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">操作画面へ移動</a>
+
+  <header class="site-header">
+    <div class="page-width header-inner">
+      <div>
+        <p class="eyebrow">無料、登録不要、端末内処理</p>
+        <h1>キャラクター画像アニメーター</h1>
+        <p class="lead">1枚の画像を上下移動、揺れ、回転、呼吸風の動きにしてGIFへ保存します。</p>
+      </div>
+      <a class="back-link" href="../../index.html">鈴子ちゃん公式サイトへ戻る</a>
+    </div>
+  </header>
+
+  <main id="main" class="page-width">
+    <section class="notice" aria-labelledby="privacy-title">
+      <h2 id="privacy-title">画像はアップロードされません</h2>
+      <p>選んだ画像と生成処理は、この端末のブラウザ内だけで扱います。外部API、広告、アクセス解析、アカウント登録は使用しません。</p>
+    </section>
+
+    <div class="app-layout">
+      <section class="panel preview-panel" aria-labelledby="preview-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">1</p>
+            <h2 id="preview-title">画像とプレビュー</h2>
+          </div>
+          <label class="file-button" for="imageInput">画像を選ぶ</label>
+          <input
+            id="imageInput"
+            class="visually-hidden"
+            type="file"
+            accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+          >
+        </div>
+
+        <div class="canvas-shell">
+          <canvas
+            id="previewCanvas"
+            width="360"
+            height="360"
+            tabindex="0"
+            aria-label="アニメーションプレビュー。画像を指でドラッグできます。矢印キーでも位置を変更できます。"
+          ></canvas>
+        </div>
+
+        <p class="help-text">画像を指でドラッグして位置を調整できます。PNG、JPEG、WebP、15MB以下に対応します。</p>
+
+        <div class="button-row" aria-label="プレビュー操作">
+          <button id="playButton" type="button" aria-pressed="false">一時停止</button>
+          <button id="centerButton" type="button">中央へ戻す</button>
+          <button id="flipButton" type="button" aria-pressed="false">左右反転</button>
+        </div>
+      </section>
+
+      <section class="panel controls-panel" aria-labelledby="motion-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">2</p>
+            <h2 id="motion-title">動きを調整</h2>
+          </div>
+          <button id="resetButton" class="secondary-button" type="button">設定を初期化</button>
+        </div>
+
+        <div class="control-grid">
+          <label class="control control-wide" for="preset">
+            <span>動きの種類</span>
+            <select id="preset">
+              <option value="float">ふわふわ上下</option>
+              <option value="bounce">ジャンプ</option>
+              <option value="shake">細かく揺れる</option>
+              <option value="sway">左右に傾く</option>
+              <option value="orbit">円を描く</option>
+              <option value="breathe">呼吸する</option>
+            </select>
+          </label>
+
+          <label class="control" for="amplitude">
+            <span>移動量 <output id="amplitudeValue" for="amplitude">18 px</output></span>
+            <input id="amplitude" type="range" min="0" max="60" step="1" value="18">
+          </label>
+
+          <label class="control" for="speed">
+            <span>速度 <output id="speedValue" for="speed">0.75 回毎秒</output></span>
+            <input id="speed" type="range" min="0.2" max="2" step="0.05" value="0.75">
+          </label>
+
+          <label class="control" for="rotation">
+            <span>回転量 <output id="rotationValue" for="rotation">4 度</output></span>
+            <input id="rotation" type="range" min="0" max="18" step="1" value="4">
+          </label>
+
+          <label class="control" for="pulse">
+            <span>伸縮量 <output id="pulseValue" for="pulse">4 パーセント</output></span>
+            <input id="pulse" type="range" min="0" max="12" step="1" value="4">
+          </label>
+
+          <label class="control control-wide" for="zoom">
+            <span>画像サイズ <output id="zoomValue" for="zoom">88 パーセント</output></span>
+            <input id="zoom" type="range" min="40" max="140" step="1" value="88">
+          </label>
+        </div>
+      </section>
+
+      <section class="panel export-panel" aria-labelledby="export-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">3</p>
+            <h2 id="export-title">保存設定</h2>
+          </div>
+        </div>
+
+        <div class="control-grid compact-grid">
+          <label class="control" for="outputSize">
+            <span>出力サイズ</span>
+            <select id="outputSize">
+              <option value="256">256×256 軽量</option>
+              <option value="360" selected>360×360 標準</option>
+              <option value="480">480×480 高画質</option>
+            </select>
+          </label>
+
+          <label class="control" for="duration">
+            <span>長さ</span>
+            <select id="duration">
+              <option value="2">2秒</option>
+              <option value="3" selected>3秒</option>
+              <option value="4">4秒</option>
+              <option value="5">5秒</option>
+              <option value="6">6秒</option>
+            </select>
+          </label>
+
+          <label class="control" for="fps">
+            <span>滑らかさ</span>
+            <select id="fps">
+              <option value="10">10fps 軽量</option>
+              <option value="12" selected>12fps 標準</option>
+              <option value="15">15fps 滑らか</option>
+            </select>
+          </label>
+
+          <label class="control" for="backgroundMode">
+            <span>背景</span>
+            <select id="backgroundMode">
+              <option value="transparent" selected>透明</option>
+              <option value="white">白</option>
+              <option value="black">黒</option>
+              <option value="green">グリーンバック</option>
+              <option value="custom">好きな色</option>
+            </select>
+          </label>
+
+          <label class="control control-wide color-control" for="backgroundColor">
+            <span>背景色</span>
+            <input id="backgroundColor" type="color" value="#ffffff" disabled>
+          </label>
+        </div>
+
+        <p id="frameEstimate" class="estimate">36 フレーム、処理量の目安 4.7 メガピクセル</p>
+        <p class="help-text">GIFは最大256色です。透明部分の縁や細かなグラデーションは、PNGより色が減る場合があります。</p>
+
+        <div class="primary-actions">
+          <button id="exportGifButton" class="primary-button" type="button">GIFを保存</button>
+          <button id="exportPngButton" type="button">現在の画像をPNG保存</button>
+          <button id="cancelExportButton" class="danger-button" type="button" hidden>生成を中止</button>
+        </div>
+
+        <progress id="exportProgress" max="100" value="0" aria-label="GIF生成の進行状況">0%</progress>
+        <p id="status" class="status" role="status" aria-live="polite">画像を選ぶと開始できます。</p>
+      </section>
+
+      <section class="panel settings-panel" aria-labelledby="settings-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">4</p>
+            <h2 id="settings-title">やり直し用の設定</h2>
+          </div>
+        </div>
+        <p>調整値はこのブラウザに自動保存されます。JSONへ書き出せば、ブラウザのデータを消した後でも設定だけを戻せます。画像は設定ファイルへ入りません。</p>
+        <div class="button-row">
+          <button id="exportSettingsButton" type="button">設定JSONを保存</button>
+          <label class="file-button secondary-file-button" for="importSettingsInput">設定JSONを読み込む</label>
+          <input id="importSettingsInput" class="visually-hidden" type="file" accept=".json,application/json">
+        </div>
+      </section>
+    </div>
+
+    <section class="panel guide-panel" aria-labelledby="guide-title">
+      <h2 id="guide-title">軽い端末で失敗しにくい使い方</h2>
+      <ol>
+        <li>最初は360×360、3秒、12fpsで保存します。</li>
+        <li>保存できない場合は256×256か10fpsへ下げます。</li>
+        <li>透明背景が不要なら白などの背景を選ぶと、表示先による黒い縁を避けやすくなります。</li>
+        <li>ホーム画面へ追加すると、1度読み込んだ後はオフラインでも起動できます。ローカルファイルとして使う方法は同じフォルダのREADMEにあります。</li>
+      </ol>
+      <p>鈴子ちゃんの公式画像を使用する場合は、公式サイトのガイドラインとLICENSEに従ってください。</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-width">
+      <p>キャラクター画像アニメーター</p>
+      <p>外部送信なし、外部ライブラリなし、追加課金なし</p>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="noscript-message">このツールを使うにはJavaScriptを有効にしてください。</p>
+  </noscript>
+</body>
+</html>
