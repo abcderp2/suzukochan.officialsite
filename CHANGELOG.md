@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-07-31 | 外部送信、外部依存、追加課金なしで画像へ単純な動きを付け、GIFとPNGを保存できるcharacter-animatorを追加。低性能端末向け上限、Workerと互換処理、オフライン起動、設定JSON、CSP、JavaScript構文検査、GIF復号一致テスト、公開生存確認を追加 | tools/character-animator/*, scripts/check_site.py, scripts/test_gif_encoder.mjs, .github/workflows/check-site.yml, .github/workflows/live-site-check.yml, sitemap.xml, README.md, CHANGELOG.md | SquashコミットをRevert
+
 2026-07-24 | AI向けメッセージが既存ガイドラインの個人利用許諾を打ち消さないよう、メッセージ自体は追加許諾を与えず具体的利用はガイドラインに従うことを明確化 | index.html, en.html, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
 
 2026-07-24 | ガイドラインへ短いAI向けメッセージを日英で追加し、検索・利用者向けAI回答は歓迎、AI訪問メッセージ自体はモデル学習その他の追加許諾を与えない権利方針へ補助ファイルとREADMEを統一 | index.html, en.html, robots.txt, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
