@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-07-31 | OpenAI APIキーなどの認証情報を不要とする運用を明文化し、現在のファイルと取得済みGit履歴を外部Action、外部パッケージ、有料APIなしで検査する読み取り専用監査を追加。認証情報ファイルの除外、漏えい時の無効化手順、初心者向け保守案内も統合 | scripts/security_audit.py, .github/workflows/security-audit.yml, SECURITY.md, .gitignore, README.md, CHANGELOG.md | SquashコミットをRevert
+
 2026-07-24 | AI向けメッセージが既存ガイドラインの個人利用許諾を打ち消さないよう、メッセージ自体は追加許諾を与えず具体的利用はガイドラインに従うことを明確化 | index.html, en.html, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
 
 2026-07-24 | ガイドラインへ短いAI向けメッセージを日英で追加し、検索・利用者向けAI回答は歓迎、AI訪問メッセージ自体はモデル学習その他の追加許諾を与えない権利方針へ補助ファイルとREADMEを統一 | index.html, en.html, robots.txt, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
