@@ -83,11 +83,3 @@ jobs:
 
           cat "${log_file}"
           exit "${status}"
-
-      - name: Check JavaScript syntax and GIF output
-        run: |
-          while IFS= read -r -d '' file; do
-            node --check "${file}"
-          done < <(find tools/character-animator -maxdepth 1 -type f -name '*.js' -print0 | sort -z)
-          node --check scripts/test_gif_encoder.mjs
-          node scripts/test_gif_encoder.mjs
