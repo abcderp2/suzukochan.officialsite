@@ -58,12 +58,27 @@ https://abcderp2.github.io/suzukochan.officialsite/
 
 ## 技術スタック
 
-このサイトはシンプルで軽量な構成を目指しています。
+このサイトは、無料プランのAIとエントリークラスのスマートフォンまたはタブレットでも保守できる、軽量な静的構成です。
 
 - HTML5：セマンティックなマークアップ
 - CSS3：レスポンシブデザイン対応
+- Python標準ライブラリ：読み取り専用の保守検査
+- GitHub Actions：外部Actionを使わない自動検査
 - GitHub Pages：ホスティング
-- ビルドツール：なし（静的サイト）
+- ビルドツール、パッケージ管理、有料API：なし
+
+## セキュリティ
+
+このサイトの開発、公開、保守にOpenAI APIキーを含むAPIキー、アクセストークン、パスワードは不要です。AIへ依頼するときも、認証情報を会話、Issue、Pull Request、コードへ貼り付けません。
+
+Pull Requestと`main`へのpushでは、現在のファイルを調べる既存検査に加え、取得済みのGit履歴全体を対象とする秘密情報監査を実行します。
+
+```text
+python3 -I scripts/check_site.py
+python3 -I scripts/security_audit.py --history
+```
+
+検出対象、漏えい時の対応、報告方法は[SECURITY.md](SECURITY.md)に集約しています。
 
 ## AIクローラー向け補助ファイル
 
@@ -77,4 +92,4 @@ GitHub PagesのプロジェクトサイトはURLがサブディレクトリ形�
 
 保守手順、無料プランのAIやエントリークラスのスマートフォン・タブレットを前提にした作業方法、画像と外部サービスロゴの扱い、検査、復旧方法は、[MAINTENANCE.md](MAINTENANCE.md)に集約しています。
 
-保守を依頼するAIには、最初に`MAINTENANCE.md`と今回の依頼内容を渡してください。
+保守を依頼するAIには、最初に`MAINTENANCE.md`と今回の依頼内容を渡してください。セキュリティ関連の変更では`SECURITY.md`も一緒に渡します。

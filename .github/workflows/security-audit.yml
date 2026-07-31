@@ -1,0 +1,88 @@
+name: Security audit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -euo pipefail {0}
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Check out all reachable history without an external action
+        env:
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          EXPECTED_SHA: ${{ github.sha }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          umask 077
+          git init .
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --prune origin \
+            "${REF}" \
+            '+refs/heads/*:refs/remotes/origin/*'
+          git checkout --detach "${EXPECTED_SHA}"
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+
+      - name: Run existing static site checks
+        run: python3 -I scripts/check_site.py
+
+      - name: Scan the current tree and Git history
+        run: |
+          log_file="${RUNNER_TEMP}/security-audit.log"
+          status=0
+          python3 -I scripts/security_audit.py --history >"${log_file}" 2>&1 || status=$?
+
+          escape_command() {
+            local value="$1"
+            value="${value//'%'/'%25'}"
+            value="${value//$'\r'/'%0D'}"
+            value="${value//$'\n'/'%0A'}"
+            printf '%s' "${value}"
+          }
+
+          while IFS= read -r line; do
+            case "${line}" in
+              ERROR:\ *)
+                message="${line#ERROR: }"
+                printf '::error title=Security audit::%s\n' "$(escape_command "${message}")"
+                ;;
+            esac
+          done <"${log_file}"
+
+          if [ "${status}" -eq 0 ]; then
+            result="Passed"
+          else
+            result="Failed"
+          fi
+
+          {
+            echo "## Security audit"
+            echo
+            echo "- Result: **${result}**"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Current tree: checked"
+            echo "- Reachable Git history: checked"
+            echo "- External actions, packages, API keys: not used"
+            echo
+            echo "### Output"
+            sed 's/^/    /' "${log_file}"
+          } >>"${GITHUB_STEP_SUMMARY}"
+
+          cat "${log_file}"
+          exit "${status}"
