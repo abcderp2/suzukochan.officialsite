@@ -1,0 +1,67 @@
+name: Apply accessibility and validation updates
+
+on:
+  push:
+    branches:
+      - fix/20260806-lightbox-jsonld-checks
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-accessibility-validation
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -euo pipefail {0}
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the work branch
+        env:
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          EXPECTED_SHA: ${{ github.sha }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          umask 077
+          git init .
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin "refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}"
+          git checkout -B "${BRANCH}" "refs/remotes/origin/${BRANCH}"
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+
+      - name: Apply and verify approved changes
+        run: |
+          python3 -I scripts/apply_accessibility_checks_once.py
+          temporary_workflow="${RUNNER_TEMP}/apply-accessibility-checks.yml"
+          mv .github/workflows/apply-accessibility-checks.yml "${temporary_workflow}"
+          python3 -I scripts/check_site.py
+          mv "${temporary_workflow}" .github/workflows/apply-accessibility-checks.yml
+          python3 -I scripts/security_audit.py --history
+          git diff --check
+
+      - name: Commit and push non-workflow changes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          git add \
+            index.html \
+            en.html \
+            assets/css/style.css \
+            scripts/check_site.py \
+            MAINTENANCE.md \
+            CHANGELOG.md
+          git diff --cached --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Improve lightbox semantics and published checks"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
+          git push origin "HEAD:${BRANCH}"
