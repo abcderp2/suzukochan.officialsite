@@ -13,7 +13,7 @@
    manifest-src 'none';
    media-src 'none';
    object-src 'none';
-   script-src 'sha256-LZKlSb5Xdkc1PdZjyeFw8yDqGO1oRWcVVJcS569w5F4=';
+   script-src 'sha256-nBp6iJ0yPyUh2bxTH59skZQQGN/nATX9gmUsxzNIZMA=';
    style-src 'self';
    worker-src 'none';
    upgrade-insecure-requests
@@ -52,7 +52,7 @@
 
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
-  <link rel="stylesheet" href="assets/css/style.css?v=20260729a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260806a">
   
   <script type="application/ld+json">
   {
@@ -64,7 +64,8 @@
     "jobTitle":"Nurse",
     "worksFor":{
       "@type":"Hospital",
-      "name":"White Wing Hospital (White Wings)",
+      "name":"White Wing Hospital",
+      "alternateName":["White Wing病院","ホワイトウィング病院"],
       "address":{
         "@type":"PostalAddress",
         "addressCountry":"JP",
@@ -73,7 +74,7 @@
       }
     },
     "url":"https://abcderp2.github.io/suzukochan.officialsite/en.html",
-    "description":"A young nurse working at the fictional White Wing Hospital (White Wings).",
+    "description":"A young nurse working at the fictional White Wing Hospital.",
     "gender":"Female"
   }
   </script>
@@ -91,6 +92,7 @@
           <a href="#gallery">Gallery</a>
           <a href="#profile">Profile</a>
           <a href="#about">About Suzuko-chan</a>
+          <a href="#hospital">White Wing Hospital</a>
           <a href="#news">Updates</a>
           <a href="#guidelines">Guidelines</a>
           <a href="#sns">Official links</a>
@@ -179,7 +181,7 @@
 
         <div class="profile-row">
           <dt>Occupation</dt>
-          <dd>A young nurse working at the fictional White Wing Hospital (White Wings)</dd>
+          <dd>A young nurse working at the fictional White Wing Hospital</dd>
         </div>
 
         <div class="profile-row">
@@ -192,7 +194,7 @@
           <dd>
             Innocent personality for her age<br>
             Known for her cute smile<br>
-            The W on her cap is the initial of White Wing Hospital (White Wings)
+            The W on her cap is the initial of White Wing Hospital
           </dd>
         </div>
 
@@ -271,9 +273,157 @@
       </div>
     </section>
 
+    <div id="hospital" class="card hospital-section" role="region" aria-labelledby="hospital-title">
+      <h2 id="hospital-title">White Wing Hospital</h2>
+
+      <div class="hospital-copy text-spacing">
+        <p class="no-margin-top">White Wing Hospital is a fictional hospital in Suzuko-chan's world.</p>
+        <p>“White Wing Hospital,” “ホワイトウィング病院,” and “White Wing病院” are all official forms. The primary form used on this site is “White Wing病院.”</p>
+        <p>The hospital symbol uses a wing motif. A blue wing is normally used so that the mark remains visible against its background. A white wing is also an official form. Both the blue and white wings are official symbol variants.</p>
+        <p class="hospital-guideline-note">The following four images are official White Wing Hospital background visuals. They are governed by the same guidelines as Suzuko-chan on this site.</p>
+      </div>
+
+      <div class="hospital-gallery" aria-label="Official White Wing Hospital background visuals">
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-exterior-lightbox" aria-label="Enlarge Hospital exterior">
+            <img
+              src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
+              alt="Exterior of White Wing Hospital, with a white building and blue wing symbol"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>Hospital exterior</figcaption>
+        </figure>
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-lobby-lightbox" aria-label="Enlarge Entrance lobby">
+            <img
+              src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
+              alt="Entrance lobby of White Wing Hospital, with reception and waiting areas"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>Entrance lobby</figcaption>
+        </figure>
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-corridor-lightbox" aria-label="Enlarge Hospital corridor">
+            <img
+              src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
+              alt="Interior corridor of White Wing Hospital leading to examination rooms"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>Hospital corridor</figcaption>
+        </figure>
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-exam-room-lightbox" aria-label="Enlarge Examination room">
+            <img
+              src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
+              alt="Examination room at White Wing Hospital, with a desk and chairs"
+              width="960"
+              height="720"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>Examination room</figcaption>
+        </figure>
+      </div>
+
+      <div
+        id="hospital-exterior-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-exterior-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">Close</a>
+          <img
+            src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
+            alt="Exterior of White Wing Hospital, with a white building and blue wing symbol"
+            width="960"
+            height="540"
+            decoding="async"
+          >
+          <figcaption id="hospital-exterior-caption">Hospital exterior</figcaption>
+        </figure>
+      </div>
+      <div
+        id="hospital-lobby-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-lobby-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">Close</a>
+          <img
+            src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
+            alt="Entrance lobby of White Wing Hospital, with reception and waiting areas"
+            width="960"
+            height="540"
+            decoding="async"
+          >
+          <figcaption id="hospital-lobby-caption">Entrance lobby</figcaption>
+        </figure>
+      </div>
+      <div
+        id="hospital-corridor-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-corridor-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">Close</a>
+          <img
+            src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
+            alt="Interior corridor of White Wing Hospital leading to examination rooms"
+            width="960"
+            height="540"
+            decoding="async"
+          >
+          <figcaption id="hospital-corridor-caption">Hospital corridor</figcaption>
+        </figure>
+      </div>
+      <div
+        id="hospital-exam-room-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-exam-room-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">Close</a>
+          <img
+            src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
+            alt="Examination room at White Wing Hospital, with a desk and chairs"
+            width="960"
+            height="720"
+            decoding="async"
+          >
+          <figcaption id="hospital-exam-room-caption">Examination room</figcaption>
+        </figure>
+      </div>
+    </div>
+
     <section id="news" class="card">
       <h2>Updates</h2>
 
+      <p><time datetime="2026-08-06">2026-08-06</time> Added four official White Wing Hospital background visuals</p>
       <p><time datetime="2026-07-24">2026-07-24</time> Added a message for AI to the guidelines</p>
 
       <ul class="list">
@@ -297,7 +447,7 @@
 
       <div class="guidelines-content">
         <p>
-          These guidelines set out the rules for using and creating derivative works based on the original character "Suzuko-chan," created by Suzuki (hereafter, the author). Please read them before use so that you can enjoy the character "Suzuko-chan" and her world while taking good care of them.
+          These guidelines set out the rules for using and creating derivative works based on the original character "Suzuko-chan," created by Suzuki (hereafter, the author). Please read them before use so that you can enjoy the character "Suzuko-chan" and her world while taking good care of them. The same conditions apply to the official White Wing Hospital background visuals published on this site.
         </p>
 
         <p>
@@ -407,7 +557,7 @@
 
         <p class="guidelines-footer">
           Established: January 8, 2026<br>
-          Revised: July 24, 2026<br>
+          Revised: August 6, 2026<br>
           Author: Suzuki
         </p>
       </div>

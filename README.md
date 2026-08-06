@@ -1,95 +1,71 @@
 # 鈴子ちゃん公式サイト
 
-GitHub Pages で公開している、オリジナルキャラクター「鈴子ちゃん」の公式ウェブサイトのリポジトリです。
+GitHub Pagesで公開している、オリジナルキャラクター「鈴子ちゃん」の公式ウェブサイトです。
 
-## 公式サイト URL
+## 公式サイト
 
 https://abcderp2.github.io/suzukochan.officialsite/
 
----
+## 掲載内容
 
-## 鈴子ちゃんについて
+- 鈴子ちゃんの公式ビジュアルとプロフィール
+- 鈴子ちゃんの誕生経緯
+- White Wing病院の設定と公式背景ビジュアル
+- 更新情報
+- 二次創作と画像利用のガイドライン
+- 公式SNSと関連リンク
+- 日本語版と英語版
 
-鈴子ちゃんは、若手看護師という設定を持つオリジナルキャラクターです。
-白を基調とした看護師風の服装と、紺色の髪が特徴。年相応の無邪気な性格と可愛い笑顔が魅力的なキャラクターです。
+White Wing病院の公式名称は「White Wing Hospital」「ホワイトウィング病院」「White Wing病院」の3表記です。主に「White Wing病院」を使用します。青い翼と白い翼は、どちらも公式のシンボルマークです。病院の公式背景ビジュアルには、鈴子ちゃんと同じ利用ガイドラインが適用されます。
 
-### 基本情報
+## 技術構成
 
-- フルネーム：鈴木 鈴子（すずき すずこ）
-- 呼び名：鈴子ちゃん
-- 年齢：21歳（永遠に）
-- 生年月日：2004年7月15日（設定）
-- 職業：架空の病院 White Wing（白い翼）病院に勤める若手看護師
-- イメージカラー：白
+無料プランのAIとエントリークラスのスマートフォンまたはタブレットでも保守しやすい、軽量な静的サイトです。
 
-詳しいプロフィールや誕生の経緯は、公式サイトの「プロフィール」「鈴子ちゃんについて」セクションをご覧ください。
+- HTML5
+- CSS3
+- CSSだけで動く画像拡大表示
+- Python標準ライブラリによる読み取り専用検査
+- 外部Actionを使わないGitHub Actions
+- GitHub Pages
+- JavaScript、ビルドツール、パッケージ管理、有料API、外部CDN、アクセス解析なし
 
----
+PCではWhite Wing病院の画像を2列、画面の狭いスマートフォンでは1列で表示します。画像を押すと同じページ上で拡大し、閉じるリンクまたは背景のタップで戻れます。
 
-## サイトのコンテンツ
+## セキュリティとプライバシー
 
-### ギャラリー
+サイトの公開と保守に、OpenAI APIキーを含むAPIキー、アクセストークン、パスワードは不要です。認証情報を会話、Issue、Pull Request、コードへ貼り付けません。
 
-鈴子ちゃんの公式ビジュアル（バージョン1、バージョン2）を公開しています。
+画像は公開前に[画像メタデータクリーナー](https://abcderp2.github.io/Exif/)で処理し、Exif、GPS、XMP、ICCなどの不要な付加情報を残しません。自動検査でも画像形式、容量、メタデータ、ローカル参照を確認します。
 
-### ガイドライン
-
-二次創作やファンアート制作時のルールを詳しく解説しています。
-商用利用やR-18表現の禁止など、キャラクターを大切に守るためのガイドです。
-
-### 更新情報
-
-サイトの更新履歴や、キャラクター関連の最新情報を掲載しています。
-
----
-
-## 各種SNS・関連リンク
-
-キャラクターや作者に関する最新情報はこちらでも発信しています。
-
-- YouTube: https://www.youtube.com/@abc-l2g6k/shorts
-- note（作者について）: https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false
-- X（鈴子ちゃん公式）: https://x.com/suzuko_ai_
-- X（作者 鈴木）: https://x.com/stocktrading0
-- pixiv: https://www.pixiv.net/users/116903703
-- GitHub（サイトのソースコード）: https://github.com/abcderp2/suzukochan.officialsite
-
----
-
-## 技術スタック
-
-このサイトは、無料プランのAIとエントリークラスのスマートフォンまたはタブレットでも保守できる、軽量な静的構成です。
-
-- HTML5：セマンティックなマークアップ
-- CSS3：レスポンシブデザイン対応
-- Python標準ライブラリ：読み取り専用の保守検査
-- GitHub Actions：外部Actionを使わない自動検査
-- GitHub Pages：ホスティング
-- ビルドツール、パッケージ管理、有料API：なし
-
-## セキュリティ
-
-このサイトの開発、公開、保守にOpenAI APIキーを含むAPIキー、アクセストークン、パスワードは不要です。AIへ依頼するときも、認証情報を会話、Issue、Pull Request、コードへ貼り付けません。
-
-Pull Requestと`main`へのpushでは、現在のファイルを調べる既存検査に加え、取得済みのGit履歴全体を対象とする秘密情報監査を実行します。
+標準検査は次の2つです。
 
 ```text
 python3 -I scripts/check_site.py
 python3 -I scripts/security_audit.py --history
 ```
 
-検出対象、漏えい時の対応、報告方法は[SECURITY.md](SECURITY.md)に集約しています。
+脆弱性の報告方法と秘密情報漏えい時の対応は[SECURITY.md](SECURITY.md)に集約しています。
 
-## AIクローラー向け補助ファイル
+## 保守
 
-AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切に紹介することを歓迎します。このAI訪問方針自体は、モデル学習その他の追加の利用許諾を与えるものではありません。具体的な利用条件は公式サイトのガイドラインと`LICENSE`に従い、鈴子ちゃんのキャラクター、画像、設定、公式性に関する権利は鈴木が維持します。
+正本の保守手順は[MAINTENANCE.md](MAINTENANCE.md)です。変更前のバックアップブランチ、作業ブランチ、検査、Pull Request、Squash and merge、公開確認、Revertまでを省略せず記載しています。
 
-機械向けの補助情報として、`robots.txt`、`sitemap.xml`、`llms.txt`を公開します。`robots.txt`では検索・利用者向け取得用の既知のクローラーを許可し、GPTBot、ClaudeBot、Google-Extendedは拒否します。Google-ExtendedはGeminiのモデル学習とグラウンディングを一つの設定で扱うため、権利保護を優先した設定です。通常のGoogle検索への掲載には影響しません。
+保守をAIへ依頼するときは、最初に`MAINTENANCE.md`と今回の依頼内容を渡します。セキュリティ関連の変更では`SECURITY.md`も渡します。
 
-GitHub PagesのプロジェクトサイトはURLがサブディレクトリ形式のため、正式なrobots.txtの判定はホスト直下の`https://abcderp2.github.io/robots.txt`で行われます。このリポジトリの`robots.txt`はサイトの希望を明示する補助ファイルです。ホスト直下に拒否設定がない場合、実際の制御結果はクローラー側の解釈にも依存します。
+## 機械向け補助ファイル
 
-## サイト保守
+- `robots.txt`
+- `sitemap.xml`
+- `llms.txt`
 
-保守手順、無料プランのAIやエントリークラスのスマートフォン・タブレットを前提にした作業方法、画像と外部サービスロゴの扱い、検査、復旧方法は、[MAINTENANCE.md](MAINTENANCE.md)に集約しています。
+AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切に紹介することを歓迎します。この方針自体は、モデル学習その他の追加の利用許諾を与えるものではありません。具体的な利用条件は公式サイトのガイドラインと`LICENSE`に従います。
 
-保守を依頼するAIには、最初に`MAINTENANCE.md`と今回の依頼内容を渡してください。セキュリティ関連の変更では`SECURITY.md`も一緒に渡します。
+## 公式リンク
+
+- YouTube: https://www.youtube.com/@abc-l2g6k/shorts
+- note: https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false
+- X 鈴子ちゃん公式: https://x.com/suzuko_ai_
+- X 作者 鈴木: https://x.com/stocktrading0
+- pixiv: https://www.pixiv.net/users/116903703
+- GitHub: https://github.com/abcderp2/suzukochan.officialsite

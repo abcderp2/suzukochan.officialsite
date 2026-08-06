@@ -13,7 +13,7 @@
    manifest-src 'none';
    media-src 'none';
    object-src 'none';
-   script-src 'sha256-E4igmuOyPOW9UM1fojiTJTk3yw/EV3vCAGP3yVlnDRo=';
+   script-src 'sha256-TU7Qur4WaCAyYK/JqFp+U0RiUnTq/za0n7G3l/AGtbo=';
    style-src 'self';
    worker-src 'none';
    upgrade-insecure-requests
@@ -52,7 +52,7 @@
 
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
 
-  <link rel="stylesheet" href="assets/css/style.css?v=20260729a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260806a">
   
   <script type="application/ld+json">
   {
@@ -64,7 +64,8 @@
     "jobTitle":"看護師",
     "worksFor":{
       "@type":"Hospital",
-      "name":"White Wing 病院（白い翼）",
+      "name":"White Wing病院",
+      "alternateName":["White Wing Hospital","ホワイトウィング病院"],
       "address":{
         "@type":"PostalAddress",
         "addressCountry":"JP",
@@ -73,7 +74,7 @@
       }
     },
     "url":"https://abcderp2.github.io/suzukochan.officialsite/",
-    "description":"架空の病院 White Wing（白い翼）病院に勤める若手看護師。",
+    "description":"架空のWhite Wing病院に勤める若手看護師。",
     "gender":"Female"
   }
   </script>
@@ -91,6 +92,7 @@
           <a href="#gallery">ギャラリー</a>
           <a href="#profile">プロフィール</a>
           <a href="#about">鈴子ちゃんについて</a>
+          <a href="#hospital">White Wing病院</a>
           <a href="#news">更新情報</a>
           <a href="#guidelines">ガイドライン</a>
           <a href="#sns">公式リンク</a>
@@ -179,7 +181,7 @@
 
         <div class="profile-row">
           <dt>職業</dt>
-          <dd>架空の病院 White Wing（白い翼）病院に勤める若手看護師</dd>
+          <dd>架空のWhite Wing病院に勤める若手看護師</dd>
         </div>
 
         <div class="profile-row">
@@ -192,7 +194,7 @@
           <dd>
             年相応の無邪気な性格<br>
             可愛い笑顔が特徴<br>
-            キャップのWはWhite Wing（白い翼）病院の頭文字
+            キャップのWはWhite Wing病院の頭文字
           </dd>
         </div>
 
@@ -271,9 +273,157 @@
       </div>
     </section>
 
+    <div id="hospital" class="card hospital-section" role="region" aria-labelledby="hospital-title">
+      <h2 id="hospital-title">White Wing病院</h2>
+
+      <div class="hospital-copy text-spacing">
+        <p class="no-margin-top">White Wing病院は、鈴子ちゃんの世界観に登場する架空の病院です。</p>
+        <p>「White Wing Hospital」「ホワイトウィング病院」「White Wing病院」は、いずれも公式表記です。主に「White Wing病院」を使用します。</p>
+        <p>病院のシンボルマークは翼をモチーフにしています。背景との同化を避けて見やすくするため、通常は青い翼を使用しています。白い翼のマークも公式表現として使用できます。青い翼と白い翼は、どちらも公式のシンボルマークです。</p>
+        <p class="hospital-guideline-note">以下の4点はWhite Wing病院の公式背景ビジュアルです。利用条件は、当サイトの鈴子ちゃん利用ガイドラインと同じです。</p>
+      </div>
+
+      <div class="hospital-gallery" aria-label="White Wing病院 公式背景ビジュアル">
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-exterior-lightbox" aria-label="病院外観を拡大表示">
+            <img
+              src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
+              alt="White Wing病院の外観。白い建物と青い翼のシンボルマーク"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>病院外観</figcaption>
+        </figure>
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-lobby-lightbox" aria-label="入口ホールを拡大表示">
+            <img
+              src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
+              alt="White Wing病院の入口ホール。受付と待合スペース"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>入口ホール</figcaption>
+        </figure>
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-corridor-lightbox" aria-label="院内廊下を拡大表示">
+            <img
+              src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
+              alt="White Wing病院の院内廊下。診察室へ続く通路"
+              width="960"
+              height="540"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>院内廊下</figcaption>
+        </figure>
+        <figure class="hospital-card">
+          <a class="hospital-thumb" href="#hospital-exam-room-lightbox" aria-label="診察室を拡大表示">
+            <img
+              src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
+              alt="White Wing病院の診察室。診察用の机と椅子"
+              width="960"
+              height="720"
+              loading="lazy"
+              decoding="async"
+            >
+          </a>
+          <figcaption>診察室</figcaption>
+        </figure>
+      </div>
+
+      <div
+        id="hospital-exterior-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-exterior-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">閉じる</a>
+          <img
+            src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
+            alt="White Wing病院の外観。白い建物と青い翼のシンボルマーク"
+            width="960"
+            height="540"
+            decoding="async"
+          >
+          <figcaption id="hospital-exterior-caption">病院外観</figcaption>
+        </figure>
+      </div>
+      <div
+        id="hospital-lobby-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-lobby-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">閉じる</a>
+          <img
+            src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
+            alt="White Wing病院の入口ホール。受付と待合スペース"
+            width="960"
+            height="540"
+            decoding="async"
+          >
+          <figcaption id="hospital-lobby-caption">入口ホール</figcaption>
+        </figure>
+      </div>
+      <div
+        id="hospital-corridor-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-corridor-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">閉じる</a>
+          <img
+            src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
+            alt="White Wing病院の院内廊下。診察室へ続く通路"
+            width="960"
+            height="540"
+            decoding="async"
+          >
+          <figcaption id="hospital-corridor-caption">院内廊下</figcaption>
+        </figure>
+      </div>
+      <div
+        id="hospital-exam-room-lightbox"
+        class="lightbox"
+        role="dialog"
+        aria-labelledby="hospital-exam-room-caption"
+        tabindex="-1"
+      >
+        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+        <figure class="lightbox-panel">
+          <a class="lightbox-close" href="#hospital">閉じる</a>
+          <img
+            src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
+            alt="White Wing病院の診察室。診察用の机と椅子"
+            width="960"
+            height="720"
+            decoding="async"
+          >
+          <figcaption id="hospital-exam-room-caption">診察室</figcaption>
+        </figure>
+      </div>
+    </div>
+
     <section id="news" class="card">
       <h2>更新情報</h2>
 
+      <p><time datetime="2026-08-06">2026-08-06</time> White Wing病院の公式背景ビジュアル4点を追加</p>
       <p><time datetime="2026-07-24">2026-07-24</time> AI向けメッセージをガイドラインに追加</p>
 
       <ul class="list">
@@ -297,7 +447,7 @@
 
       <div class="guidelines-content">
         <p>
-          このガイドラインは、鈴木（以下、作者）が作成したオリジナルキャラクター「鈴子ちゃん」の利用、および二次創作に関するルールを定めたものです。「鈴子ちゃん」というキャラクターと、その世界観を大切に守りながらお楽しみいただくために、ご利用の際は必ずご一読ください。
+          このガイドラインは、鈴木（以下、作者）が作成したオリジナルキャラクター「鈴子ちゃん」の利用、および二次創作に関するルールを定めたものです。「鈴子ちゃん」というキャラクターと、その世界観を大切に守りながらお楽しみいただくために、ご利用の際は必ずご一読ください。当サイトで公開するWhite Wing病院の公式背景ビジュアルにも同じ条件が適用されます。
         </p>
 
         <p>
@@ -407,7 +557,7 @@
 
         <p class="guidelines-footer">
           制定日: 2026年1月8日<br>
-          改定日: 2026年7月24日<br>
+          改定日: 2026年8月6日<br>
           作者: 鈴木
         </p>
       </div>
