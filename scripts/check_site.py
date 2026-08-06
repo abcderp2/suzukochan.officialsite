@@ -468,7 +468,6 @@ def image_metadata_findings(path: Path) -> list[str]:
     return findings
 
 
-
 def check_images(reporter: Reporter) -> None:
     directory = ROOT / "assets" / "images"
     if not directory.exists():
@@ -647,7 +646,6 @@ def check_maintenance_contract(reporter: Reporter) -> None:
         for fact in required_facts:
             if fact not in text:
                 reporter.error(f"MAINTENANCE.md: required fact is missing: {fact}")
-
 
 
 class BilingualParser(html.parser.HTMLParser):
@@ -930,14 +928,12 @@ def main() -> int:
 
     print("Static site and maintenance check")
 
-    # Findings contain only internally generated categories and paths. Remove
-    # control characters and cap each line before writing it to CI logs.
-    for warning in reporter.warnings:
-        message = re.sub(r"[\x00-\x1f\x7f]", " ", warning)[:500]
-        print(f"WARNING: {message}")
-    for error in reporter.errors:
-        message = re.sub(r"[\x00-\x1f\x7f]", " ", error)[:500]
-        print(f"ERROR: {message}")
+    # Finding text can be derived from repository content. Keep potentially
+    # sensitive values out of CI logs and report only aggregate counts.
+    if reporter.warnings:
+        print(f"WARNINGS: {len(reporter.warnings)} finding(s)")
+    if reporter.errors:
+        print(f"ERRORS: {len(reporter.errors)} finding(s)")
 
     if reporter.errors:
         print(f"FAILED: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")
