@@ -38,9 +38,10 @@ jobs:
           python3 -I scripts/apply_guideline_security_once.py
           rm .github/workflows/apply-guideline-security.yml
           rm scripts/apply_guideline_security_once.py
+          git add -A
           python3 -I scripts/check_site.py
           python3 -I scripts/security_audit.py --history
-          git diff --check
+          git diff --cached --check
 
       - name: Commit and push the completed changes
         env:
@@ -51,8 +52,6 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --check
           git commit -m "Clarify image use and require security audit"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${REPOSITORY}.git"
           git push origin "HEAD:${BRANCH}"
