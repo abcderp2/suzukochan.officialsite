@@ -1,0 +1,86 @@
+name: Apply White Wing Hospital update
+
+on:
+  push:
+    branches:
+      - work/20260806-1846-white-wing-hospital
+    paths:
+      - .github/workflows/apply-white-wing-hospital.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-white-wing-hospital
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash --noprofile --norc -euo pipefail {0}
+
+jobs:
+  apply:
+    if: github.repository == 'abcderp2/suzukochan.officialsite'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Reconstruct, validate, and commit the reviewed site files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          BRANCH: ${{ github.ref_name }}
+          EXPECTED_SHA: ${{ github.sha }}
+          SERVER_URL: ${{ github.server_url }}
+          RUNNER_TEMP_DIR: ${{ runner.temp }}
+        run: |
+          umask 077
+          git init repo
+          cd repo
+          git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          git fetch --no-tags --depth=1 origin "${REF}"
+          git checkout -B "${BRANCH}" FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
+
+          test -d .hospital-update
+          archive="${RUNNER_TEMP_DIR}/hospital-texts.tar.gz"
+          cat .hospital-update/archive.part*.b64 | tr -d '\r\n' | base64 --decode >"${archive}"
+          printf '%s  %s\n' '39a416c49ce41fcea30bbe0de2496c4358479ac9023c723be5a6c6bf080a333d' "${archive}" | sha256sum --check --strict
+
+          ARCHIVE="${archive}" python3 - <<'PY'
+          import os
+          import tarfile
+
+          expected = {
+              'index.html',
+              'en.html',
+              'assets/css/style.css',
+              '404.html',
+              'README.md',
+              'MAINTENANCE.md',
+              'CHANGELOG.md',
+              'llms.txt',
+          }
+          with tarfile.open(os.environ['ARCHIVE'], 'r:gz') as archive:
+              members = archive.getmembers()
+              names = {member.name for member in members}
+              if names != expected:
+                  raise SystemExit(f'unexpected archive entries: {sorted(names ^ expected)}')
+              if any(not member.isfile() for member in members):
+                  raise SystemExit('archive must contain regular files only')
+          PY
+
+          tar --extract --gzip --file "${archive}" --directory .
+          rm -rf .hospital-update
+          rm -f .github/workflows/apply-white-wing-hospital.yml
+          git add --all
+
+          python3 -I scripts/check_site.py
+          python3 -I scripts/security_audit.py
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Add White Wing Hospital gallery and maintenance updates'
+
+          auth_header="$(printf 'x-access-token:%s' "${GH_TOKEN}" | base64 -w0)"
+          git -c http.https://github.com/.extraheader="AUTHORIZATION: basic ${auth_header}" push origin "HEAD:${BRANCH}"
