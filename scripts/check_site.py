@@ -64,7 +64,10 @@ SECRET_PATTERNS = (
     ("GitHub fine-grained token", re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b")),
     ("OpenAI key", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}\b")),
     ("AWS access key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
-    ("Google API key", re.compile(r"\bAIza[0-9A-Za-z0-9_-]{30,}\b")),
+    (
+        "Google API key",
+        re.compile(r"(?<![A-Za-z0-9_-])AIza[A-Za-z0-9_-]{30,}(?![A-Za-z0-9_-])"),
+    ),
     ("Slack token", re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{20,}\b")),
     ("npm token", re.compile(r"\bnpm_[A-Za-z0-9]{30,}\b")),
     ("Stripe live key", re.compile(r"\b(?:sk|rk)_live_[A-Za-z0-9]{16,}\b")),
@@ -202,30 +205,30 @@ def expected_image_format(path: Path) -> str | None:
 def check_reference(current: Path, tag: str, value: str, reporter: Reporter) -> None:
     lowered = value.strip().lower()
     if lowered.startswith(("data:", "javascript:", "vbscript:")):
-        reporter.error(f"{relative(current)}: forbidden URL scheme in {tag}: {value}")
+        reporter.error(f"{relative(current)}: forbidden URL scheme in {tag}")
         return
 
     for candidate in value.split(","):
         token = candidate.strip().split()[0] if candidate.strip() else ""
         if tag in {"img", "source"} and is_external(token):
-            reporter.error(f"{relative(current)}: external image is not allowed: {token}")
+            reporter.error(f"{relative(current)}: external image is not allowed")
             continue
 
         local = local_reference(token)
         if local is None:
             continue
         if local.as_posix() == "__outside_project__":
-            reporter.error(f"{relative(current)}: root path outside project: {token}")
+            reporter.error(f"{relative(current)}: root path outside project")
             continue
 
         resolved = (current.parent / local).resolve()
         try:
             resolved.relative_to(ROOT)
         except ValueError:
-            reporter.error(f"{relative(current)}: reference escapes repository: {token}")
+            reporter.error(f"{relative(current)}: reference escapes repository")
             continue
         if not resolved.exists():
-            reporter.error(f"{relative(current)}: missing local file: {relative(resolved)}")
+            reporter.error(f"{relative(current)}: missing local file")
 
 
 def parse_csp(content: str) -> dict[str, set[str]]:
@@ -301,7 +304,7 @@ def check_html(path: Path, reporter: Reporter) -> None:
     seen: set[str] = set()
     for element_id in parser.ids:
         if element_id in seen:
-            reporter.error(f"{name}: duplicate id: {element_id}")
+            reporter.error(f"{name}: duplicate id")
         seen.add(element_id)
 
     for tag in parser.forbidden_tags:
@@ -313,7 +316,7 @@ def check_html(path: Path, reporter: Reporter) -> None:
 
     for image in parser.images:
         if "alt" not in image:
-            reporter.error(f"{name}: img is missing alt: {image.get('src', '')}")
+            reporter.error(f"{name}: img is missing alt")
 
     for target in parser.target_blanks:
         rel_tokens = set(target.get("rel", "").lower().split())
@@ -328,7 +331,7 @@ def check_html(path: Path, reporter: Reporter) -> None:
         src = script.get("src", "")
         script_type = script.get("type", "").lower()
         if src:
-            reporter.error(f"{name}: executable script files are not allowed: {src}")
+            reporter.error(f"{name}: executable script files are not allowed")
         elif script_type not in ALLOWED_INLINE_SCRIPT_TYPES:
             reporter.error(f"{name}: inline executable script is not allowed")
 
@@ -336,7 +339,7 @@ def check_html(path: Path, reporter: Reporter) -> None:
         rel_tokens = set(link.get("rel", "").lower().split())
         href = link.get("href", "")
         if "stylesheet" in rel_tokens and is_external(href):
-            reporter.error(f"{name}: external stylesheet is not allowed: {href}")
+            reporter.error(f"{name}: external stylesheet is not allowed")
 
     for block in parser.json_ld:
         try:
@@ -387,10 +390,14 @@ def check_html(path: Path, reporter: Reporter) -> None:
             reporter.error(f"index.html: og:url must be {OFFICIAL_URL}")
 
     for url in re.findall(r"https?://[^\s\"'<>]+", text):
-        if url.startswith("http://"):
-            reporter.error(f"{name}: insecure http URL: {url}")
-        if "abcderp2.github.io" in url and not url.startswith(OFFICIAL_URL):
-            reporter.error(f"{name}: official URL typo: {url}")
+        parsed = urlsplit(url)
+        if parsed.scheme.lower() == "http":
+            reporter.error(f"{name}: insecure http URL")
+        if parsed.hostname == "abcderp2.github.io":
+            official_path = parsed.path in {PROJECT_PATH, PROJECT_PATH.rstrip("/")}
+            project_resource = parsed.path.startswith(PROJECT_PATH)
+            if parsed.scheme.lower() != "https" or not (official_path or project_resource):
+                reporter.error(f"{name}: official URL typo")
 
 
 def image_metadata_findings(path: Path) -> list[str]:
@@ -498,7 +505,7 @@ def check_css(reporter: Reporter) -> None:
         ):
             if url.startswith(("data:", "http://", "https://")) or is_external(url):
                 reporter.error(
-                    f"{relative(path)}: external, data, or insecure CSS URL: {url}"
+                    f"{relative(path)}: external, data, or insecure CSS URL"
                 )
 
 
