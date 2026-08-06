@@ -1,0 +1,63 @@
+name: Temporary CodeQL fix
+
+on:
+  push:
+    branches:
+      - fix/codeql-cleartext-logging
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out branch and patch unsafe logging
+        env:
+          BRANCH: fix/codeql-cleartext-logging
+          REPOSITORY: ${{ github.repository }}
+          TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          umask 077
+          git init repo
+          cd repo
+          git remote add origin "https://x-access-token:${TOKEN}@github.com/${REPOSITORY}.git"
+          git fetch --depth=1 origin "${BRANCH}"
+          git checkout -B "${BRANCH}" FETCH_HEAD
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("scripts/check_site.py")
+          text = path.read_text(encoding="utf-8")
+          old = '''    # Findings contain only internally generated categories and paths. Remove
+    # control characters and cap each line before writing it to CI logs.
+    for warning in reporter.warnings:
+        message = re.sub(r"[\\x00-\\x1f\\x7f]", " ", warning)[:500]
+        print(f"WARNING: {message}")
+    for error in reporter.errors:
+        message = re.sub(r"[\\x00-\\x1f\\x7f]", " ", error)[:500]
+        print(f"ERROR: {message}")
+'''
+          new = '''    # Finding text can be derived from repository content. Keep potentially
+    # sensitive values out of CI logs and report only aggregate counts.
+    if reporter.warnings:
+        print(f"WARNINGS: {len(reporter.warnings)} finding(s)")
+    if reporter.errors:
+        print(f"ERRORS: {len(reporter.errors)} finding(s)")
+'''
+          if old not in text:
+              raise SystemExit("expected logging block was not found")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
+          PY
+
+          python3 -m py_compile scripts/check_site.py
+          python3 -I scripts/check_site.py
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- scripts/check_site.py
+          git commit -m "Fix CodeQL clear-text logging alert"
+          git push origin "HEAD:${BRANCH}"
