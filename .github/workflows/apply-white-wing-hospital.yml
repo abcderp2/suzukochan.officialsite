@@ -1,5 +1,6 @@
 name: Apply White Wing Hospital update
 
+# Retry after verifying each staged archive segment.
 on:
   push:
     branches:
