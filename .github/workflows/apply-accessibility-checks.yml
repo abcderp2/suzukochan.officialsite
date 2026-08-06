@@ -44,32 +44,7 @@ jobs:
           status=0
           python3 -I scripts/check_site.py || status=$?
           if [ "${status}" -ne 0 ]; then
-            python3 -I - <<'PY'
-            from pathlib import Path
-            import importlib.util
-
-            path = Path("scripts/check_site.py").resolve()
-            spec = importlib.util.spec_from_file_location("site_checks", path)
-            module = importlib.util.module_from_spec(spec)
-            assert spec.loader is not None
-            spec.loader.exec_module(module)
-
-            checks = (
-                ("html", lambda reporter: [module.check_html(item, reporter) for item in sorted(module.ROOT.rglob("*.html"))]),
-                ("images", module.check_images),
-                ("css", module.check_css),
-                ("secrets", module.check_secrets),
-                ("workflows", module.check_workflows),
-                ("gitignore", module.check_gitignore),
-                ("repository", module.check_repository_shape),
-                ("maintenance", module.check_maintenance_contract),
-                ("bilingual", module.check_bilingual_pages),
-            )
-            for name, check in checks:
-                reporter = module.Reporter()
-                check(reporter)
-                print(f"DIAGNOSTIC {name}: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")
-            PY
+            python3 -I scripts/diagnose_checks_once.py
           fi
           mv "${temporary_workflow}" .github/workflows/apply-accessibility-checks.yml
           if [ "${status}" -ne 0 ]; then
