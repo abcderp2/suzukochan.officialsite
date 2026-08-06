@@ -1,11 +1,19 @@
 # Suzuko-chan Official Site
 
-> Official bilingual website for the original character Suzuko-chan.
+> Official bilingual website for the original character Suzuko-chan and White Wing Hospital.
 
 ## Public pages
 
 - Japanese: https://abcderp2.github.io/suzukochan.officialsite/
 - English: https://abcderp2.github.io/suzukochan.officialsite/en.html
+
+## Official White Wing Hospital names
+
+- White Wing Hospital
+- ホワイトウィング病院
+- White Wing病院
+
+All three forms are official. The primary form used on the Japanese site is White Wing病院. Both blue-wing and white-wing symbols are official variants.
 
 ## Machine-readable resources
 
@@ -16,7 +24,7 @@
 
 AI visits are welcome. Search engines and AI services may read, index, summarize, cite, and link to public information for search results and user-requested answers.
 
-This AI access statement does not itself grant additional permission for model training or other uses. Specific uses remain governed by the guidelines on the official site and the repository LICENSE. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, and official status.
+This AI access statement does not itself grant additional permission for model training or other uses. Specific uses remain governed by the guidelines on the official site and the repository LICENSE. The official White Wing Hospital background visuals follow the same guidelines as Suzuko-chan. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, White Wing Hospital visuals, and official status.
 
 ## Repository
 

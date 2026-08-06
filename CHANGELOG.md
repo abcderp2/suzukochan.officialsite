@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-08-06 | White Wing病院の公式名称3種、主表記、青と白の翼シンボル、鈴子ちゃんと同一の画像利用条件を日英ページへ明記。メタデータ除去済みWebP 4点を、外部依存とJavaScriptを使わない2列レスポンシブギャラリーとCSS拡大表示で追加。初心者向け保守手順とREADMEを統合更新 | index.html, en.html, 404.html, assets/css/style.css, assets/images/white-wing-hospital/*.webp, README.md, MAINTENANCE.md, llms.txt, CHANGELOG.md | SquashコミットをRevert
+
 2026-07-31 | OpenAI APIキーなどの認証情報を不要とする運用を明文化し、現在のファイルと取得済みGit履歴を外部Action、外部パッケージ、有料APIなしで検査する読み取り専用監査を追加。認証情報ファイルの除外、漏えい時の無効化手順、初心者向け保守案内も統合 | scripts/security_audit.py, .github/workflows/security-audit.yml, SECURITY.md, .gitignore, README.md, CHANGELOG.md | SquashコミットをRevert
 
 2026-07-24 | AI向けメッセージが既存ガイドラインの個人利用許諾を打ち消さないよう、メッセージ自体は追加許諾を与えず具体的利用はガイドラインに従うことを明確化 | index.html, en.html, llms.txt, README.md, CHANGELOG.md | SquashコミットをRevert
