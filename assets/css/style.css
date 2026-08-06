@@ -85,6 +85,10 @@ img{
 }
 
 .nav a{
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
   color: var(--text);
   text-decoration: none;
   border: 1px solid rgba(0,0,0,0.12);
@@ -97,19 +101,9 @@ img{
   background: rgba(0,0,0,0.05);
 }
 
-.nav a:focus-visible,
-.language-switch:focus-visible{
+.nav a:focus-visible{
   outline: 3px solid #005fcc;
   outline-offset: 3px;
-}
-
-.language-switch{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 8px 12px;
-  box-sizing: border-box;
 }
 
 /* Gallery Section */
@@ -237,10 +231,6 @@ h2{
 
   .profile-row dt{
     margin-bottom: 0;
-  }
-
-  .profile-row dd{
-    text-align: left;
   }
 }
 

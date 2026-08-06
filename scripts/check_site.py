@@ -507,6 +507,16 @@ def check_css(reporter: Reporter) -> None:
                     f"{relative(path)}: external, data, or insecure CSS URL"
                 )
 
+        if path == ROOT / "assets" / "css" / "style.css":
+            nav_rule = re.search(r"\.nav a\s*\{(?P<body>[^}]*)\}", text, flags=re.DOTALL)
+            if nav_rule is None or not re.search(
+                r"min-height\s*:\s*44px\s*;",
+                nav_rule.group("body"),
+            ):
+                reporter.error("assets/css/style.css: every navigation link must have a 44px minimum height")
+            if re.search(r"\.language-switch\s*\{", text):
+                reporter.error("assets/css/style.css: language-switch rules must remain consolidated into .nav a")
+
 
 def check_secrets(reporter: Reporter) -> None:
     suffixes = {
@@ -859,13 +869,13 @@ def check_bilingual_page(
         if "".join(parser.title_parts).strip() != "Suzuko-chan Official Site":
             reporter.error("en.html: title is not English")
         expected_meta = {
-            "description": "The official site of Suzuko-chan, featuring her profile, updates, and guidelines.",
+            "description": "The official site of Suzuko-chan and the fictional White Wing Hospital, featuring her profile, official background visuals, updates, and guidelines.",
             "og:title": "Suzuko-chan Official Site",
             "og:url": OFFICIAL_URL + "en.html",
-            "og:description": "The official site of Suzuko-chan, featuring her profile, updates, and guidelines.",
+            "og:description": "The official site of Suzuko-chan and the fictional White Wing Hospital, featuring her profile, official background visuals, updates, and guidelines.",
             "og:site_name": "Suzuko-chan Official Site",
             "twitter:title": "Suzuko-chan Official Site",
-            "twitter:description": "The official site of Suzuko-chan, featuring her profile, updates, and guidelines.",
+            "twitter:description": "The official site of Suzuko-chan and the fictional White Wing Hospital, featuring her profile, official background visuals, updates, and guidelines.",
         }
         for key, value in expected_meta.items():
             attribute = "property" if key.startswith("og:") else "name"
@@ -920,6 +930,17 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "Clarified the distinction between official image files and derivative works",
         reporter,
     )
+
+    expected_ja_description = "鈴子ちゃんと架空のWhite Wing病院の公式サイト。プロフィール、公式背景ビジュアル、更新情報、ガイドラインを掲載します。"
+    for key in ("description", "twitter:description"):
+        if bilingual_meta(ja, key, "name") != expected_ja_description:
+            reporter.error(f"index.html: {key} metadata must mention White Wing病院")
+    if bilingual_meta(ja, "og:description", "property") != expected_ja_description:
+        reporter.error("index.html: og:description metadata must mention White Wing病院")
+
+    english_name_sentence = "In Japanese, this site primarily uses “White Wing病院”; in English, it uses “White Wing Hospital.”"
+    if english_name_sentence not in (ROOT / "en.html").read_text(encoding="utf-8"):
+        reporter.error("en.html: primary hospital names must be stated separately for Japanese and English")
 
     if bilingual_image_sources(ja) != bilingual_image_sources(en):
         reporter.error("index.html and en.html: image references do not match")
