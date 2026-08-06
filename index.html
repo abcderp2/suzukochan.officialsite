@@ -13,7 +13,7 @@
    manifest-src 'none';
    media-src 'none';
    object-src 'none';
-   script-src 'sha256-TU7Qur4WaCAyYK/JqFp+U0RiUnTq/za0n7G3l/AGtbo=';
+   script-src 'sha256-ObpEazDOj6gB7+doGPcPTJAaOxxaa601hcb/eDnx5gU=';
    style-src 'self';
    worker-src 'none';
    upgrade-insecure-requests
@@ -66,15 +66,10 @@
       "@type":"Hospital",
       "name":"White Wing病院",
       "alternateName":["White Wing Hospital","ホワイトウィング病院"],
-      "address":{
-        "@type":"PostalAddress",
-        "addressCountry":"JP",
-        "addressLocality":"架空の街",
-        "streetAddress":"架空の番地"
-      }
+      "description":"鈴子ちゃんの世界観に登場する架空の病院。"
     },
     "url":"https://abcderp2.github.io/suzukochan.officialsite/",
-    "description":"架空のWhite Wing病院に勤める若手看護師。",
+    "description":"架空のキャラクターであり、架空のWhite Wing病院に勤める若手看護師。",
     "gender":"Female"
   }
   </script>
@@ -285,7 +280,7 @@
 
       <div class="hospital-gallery" aria-label="White Wing病院 公式背景ビジュアル">
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-exterior-lightbox" aria-label="病院外観を拡大表示">
+          <a id="hospital-exterior-thumb" class="hospital-thumb" href="#hospital-exterior-lightbox" aria-controls="hospital-exterior-lightbox" aria-label="病院外観を拡大表示">
             <img
               src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
               alt="White Wing病院の外観。白い建物と青い翼のシンボルマーク"
@@ -297,8 +292,27 @@
           </a>
           <figcaption>病院外観</figcaption>
         </figure>
+        <div
+          id="hospital-exterior-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-exterior-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-exterior-thumb" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-exterior-thumb">閉じる</a>
+            <img
+              src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
+              alt="White Wing病院の外観。白い建物と青い翼のシンボルマーク"
+              width="960"
+              height="540"
+              decoding="async"
+            >
+            <figcaption id="hospital-exterior-caption">病院外観</figcaption>
+          </figure>
+        </div>
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-lobby-lightbox" aria-label="入口ホールを拡大表示">
+          <a id="hospital-lobby-thumb" class="hospital-thumb" href="#hospital-lobby-lightbox" aria-controls="hospital-lobby-lightbox" aria-label="入口ホールを拡大表示">
             <img
               src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
               alt="White Wing病院の入口ホール。受付と待合スペース"
@@ -310,8 +324,27 @@
           </a>
           <figcaption>入口ホール</figcaption>
         </figure>
+        <div
+          id="hospital-lobby-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-lobby-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-lobby-thumb" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-lobby-thumb">閉じる</a>
+            <img
+              src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
+              alt="White Wing病院の入口ホール。受付と待合スペース"
+              width="960"
+              height="540"
+              decoding="async"
+            >
+            <figcaption id="hospital-lobby-caption">入口ホール</figcaption>
+          </figure>
+        </div>
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-corridor-lightbox" aria-label="院内廊下を拡大表示">
+          <a id="hospital-corridor-thumb" class="hospital-thumb" href="#hospital-corridor-lightbox" aria-controls="hospital-corridor-lightbox" aria-label="院内廊下を拡大表示">
             <img
               src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
               alt="White Wing病院の院内廊下。診察室へ続く通路"
@@ -323,8 +356,27 @@
           </a>
           <figcaption>院内廊下</figcaption>
         </figure>
+        <div
+          id="hospital-corridor-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-corridor-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-corridor-thumb" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-corridor-thumb">閉じる</a>
+            <img
+              src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
+              alt="White Wing病院の院内廊下。診察室へ続く通路"
+              width="960"
+              height="540"
+              decoding="async"
+            >
+            <figcaption id="hospital-corridor-caption">院内廊下</figcaption>
+          </figure>
+        </div>
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-exam-room-lightbox" aria-label="診察室を拡大表示">
+          <a id="hospital-exam-room-thumb" class="hospital-thumb" href="#hospital-exam-room-lightbox" aria-controls="hospital-exam-room-lightbox" aria-label="診察室を拡大表示">
             <img
               src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
               alt="White Wing病院の診察室。診察用の机と椅子"
@@ -336,88 +388,27 @@
           </a>
           <figcaption>診察室</figcaption>
         </figure>
+        <div
+          id="hospital-exam-room-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-exam-room-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-exam-room-thumb" aria-label="拡大表示を閉じる" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-exam-room-thumb">閉じる</a>
+            <img
+              src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
+              alt="White Wing病院の診察室。診察用の机と椅子"
+              width="960"
+              height="720"
+              decoding="async"
+            >
+            <figcaption id="hospital-exam-room-caption">診察室</figcaption>
+          </figure>
+        </div>
       </div>
 
-      <div
-        id="hospital-exterior-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-exterior-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">閉じる</a>
-          <img
-            src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
-            alt="White Wing病院の外観。白い建物と青い翼のシンボルマーク"
-            width="960"
-            height="540"
-            decoding="async"
-          >
-          <figcaption id="hospital-exterior-caption">病院外観</figcaption>
-        </figure>
-      </div>
-      <div
-        id="hospital-lobby-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-lobby-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">閉じる</a>
-          <img
-            src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
-            alt="White Wing病院の入口ホール。受付と待合スペース"
-            width="960"
-            height="540"
-            decoding="async"
-          >
-          <figcaption id="hospital-lobby-caption">入口ホール</figcaption>
-        </figure>
-      </div>
-      <div
-        id="hospital-corridor-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-corridor-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">閉じる</a>
-          <img
-            src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
-            alt="White Wing病院の院内廊下。診察室へ続く通路"
-            width="960"
-            height="540"
-            decoding="async"
-          >
-          <figcaption id="hospital-corridor-caption">院内廊下</figcaption>
-        </figure>
-      </div>
-      <div
-        id="hospital-exam-room-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-exam-room-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="拡大表示を閉じる" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">閉じる</a>
-          <img
-            src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
-            alt="White Wing病院の診察室。診察用の机と椅子"
-            width="960"
-            height="720"
-            decoding="async"
-          >
-          <figcaption id="hospital-exam-room-caption">診察室</figcaption>
-        </figure>
-      </div>
     </div>
 
     <section id="news" class="card">

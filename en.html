@@ -13,7 +13,7 @@
    manifest-src 'none';
    media-src 'none';
    object-src 'none';
-   script-src 'sha256-nBp6iJ0yPyUh2bxTH59skZQQGN/nATX9gmUsxzNIZMA=';
+   script-src 'sha256-aJnvfk9MHVAF3YY2kBc6ttJopE33ItkRC6sLooT4Y2U=';
    style-src 'self';
    worker-src 'none';
    upgrade-insecure-requests
@@ -66,15 +66,10 @@
       "@type":"Hospital",
       "name":"White Wing Hospital",
       "alternateName":["White Wing病院","ホワイトウィング病院"],
-      "address":{
-        "@type":"PostalAddress",
-        "addressCountry":"JP",
-        "addressLocality":"Fictional city",
-        "streetAddress":"Fictional street address"
-      }
+      "description":"A fictional hospital in Suzuko-chan's world."
     },
     "url":"https://abcderp2.github.io/suzukochan.officialsite/en.html",
-    "description":"A young nurse working at the fictional White Wing Hospital.",
+    "description":"A fictional character and young nurse working at the fictional White Wing Hospital.",
     "gender":"Female"
   }
   </script>
@@ -285,7 +280,7 @@
 
       <div class="hospital-gallery" aria-label="Official White Wing Hospital background visuals">
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-exterior-lightbox" aria-label="Enlarge Hospital exterior">
+          <a id="hospital-exterior-thumb" class="hospital-thumb" href="#hospital-exterior-lightbox" aria-controls="hospital-exterior-lightbox" aria-label="Enlarge Hospital exterior">
             <img
               src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
               alt="Exterior of White Wing Hospital, with a white building and blue wing symbol"
@@ -297,8 +292,27 @@
           </a>
           <figcaption>Hospital exterior</figcaption>
         </figure>
+        <div
+          id="hospital-exterior-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-exterior-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-exterior-thumb" aria-label="Close enlarged image" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-exterior-thumb">Close</a>
+            <img
+              src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
+              alt="Exterior of White Wing Hospital, with a white building and blue wing symbol"
+              width="960"
+              height="540"
+              decoding="async"
+            >
+            <figcaption id="hospital-exterior-caption">Hospital exterior</figcaption>
+          </figure>
+        </div>
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-lobby-lightbox" aria-label="Enlarge Entrance lobby">
+          <a id="hospital-lobby-thumb" class="hospital-thumb" href="#hospital-lobby-lightbox" aria-controls="hospital-lobby-lightbox" aria-label="Enlarge Entrance lobby">
             <img
               src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
               alt="Entrance lobby of White Wing Hospital, with reception and waiting areas"
@@ -310,8 +324,27 @@
           </a>
           <figcaption>Entrance lobby</figcaption>
         </figure>
+        <div
+          id="hospital-lobby-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-lobby-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-lobby-thumb" aria-label="Close enlarged image" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-lobby-thumb">Close</a>
+            <img
+              src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
+              alt="Entrance lobby of White Wing Hospital, with reception and waiting areas"
+              width="960"
+              height="540"
+              decoding="async"
+            >
+            <figcaption id="hospital-lobby-caption">Entrance lobby</figcaption>
+          </figure>
+        </div>
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-corridor-lightbox" aria-label="Enlarge Hospital corridor">
+          <a id="hospital-corridor-thumb" class="hospital-thumb" href="#hospital-corridor-lightbox" aria-controls="hospital-corridor-lightbox" aria-label="Enlarge Hospital corridor">
             <img
               src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
               alt="Interior corridor of White Wing Hospital leading to examination rooms"
@@ -323,8 +356,27 @@
           </a>
           <figcaption>Hospital corridor</figcaption>
         </figure>
+        <div
+          id="hospital-corridor-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-corridor-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-corridor-thumb" aria-label="Close enlarged image" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-corridor-thumb">Close</a>
+            <img
+              src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
+              alt="Interior corridor of White Wing Hospital leading to examination rooms"
+              width="960"
+              height="540"
+              decoding="async"
+            >
+            <figcaption id="hospital-corridor-caption">Hospital corridor</figcaption>
+          </figure>
+        </div>
         <figure class="hospital-card">
-          <a class="hospital-thumb" href="#hospital-exam-room-lightbox" aria-label="Enlarge Examination room">
+          <a id="hospital-exam-room-thumb" class="hospital-thumb" href="#hospital-exam-room-lightbox" aria-controls="hospital-exam-room-lightbox" aria-label="Enlarge Examination room">
             <img
               src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
               alt="Examination room at White Wing Hospital, with a desk and chairs"
@@ -336,88 +388,27 @@
           </a>
           <figcaption>Examination room</figcaption>
         </figure>
+        <div
+          id="hospital-exam-room-lightbox"
+          class="lightbox"
+          role="region"
+          aria-labelledby="hospital-exam-room-caption"
+        >
+          <a class="lightbox-backdrop" href="#hospital-exam-room-thumb" aria-label="Close enlarged image" tabindex="-1"></a>
+          <figure class="lightbox-panel">
+            <a class="lightbox-close" href="#hospital-exam-room-thumb">Close</a>
+            <img
+              src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
+              alt="Examination room at White Wing Hospital, with a desk and chairs"
+              width="960"
+              height="720"
+              decoding="async"
+            >
+            <figcaption id="hospital-exam-room-caption">Examination room</figcaption>
+          </figure>
+        </div>
       </div>
 
-      <div
-        id="hospital-exterior-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-exterior-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">Close</a>
-          <img
-            src="assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp"
-            alt="Exterior of White Wing Hospital, with a white building and blue wing symbol"
-            width="960"
-            height="540"
-            decoding="async"
-          >
-          <figcaption id="hospital-exterior-caption">Hospital exterior</figcaption>
-        </figure>
-      </div>
-      <div
-        id="hospital-lobby-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-lobby-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">Close</a>
-          <img
-            src="assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp"
-            alt="Entrance lobby of White Wing Hospital, with reception and waiting areas"
-            width="960"
-            height="540"
-            decoding="async"
-          >
-          <figcaption id="hospital-lobby-caption">Entrance lobby</figcaption>
-        </figure>
-      </div>
-      <div
-        id="hospital-corridor-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-corridor-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">Close</a>
-          <img
-            src="assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp"
-            alt="Interior corridor of White Wing Hospital leading to examination rooms"
-            width="960"
-            height="540"
-            decoding="async"
-          >
-          <figcaption id="hospital-corridor-caption">Hospital corridor</figcaption>
-        </figure>
-      </div>
-      <div
-        id="hospital-exam-room-lightbox"
-        class="lightbox"
-        role="dialog"
-        aria-labelledby="hospital-exam-room-caption"
-        tabindex="-1"
-      >
-        <a class="lightbox-backdrop" href="#hospital" aria-label="Close enlarged image" tabindex="-1"></a>
-        <figure class="lightbox-panel">
-          <a class="lightbox-close" href="#hospital">Close</a>
-          <img
-            src="assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp"
-            alt="Examination room at White Wing Hospital, with a desk and chairs"
-            width="960"
-            height="720"
-            decoding="async"
-          >
-          <figcaption id="hospital-exam-room-caption">Examination room</figcaption>
-        </figure>
-      </div>
     </div>
 
     <section id="news" class="card">
