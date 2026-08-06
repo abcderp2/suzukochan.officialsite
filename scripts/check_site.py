@@ -929,10 +929,6 @@ def main() -> int:
     check_bilingual_pages(reporter)
 
     print("Static site and maintenance check")
-    for warning in reporter.warnings:
-        print(f"WARNING: {warning}")
-    for error in reporter.errors:
-        print(f"ERROR: {error}")
 
     if reporter.errors:
         print(f"FAILED: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")
