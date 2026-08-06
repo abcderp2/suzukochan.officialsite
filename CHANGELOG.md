@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-08-06 | 公式画像ファイルの転載・再配布と二次創作作品公開の区分を日英ガイドラインとLICENSEで明確化。White Wing病院背景にも同じ区分を適用。既存の必須`check`ジョブ内でGit履歴を含むSecurity auditも実行し、個別検査結果を制御文字除去と文字数制限付きで再表示 | index.html, en.html, LICENSE, scripts/check_site.py, .github/workflows/check-site.yml, SECURITY.md, MAINTENANCE.md, CHANGELOG.md | SquashコミットをRevert
+
 2026-08-06 | White Wing病院の公式名称3種、主表記、青と白の翼シンボル、鈴子ちゃんと同一の画像利用条件を日英ページへ明記。メタデータ除去済みWebP 4点を、外部依存とJavaScriptを使わない2列レスポンシブギャラリーとCSS拡大表示で追加。初心者向け保守手順とREADMEを統合更新 | index.html, en.html, 404.html, assets/css/style.css, assets/images/white-wing-hospital/*.webp, README.md, MAINTENANCE.md, llms.txt, CHANGELOG.md | SquashコミットをRevert
 
 2026-07-31 | OpenAI APIキーなどの認証情報を不要とする運用を明文化し、現在のファイルと取得済みGit履歴を外部Action、外部パッケージ、有料APIなしで検査する読み取り専用監査を追加。認証情報ファイルの除外、漏えい時の無効化手順、初心者向け保守案内も統合 | scripts/security_audit.py, .github/workflows/security-audit.yml, SECURITY.md, .gitignore, README.md, CHANGELOG.md | SquashコミットをRevert

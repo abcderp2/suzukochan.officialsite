@@ -13,6 +13,8 @@ Pull Requestとmainへのpushでは、次の読み取り専用検査を実行し
 - `python3 -I scripts/check_site.py`
 - `python3 -I scripts/security_audit.py --history`
 
+mainブランチの必須ステータス検査`check`は、上記2つを同じジョブ内で実行します。どちらか一方でも失敗した場合は必須検査が失敗し、マージできません。独立した`Security audit`ワークフローも追加確認として維持します。
+
 `security_audit.py`は、現在のファイルと取得済みのGit履歴を調べ、OpenAI、GitHub、AWS、Google、Slack、npm、Stripeなどの既知の認証情報形式、秘密鍵、認証情報らしい代入、危険なファイル名を検出します。検出時は値を表示せず、種類、場所、照合用の短いハッシュだけを出力します。
 
 外部Action、外部パッケージ、有料APIは使用しません。Python標準ライブラリとGitだけで動作します。
