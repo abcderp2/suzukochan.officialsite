@@ -689,8 +689,8 @@ class BilingualParser(html.parser.HTMLParser):
         elif tag == "section":
             self.sections.append(values.get("id", ""))
             self._section_id = values.get("id", "")
-        elif tag == "li" and self._section_id == "news":
-            self._news_item = {"datetime": ""}
+        elif tag in {"p", "li"} and self._section_id == "news" and self._news_item is None:
+            self._news_item = {"datetime": "", "tag": tag}
             self._news_text = []
         elif tag == "time" and self._news_item is not None:
             self._news_item["datetime"] = values.get("datetime", "")
@@ -717,7 +717,7 @@ class BilingualParser(html.parser.HTMLParser):
             self.json_ld.append("".join(self._json_ld_parts))
             self._in_json_ld = False
             self._json_ld_parts = []
-        elif tag == "li" and self._news_item is not None:
+        elif self._news_item is not None and tag == self._news_item.get("tag"):
             self._news_item["text"] = " ".join("".join(self._news_text).split())
             self.news_items.append(self._news_item)
             self._news_item = None
@@ -829,9 +829,28 @@ def check_bilingual_page(
     if not parser.news_items:
         reporter.error(f"{name}: update history is missing")
     else:
+        news_tags = {item.get("tag", "") for item in parser.news_items}
+        if not {"p", "li"}.issubset(news_tags):
+            reporter.error(f"{name}: update history must support both p and li entries")
         latest = parser.news_items[0]
-        if latest.get("datetime") != "2026-07-18" or expected_news_text not in latest.get("text", ""):
+        if latest.get("datetime") != "2026-08-06" or expected_news_text not in latest.get("text", ""):
             reporter.error(f"{name}: latest update history is incorrect")
+
+    if parser.json_ld:
+        try:
+            structured_data = json.loads(parser.json_ld[0])
+        except json.JSONDecodeError:
+            structured_data = {}
+        works_for = structured_data.get("worksFor", {})
+        if isinstance(works_for, dict) and "address" in works_for:
+            reporter.error(f"{name}: fictional hospital JSON-LD must not contain an address")
+        fictional_marker = "架空" if expected_lang == "ja" else "fictional"
+        person_description = str(structured_data.get("description", ""))
+        hospital_description = str(works_for.get("description", "")) if isinstance(works_for, dict) else ""
+        if fictional_marker.lower() not in person_description.lower():
+            reporter.error(f"{name}: JSON-LD person description must state that the character is fictional")
+        if fictional_marker.lower() not in hospital_description.lower():
+            reporter.error(f"{name}: JSON-LD hospital description must state that the hospital is fictional")
 
     if BILINGUAL_TRANSLATION_MARKERS.search(text):
         reporter.error(f"{name}: external translation service reference is not allowed")
@@ -889,7 +908,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "en.html",
         "English",
         "en",
-        "英語版と日本語・英語切り替え機能を追加",
+        "公式画像と二次創作作品の利用区分を明確化",
         reporter,
     )
     en = check_bilingual_page(
@@ -898,7 +917,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "index.html",
         "日本語",
         "ja",
-        "Added an English version and Japanese–English language switching",
+        "Clarified the distinction between official image files and derivative works",
         reporter,
     )
 
