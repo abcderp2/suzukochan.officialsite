@@ -930,6 +930,15 @@ def main() -> int:
 
     print("Static site and maintenance check")
 
+    # Findings contain only internally generated categories and paths. Remove
+    # control characters and cap each line before writing it to CI logs.
+    for warning in reporter.warnings:
+        message = re.sub(r"[\x00-\x1f\x7f]", " ", warning)[:500]
+        print(f"WARNING: {message}")
+    for error in reporter.errors:
+        message = re.sub(r"[\x00-\x1f\x7f]", " ", error)[:500]
+        print(f"ERROR: {message}")
+
     if reporter.errors:
         print(f"FAILED: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")
         return 1

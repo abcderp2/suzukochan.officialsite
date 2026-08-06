@@ -21,9 +21,9 @@ defaults:
 jobs:
   check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
-      - name: Check out the triggering ref without an external action
+      - name: Check out the triggering ref and reachable history without an external action
         env:
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
@@ -33,8 +33,10 @@ jobs:
           umask 077
           git init .
           git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
-          git fetch --no-tags --depth=1 origin "${REF}"
-          git checkout --detach FETCH_HEAD
+          git fetch --no-tags --prune origin \
+            "${REF}" \
+            '+refs/heads/*:refs/remotes/origin/*'
+          git checkout --detach "${EXPECTED_SHA}"
           test "$(git rev-parse HEAD)" = "${EXPECTED_SHA}"
 
       - name: Check static site files
@@ -76,6 +78,51 @@ jobs:
             echo "- Result: **${result}**"
             echo "- Commit: \`${GITHUB_SHA}\`"
             echo "- Command: \`python3 -I scripts/check_site.py\`"
+            echo
+            echo "### Output"
+            sed 's/^/    /' "${log_file}"
+          } >>"${GITHUB_STEP_SUMMARY}"
+
+          cat "${log_file}"
+          exit "${status}"
+
+      - name: Run the required security audit
+        run: |
+          log_file="${RUNNER_TEMP}/security-audit.log"
+          status=0
+          python3 -I scripts/security_audit.py --history >"${log_file}" 2>&1 || status=$?
+
+          escape_command() {
+            local value="$1"
+            value="${value//'%'/'%25'}"
+            value="${value//$'\r'/'%0D'}"
+            value="${value//$'\n'/'%0A'}"
+            printf '%s' "${value}"
+          }
+
+          while IFS= read -r line; do
+            case "${line}" in
+              ERROR:\ *)
+                message="${line#ERROR: }"
+                printf '::error title=Required security audit::%s\n' "$(escape_command "${message}")"
+                ;;
+            esac
+          done <"${log_file}"
+
+          if [ "${status}" -eq 0 ]; then
+            result="Passed"
+          else
+            result="Failed"
+          fi
+
+          {
+            echo "## Required security audit"
+            echo
+            echo "- Result: **${result}**"
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Current tree: checked"
+            echo "- Reachable Git history: checked"
+            echo "- Command: \`python3 -I scripts/security_audit.py --history\`"
             echo
             echo "### Output"
             sed 's/^/    /' "${log_file}"
