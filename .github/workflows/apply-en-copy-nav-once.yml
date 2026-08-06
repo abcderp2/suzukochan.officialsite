@@ -40,7 +40,7 @@ jobs:
         run: |
           python3 -I scripts/fix_apply_en_copy_nav_once.py
           python3 -I scripts/apply_en_copy_nav_once.py
-          git rm \
+          git rm -f \
             scripts/fix_apply_en_copy_nav_once.py \
             scripts/apply_en_copy_nav_once.py \
             .github/workflows/apply-en-copy-nav-once.yml
