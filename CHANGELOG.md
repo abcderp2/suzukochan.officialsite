@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-08-06 | 英語版のWhite Wing病院の主表記を日本語と英語で分け、英訳を自然な表現へ調整。日英のメタ説明文へWhite Wing病院を追加し、全ナビゲーションリンクの最小高さを44pxへ統一。language-switch専用CSSと重複指定を.nav aへ統合し、検査を追加 | index.html, en.html, assets/css/style.css, scripts/check_site.py, CHANGELOG.md | SquashコミットをRevert
+
 2026-08-06 | CSS拡大表示をモーダルと誤認させない名前付き領域へ整理し、各拡大画像を対応するサムネイル直後へ配置してキーボードの開閉順と戻り先を明確化。画像ファイルは変更せず、JSON-LDから架空住所を削除して人物と病院が架空であることを日英で明記。公開検査へ病院セクションと背景画像4点を追加し、更新情報検査をpとliの両方へ対応 | index.html, en.html, assets/css/style.css, scripts/check_site.py, .github/workflows/live-site-check.yml, MAINTENANCE.md, CHANGELOG.md | SquashコミットをRevert
 
 2026-08-06 | 公式画像ファイルの転載・再配布と二次創作作品公開の区分を日英ガイドラインとLICENSEで明確化。White Wing病院背景にも同じ区分を適用。既存の必須`check`ジョブ内でGit履歴を含むSecurity auditも実行し、個別検査結果を制御文字除去と文字数制限付きで再表示 | index.html, en.html, LICENSE, scripts/check_site.py, .github/workflows/check-site.yml, SECURITY.md, MAINTENANCE.md, CHANGELOG.md | SquashコミットをRevert
