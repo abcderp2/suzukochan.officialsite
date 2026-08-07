@@ -69,3 +69,5 @@ AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切�
 - X 作者 鈴木: https://x.com/stocktrading0
 - pixiv: https://www.pixiv.net/users/116903703
 - GitHub: https://github.com/abcderp2/suzukochan.officialsite
+
+<!-- GitHub Pages redeploy trigger: 2026-08-07 -->
