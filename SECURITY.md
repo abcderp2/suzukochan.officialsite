@@ -10,10 +10,13 @@ AIへ保守を依頼するときも、APIキーやパスワードを会話、Iss
 
 Pull Requestとmainへのpushでは、次の読み取り専用検査を実行します。
 
+- `python3 -I scripts/workflow_policy.py`
 - `python3 -I scripts/check_site.py`
 - `python3 -I scripts/security_audit.py --history`
 
-mainブランチの必須ステータス検査`check`は、上記2つを同じジョブ内で実行します。どちらか一方でも失敗した場合は必須検査が失敗し、マージできません。独立した`Security audit`ワークフローも追加確認として維持します。
+mainブランチの必須ステータス検査`check`は、上記3つを同じジョブ内で実行します。どれか1つでも失敗した場合は必須検査が失敗し、マージできません。独立した`Security audit`ワークフローも追加確認として維持します。
+
+`workflow_policy.py`は、リポジトリ内のGitHub Actionsについて、権限が`contents: read`だけであること、外部Actionや再利用ワークフローを使わないこと、秘密情報や暗黙の`GITHUB_TOKEN`を参照しないこと、`pull_request_target`などの高リスクなトリガーを使わないこと、`run`内へGitHub式を直接展開しないこと、厳格なbash設定とタイムアウトが維持されていることを検査します。
 
 `security_audit.py`は、現在のファイルと取得済みのGit履歴を調べ、OpenAI、GitHub、AWS、Google、Slack、npm、Stripeなどの既知の認証情報形式、秘密鍵、認証情報らしい代入、危険なファイル名を検出します。検出時は値を表示せず、種類、場所、照合用の短いハッシュだけを出力します。
 
@@ -40,7 +43,9 @@ mainブランチの必須ステータス検査`check`は、上記2つを同じ�
 ## 保守時の原則
 
 - 変更は専用ブランチとPull Requestにまとめます。
-- Actionsの権限は`contents: read`を基本とします。
-- 外部Actionを追加せず、必要な処理は短い標準機能で実行します。
+- Actionsの権限は`contents: read`だけを使用します。
+- 外部Actionと再利用ワークフローを追加せず、必要な処理はリポジトリ内のコードとrunner標準機能で実行します。
+- GitHub式は`run`へ直接埋め込まず、必要な値は`env`経由でシェルへ渡します。
+- `pull_request_target`、`repository_dispatch`、`workflow_run`を保守用ワークフローへ追加しません。
 - JavaScript、外部CDN、分析タグ、広告、フォーム、バックエンド、API接続を安易に追加しません。
 - 変更前のコミットを記録し、問題時はPull RequestのSquashコミットをRevertします。
