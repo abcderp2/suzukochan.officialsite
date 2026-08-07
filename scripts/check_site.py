@@ -751,6 +751,21 @@ def bilingual_link_hrefs(parser: BilingualParser, rel: str) -> list[str]:
     ]
 
 
+def stylesheet_cache_key(links: list[dict[str, str]], name: str, reporter: Reporter) -> str:
+    stylesheets = [
+        link.get("href", "")
+        for link in links
+        if "stylesheet" in {token.lower() for token in link.get("rel", "").split()}
+    ]
+    if len(stylesheets) != 1:
+        reporter.error(f"{name}: exactly one stylesheet reference is required")
+        return ""
+    key = urlsplit(stylesheets[0]).query
+    if not key:
+        reporter.error(f"{name}: stylesheet cache identifier is required")
+    return key
+
+
 def bilingual_image_sources(parser: BilingualParser) -> list[str]:
     values: list[str] = []
     for image in parser.images:
@@ -948,6 +963,13 @@ def check_bilingual_pages(reporter: Reporter) -> None:
     en_css = bilingual_link_hrefs(en, "stylesheet")
     if ja_css != en_css:
         reporter.error("index.html and en.html: stylesheet references do not match")
+    expected_cache_key = stylesheet_cache_key(ja.links, "index.html", reporter)
+    if stylesheet_cache_key(en.links, "en.html", reporter) != expected_cache_key:
+        reporter.error("index.html and en.html: stylesheet cache identifiers do not match")
+    not_found = SiteParser()
+    not_found.feed((ROOT / "404.html").read_text(encoding="utf-8"))
+    if stylesheet_cache_key(not_found.links, "404.html", reporter) != expected_cache_key:
+        reporter.error("404.html: stylesheet cache identifier must match the public pages")
     if bilingual_external_anchors(ja) != bilingual_external_anchors(en):
         reporter.error("index.html and en.html: external links do not match")
 
