@@ -766,6 +766,14 @@ def stylesheet_cache_key(links: list[dict[str, str]], name: str, reporter: Repor
     return key
 
 
+def favicon_hrefs(links: list[dict[str, str]]) -> list[str]:
+    return [
+        link.get("href", "")
+        for link in links
+        if "icon" in {token.lower() for token in link.get("rel", "").split()}
+    ]
+
+
 def bilingual_image_sources(parser: BilingualParser) -> list[str]:
     values: list[str] = []
     for image in parser.images:
@@ -858,7 +866,7 @@ def check_bilingual_page(
         if not {"p", "li"}.issubset(news_tags):
             reporter.error(f"{name}: update history must support both p and li entries")
         latest = parser.news_items[0]
-        if latest.get("datetime") != "2026-08-06" or expected_news_text not in latest.get("text", ""):
+        if latest.get("datetime") != "2026-08-07" or expected_news_text not in latest.get("text", ""):
             reporter.error(f"{name}: latest update history is incorrect")
 
     if parser.json_ld:
@@ -887,10 +895,12 @@ def check_bilingual_page(
             "description": "The official site of Suzuko-chan and the fictional White Wing Hospital, featuring her profile, official background visuals, updates, and guidelines.",
             "og:title": "Suzuko-chan Official Site",
             "og:url": OFFICIAL_URL + "en.html",
+            "og:image:alt": "Suzuko-chan official visual, version 1",
             "og:description": "The official site of Suzuko-chan and the fictional White Wing Hospital, featuring her profile, official background visuals, updates, and guidelines.",
             "og:site_name": "Suzuko-chan Official Site",
             "twitter:title": "Suzuko-chan Official Site",
             "twitter:description": "The official site of Suzuko-chan and the fictional White Wing Hospital, featuring her profile, official background visuals, updates, and guidelines.",
+            "twitter:image:alt": "Suzuko-chan official visual, version 1",
         }
         for key, value in expected_meta.items():
             attribute = "property" if key.startswith("og:") else "name"
@@ -933,7 +943,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "en.html",
         "English",
         "en",
-        "公式画像と二次創作作品の利用区分を明確化",
+        "プロフィール、White Wing病院設定、ガイドライン表記を軽微に更新",
         reporter,
     )
     en = check_bilingual_page(
@@ -942,7 +952,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "index.html",
         "日本語",
         "ja",
-        "Clarified the distinction between official image files and derivative works",
+        "Made minor updates to the profile, White Wing Hospital setting, and guidelines",
         reporter,
     )
 
@@ -952,6 +962,10 @@ def check_bilingual_pages(reporter: Reporter) -> None:
             reporter.error(f"index.html: {key} metadata must mention White Wing病院")
     if bilingual_meta(ja, "og:description", "property") != expected_ja_description:
         reporter.error("index.html: og:description metadata must mention White Wing病院")
+    if bilingual_meta(ja, "og:image:alt", "property") != "鈴子ちゃんの公式ビジュアル バージョン1":
+        reporter.error("index.html: og:image:alt metadata is missing or incorrect")
+    if bilingual_meta(ja, "twitter:image:alt", "name") != "鈴子ちゃんの公式ビジュアル バージョン1":
+        reporter.error("index.html: twitter:image:alt metadata is missing or incorrect")
 
     english_name_sentence = "In Japanese, this site primarily uses “White Wing病院”; in English, it uses “White Wing Hospital.”"
     if english_name_sentence not in (ROOT / "en.html").read_text(encoding="utf-8"):
@@ -970,6 +984,17 @@ def check_bilingual_pages(reporter: Reporter) -> None:
     not_found.feed((ROOT / "404.html").read_text(encoding="utf-8"))
     if stylesheet_cache_key(not_found.links, "404.html", reporter) != expected_cache_key:
         reporter.error("404.html: stylesheet cache identifier must match the public pages")
+
+    if favicon_hrefs(ja.links) != ["assets/images/favicon.webp"]:
+        reporter.error("index.html: favicon reference is missing or incorrect")
+    if favicon_hrefs(en.links) != ["assets/images/favicon.webp"]:
+        reporter.error("en.html: favicon reference is missing or incorrect")
+    if favicon_hrefs(not_found.links) != ["/suzukochan.officialsite/assets/images/favicon.webp"]:
+        reporter.error("404.html: favicon reference is missing or incorrect")
+    favicon = ROOT / "assets" / "images" / "favicon.webp"
+    if not favicon.is_file() or image_signature(favicon) != "webp":
+        reporter.error("assets/images/favicon.webp: valid WebP favicon is required")
+
     if bilingual_external_anchors(ja) != bilingual_external_anchors(en):
         reporter.error("index.html and en.html: external links do not match")
 
