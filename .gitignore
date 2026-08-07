@@ -3,20 +3,34 @@
 .env.*
 !.env.example
 !.env.sample
+.envrc
+.direnv/
 .npmrc
 .pypirc
 .netrc
+.htpasswd
 credentials.json
 credentials.*.json
+credentials.tfrc.json
 service-account*.json
+application_default_credentials.json
+.aws/
+.azure/
+.gnupg/
+.ssh/
 *.pem
 *.key
 *.p12
 *.pfx
 *.jks
 *.keystore
+*.ppk
+*.kdbx
+*.ovpn
 id_rsa*
 id_ed25519*
+id_ecdsa*
+id_dsa*
 
 # Python and local tooling
 __pycache__/
