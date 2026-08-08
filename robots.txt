@@ -1,5 +1,6 @@
 # Public pages welcome standards-compliant search engines and AI services
-# that retrieve content for search results or user-requested answers.
+# that retrieve public content. This file addresses crawl access only and
+# does not express permission or refusal regarding model training or other uses.
 # This project-site copy documents the site's preference. Robots Exclusion
 # Protocol rules for this GitHub Pages host are normally read from
 # https://abcderp2.github.io/robots.txt.
@@ -13,25 +14,11 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
-# OpenAI model development.
-User-agent: GPTBot
-Disallow: /
-
 # Anthropic user-directed access and search.
 User-agent: Claude-User
 Allow: /
 
 User-agent: Claude-SearchBot
 Allow: /
-
-# Anthropic model development.
-User-agent: ClaudeBot
-Disallow: /
-
-# Google-Extended combines Gemini model training and grounding controls.
-# It is denied here to avoid granting model-development use.
-# This does not block ordinary Google Search indexing.
-User-agent: Google-Extended
-Disallow: /
 
 Sitemap: https://abcderp2.github.io/suzukochan.officialsite/sitemap.xml
