@@ -6,6 +6,8 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
+2026-08-08 | AIの訪問と公開情報の検索・紹介を歓迎しつつ、一般的なAIモデル学習については許可も拒否も表明しない中立方針へ日英ページ、robots.txt、llms.txt、README、保守文書を統一。GPTBot、ClaudeBot、Google-Extendedの個別Disallowを削除し、個人端末内のLoRA利用と学習モデル公開禁止の既存ガイドラインは維持 | index.html, en.html, robots.txt, llms.txt, README.md, MAINTENANCE.md, CHANGELOG.md | SquashコミットをRevert
+
 2026-08-07 | 404ページだけに残っていた古いCSSキャッシュ識別子を公開ページと統一し、将来の不一致を静的検査で防止 | 404.html, scripts/check_site.py, CHANGELOG.md | SquashコミットをRevert
 
 2026-08-06 | 英語版のWhite Wing病院の主表記を日本語と英語で分け、英訳を自然な表現へ調整。日英のメタ説明文へWhite Wing病院を追加し、全ナビゲーションリンクの最小高さを44pxへ統一。language-switch専用CSSと重複指定を.nav aへ統合し、検査を追加 | index.html, en.html, assets/css/style.css, scripts/check_site.py, CHANGELOG.md | SquashコミットをRevert
