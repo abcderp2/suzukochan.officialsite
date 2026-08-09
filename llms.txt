@@ -24,7 +24,7 @@ All three forms are official. The primary form used on the Japanese site is Whit
 
 AI visits are welcome. Search engines and AI services may read, index, summarize, cite, and link to public information for search results and user-requested answers.
 
-This AI access statement does not express either permission or refusal regarding model training. It only states that AI visits and appropriate presentation of public information are welcome. Specific uses remain governed by the guidelines on the official site and the repository LICENSE. The official White Wing Hospital background visuals follow the same guidelines as Suzuko-chan. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, White Wing Hospital visuals, and official status.
+Specific uses of the Suzuko-chan character, images, settings, and official White Wing Hospital background visuals remain governed by the guidelines on the official site and the repository LICENSE. This machine-readable access statement does not override those terms. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, White Wing Hospital visuals, and official status.
 
 ## Repository
 

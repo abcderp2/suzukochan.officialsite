@@ -12,15 +12,24 @@ Pull Requestとmainへのpushでは、次の読み取り専用検査を実行し
 
 - `python3 -I scripts/workflow_policy.py`
 - `python3 -I scripts/check_site.py`
+- `python3 -I scripts/check_static_headers.py`
 - `python3 -I scripts/security_audit.py --history`
 
-mainブランチの必須ステータス検査`check`は、上記3つを同じジョブ内で実行します。どれか1つでも失敗した場合は必須検査が失敗し、マージできません。独立した`Security audit`ワークフローも追加確認として維持します。
+mainブランチの必須ステータス検査`check`は、上記4つを同じジョブ内で実行します。どれか1つでも失敗した場合は必須検査が失敗し、マージできません。独立した`Security audit`ワークフローも追加確認として維持します。
 
 `workflow_policy.py`は、リポジトリ内のGitHub Actionsについて、権限が`contents: read`だけであること、外部Actionや再利用ワークフローを使わないこと、秘密情報や暗黙の`GITHUB_TOKEN`を参照しないこと、`pull_request_target`などの高リスクなトリガーを使わないこと、`run`内へGitHub式を直接展開しないこと、厳格なbash設定とタイムアウトが維持されていることを検査します。
+
+`check_static_headers.py`は、GitHub Pagesの静的HTMLで実効性のない`http-equiv="Permissions-Policy"`が再追加されていないことを確認します。
 
 `security_audit.py`は、現在のファイルと取得済みのGit履歴を調べ、OpenAI、GitHub、AWS、Google、Slack、npm、Stripeなどの既知の認証情報形式、秘密鍵、認証情報らしい代入、危険なファイル名を検出します。検出時は値を表示せず、種類、場所、照合用の短いハッシュだけを出力します。
 
 外部Action、外部パッケージ、有料APIは使用しません。Python標準ライブラリとGitだけで動作します。
+
+## 静的ホスティング上の制約
+
+GitHub Pagesの静的ファイルだけでは、任意のHTTPレスポンスヘッダーを自由に設定できません。Content Security Policyはmeta要素で適用可能な指示だけをHTMLで維持しますが、Permissions-Policyを`http-equiv` metaで代替できるものとして扱いません。
+
+現在のサイトはカメラ、マイク、位置情報、決済、USBなどの端末APIを使用しません。これらを将来追加する場合や、HTTPレスポンスヘッダーによる防御が必要になる場合は、ヘッダーを設定できる配信環境を先に検討します。効いていないヘッダー相当のmeta要素を防御として表示しません。
 
 ## 誤って秘密情報を公開した場合
 
