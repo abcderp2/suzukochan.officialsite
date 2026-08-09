@@ -89,6 +89,9 @@ jobs:
           cat "${log_file}"
           exit "${status}"
 
+      - name: Reject unsupported static response-header meta
+        run: python3 -I scripts/check_static_headers.py
+
       - name: Run the required security audit
         run: |
           log_file="${RUNNER_TEMP}/security-audit.log"
