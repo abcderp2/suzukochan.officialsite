@@ -438,6 +438,28 @@ h2{
   object-fit: contain;
 }
 
+/* Niconico white logo (nc296562) contrast adjustment.
+   Official white mark requires dark background for visibility per guideline.
+   Scoped only to the niconico SNS card via :has() so change is minimal and easy to revert.
+   To revert: delete this entire block. */
+.sns-item:has(img[src*="niconico.svg"]) {
+  background: #111111;
+  border-color: #333333;
+}
+
+.sns-item:has(img[src*="niconico.svg"]) .sns-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sns-item:has(img[src*="niconico.svg"]) .sns-service,
+.sns-item:has(img[src*="niconico.svg"]) .sns-name {
+  color: #f5f5f5;
+}
+
+.sns-item:has(img[src*="niconico.svg"]) .sns-account {
+  color: #b0b0b0;
+}
+
 .sns-copy{
   display: flex;
   min-width: 0;
