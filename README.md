@@ -65,9 +65,10 @@ AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切�
 
 - YouTube: https://www.youtube.com/@abc-l2g6k/shorts
 - note: https://note.com/stocktrading0_ai/n/n6883256131d2?app_launch=false
-- X 鈴子ちゃん公式: https://x.com/suzuko_ai_
+- X 鈴子ちゃん: https://x.com/suzuko_ai_
 - X 作者 鈴木: https://x.com/stocktrading0
 - pixiv: https://www.pixiv.net/users/116903703
 - GitHub: https://github.com/abcderp2/suzukochan.officialsite
+- ニコニコ動画: https://sp.nicovideo.jp/user/141613837/shorts?sortKey=registeredAt&sortOrder=desc
 
 <!-- GitHub Pages redeploy trigger: 2026-08-07 -->

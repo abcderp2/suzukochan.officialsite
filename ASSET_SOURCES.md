@@ -13,6 +13,7 @@
 | X | `assets/images/logos/x.svg` | https://about.x.com/ja/who-we-are/brand-toolkit | X公式アカウントへのリンクの識別 | `f5aa9ec0ab5f6f42cd519008232bd06edbe4c445` |
 | pixiv | `assets/images/logos/pixiv.svg` | https://www.pixiv.co.jp/news/press-kit/ | pixiv公式リンクの識別 | `691c52642588cba7ef4976d0172dde388757726b` |
 | GitHub | `assets/images/logos/github.svg` | https://brand.github.com/foundations/logo | GitHubリポジトリへのリンクの識別 | `c576c5c26a1805907cde57eba3dd083fd8a27a16` |
+|  |  |  |  |  |
 
 ## 保守時の確認
 
