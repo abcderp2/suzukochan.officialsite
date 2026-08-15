@@ -433,6 +433,12 @@ h2{
   object-fit: contain;
 }
 
+.sns-item:has(img[src*="niconico.svg"]) .service-logo{
+  background: #eef2f6;
+  border-radius: 8px;
+  padding: 4px;
+}
+
 .sns-copy{
   display: flex;
   min-width: 0;
