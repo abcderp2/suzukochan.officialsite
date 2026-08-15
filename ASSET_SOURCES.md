@@ -13,7 +13,7 @@
 | X | `assets/images/logos/x.svg` | https://about.x.com/ja/who-we-are/brand-toolkit | X公式アカウントへのリンクの識別 | `f5aa9ec0ab5f6f42cd519008232bd06edbe4c445` |
 | pixiv | `assets/images/logos/pixiv.svg` | https://www.pixiv.co.jp/news/press-kit/ | pixiv公式リンクの識別 | `691c52642588cba7ef4976d0172dde388757726b` |
 | GitHub | `assets/images/logos/github.svg` | https://brand.github.com/foundations/logo | GitHubリポジトリへのリンクの識別 | `c576c5c26a1805907cde57eba3dd083fd8a27a16` |
-| Niconico | `assets/images/logos/niconico.svg` | https://commons.nicovideo.jp/material/nc296562 ; https://site.nicovideo.jp/term/guideline/commons/logo/niconico/guideline_niconico.pdf | ニコニコ動画公式シンボルマークの識別 | `6f2639525290db5ccf821c17dee064d9c375f637` |
+| Niconico | `assets/images/logos/niconico.svg` | https://commons.nicovideo.jp/works/nc296562 ; https://site.nicovideo.jp/term/guideline/commons/logo/niconico/guideline_niconico.pdf | ニコニコ動画公式シンボルマーク（白）nc296562 の実ファイルをSVG内にデータURI埋め込み（ピクセル無改変）。ライトテーマ視認性のためSNSカード背景を局所的に暗色化（:has() で限定、容易に戻せる）。 | `61fb6bed82ee492d427542aa2d86bf83e0d254fa` |
 
 ## 保守時の確認
 
