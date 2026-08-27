@@ -68,4 +68,4 @@ AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切�
 - GitHub: https://github.com/abcderp2/suzukochan.officialsite
 - ニコニコ動画: https://sp.nicovideo.jp/user/141613837/shorts?sortKey=registeredAt&sortOrder=desc
 
-<!-- GitHub Pages redeploy trigger: 2026-08-27 11:51 -->
+<!-- GitHub Pages redeploy trigger: 2026-08-27 11:52 -->
