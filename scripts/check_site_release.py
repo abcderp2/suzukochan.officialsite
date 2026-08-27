@@ -19,4 +19,8 @@ source = source.replace(
     '"Made minor updates to the profile, White Wing Hospital setting, and guidelines",',
     '"Limited the published White Wing Hospital visual to the exterior and removed hospital image enlargement",',
 )
+source = source.replace(
+    'if reporter.errors:\n        print(f"FAILED: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")',
+    'if reporter.errors:\n        for finding in reporter.errors:\n            print(f"ERROR: {finding}")\n        print(f"FAILED: {len(reporter.errors)} error(s), {len(reporter.warnings)} warning(s)")',
+)
 exec(compile(source, str(BASE), "exec"), globals(), globals())
