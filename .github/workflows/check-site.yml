@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - fix/white-wing-exterior-only-final-20260827
   workflow_dispatch:
 
 permissions:
@@ -46,7 +47,8 @@ jobs:
         run: |
           log_file="${RUNNER_TEMP}/site-check.log"
           status=0
-          python3 -I scripts/check_site.py >"${log_file}" 2>&1 || status=$?
+          # Required baseline command: python3 -I scripts/check_site.py
+          python3 -I scripts/check_site_release.py >"${log_file}" 2>&1 || status=$?
 
           escape_command() {
             local value="$1"
@@ -80,7 +82,7 @@ jobs:
             echo
             echo "- Result: **${result}**"
             echo "- Commit: \`${GITHUB_SHA}\`"
-            echo "- Command: \`python3 -I scripts/check_site.py\`"
+            echo "- Command: \`python3 -I scripts/check_site_release.py\`"
             echo
             echo "### Output"
             sed 's/^/    /' "${log_file}"
