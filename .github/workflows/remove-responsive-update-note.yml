@@ -1,0 +1,35 @@
+name: Precise update history cleanup
+on:
+  push:
+    branches: ["fix/remove-responsive-update-note-20260827"]
+permissions:
+  contents: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove obsolete responsive-display wording
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          replacements = {
+              'index.html': '。スマートフォン、タブレット、PCなど各種デバイスでの表示に対応',
+              'en.html': ', and confirmed responsive display for smartphones, tablets, PCs, and other devices',
+          }
+          for name, old in replacements.items():
+              p = Path(name)
+              s = p.read_text(encoding='utf-8')
+              if old not in s:
+                  raise SystemExit(f'{name}: target text not found')
+              s2 = s.replace(old, '', 1)
+              if s2 == s:
+                  raise SystemExit(f'{name}: no change')
+              p.write_text(s2, encoding='utf-8')
+          Path('.github/workflows/remove-responsive-update-note.yml').unlink()
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html en.html .github/workflows/remove-responsive-update-note.yml
+          git commit -m 'fix: remove obsolete responsive update note'
+          git push
