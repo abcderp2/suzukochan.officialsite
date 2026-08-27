@@ -62,9 +62,6 @@ jobs:
                       "id=\"hospital\"",
                       "White Wing病院",
                       "assets/images/white-wing-hospital/01_whitewing_hospital_exterior.webp",
-                      "assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp",
-                      "assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp",
-                      "assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp",
                   ),
                   "text/html",
               ),
@@ -90,25 +87,25 @@ jobs:
                   "image/webp",
               ),
               (
-                  "Hospital lobby image",
+                  "Removed hospital lobby image",
                   base_url + "assets/images/white-wing-hospital/02_whitewing_hospital_lobby.webp",
-                  200,
+                  404,
                   (),
-                  "image/webp",
+                  "text/html",
               ),
               (
-                  "Hospital corridor image",
+                  "Removed hospital corridor image",
                   base_url + "assets/images/white-wing-hospital/03_whitewing_hospital_corridor.webp",
-                  200,
+                  404,
                   (),
-                  "image/webp",
+                  "text/html",
               ),
               (
-                  "Hospital examination room image",
+                  "Removed hospital examination room image",
                   base_url + "assets/images/white-wing-hospital/04_whitewing_hospital_exam_room.webp",
-                  200,
+                  404,
                   (),
-                  "image/webp",
+                  "text/html",
               ),
               (
                   "robots.txt",
@@ -126,10 +123,8 @@ jobs:
               ),
           )
 
-
           def escape_command(value: str) -> str:
               return value.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-
 
           def fetch(url: str) -> tuple[int, str, str]:
               last_error = "request failed"
@@ -150,7 +145,6 @@ jobs:
                       if attempt < 2:
                           time.sleep(2 * (attempt + 1))
               raise RuntimeError(last_error)
-
 
           rows: list[tuple[str, str, str]] = []
           failed = False
