@@ -16,7 +16,7 @@ https://abcderp2.github.io/suzukochan.officialsite/
 - 公式SNSと関連リンク
 - 日本語版と英語版
 
-White Wing病院の公式名称は「White Wing Hospital」「ホワイトウィング病院」「White Wing病院」の3表記です。主に「White Wing病院」を使用します。青い翼と白い翼は、どちらも公式のシンボルマークです。公開する病院ビジュアルは外観のみとし、鈴子ちゃんの利用ガイドラインを適用します。
+White Wing病院の公式名称は「White Wing Hospital」「ホワイトウィング病院」「White Wing病院」の3表記です。主に「White Wing病院」を使用します。青い翼と白い翼は、どちらも公式のシンボルマークです。公開する病院ビジュアルは外観1点のみとし、院内画像は公開しません。鈴子ちゃんの利用ガイドラインを適用します。
 
 ## 技術構成
 
@@ -68,4 +68,4 @@ AIの訪問と、公開情報を検索結果や利用者向けAI回答で適切�
 - GitHub: https://github.com/abcderp2/suzukochan.officialsite
 - ニコニコ動画: https://sp.nicovideo.jp/user/141613837/shorts?sortKey=registeredAt&sortOrder=desc
 
-<!-- GitHub Pages redeploy trigger: 2026-08-27 -->
+<!-- GitHub Pages redeploy trigger: 2026-08-27 11:50 -->
