@@ -27,6 +27,9 @@ jobs:
       - name: Check out the triggering ref and reachable history without an external action
         env:
           REPOSITORY: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           REF: ${{ github.ref }}
           EXPECTED_SHA: ${{ github.sha }}
           SERVER_URL: ${{ github.server_url }}
@@ -34,6 +37,10 @@ jobs:
           umask 077
           git init .
           git remote add origin "${SERVER_URL}/${REPOSITORY}.git"
+          if [ "${EVENT_NAME}" = "pull_request" ]; then
+            REF="refs/heads/${HEAD_REF}"
+            EXPECTED_SHA="${HEAD_SHA}"
+          fi
           git fetch --no-tags --prune origin \
             "${REF}" \
             '+refs/heads/*:refs/remotes/origin/*'
