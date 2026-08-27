@@ -41,10 +41,10 @@ h2{margin:0 0 10px;font-size:18px}
 .profile-row dt{font-weight:bold;font-size:14px;color:var(--muted);margin-bottom:4px}
 .profile-row dd{margin:0;line-height:1.6;text-align:left}
 @media (min-width:600px){.profile-row{display:grid;grid-template-columns:10em minmax(0,1fr);gap:24px;align-items:start}.profile-row dt{margin-bottom:0}}
-.hospital-copy{max-width:78ch}
+.hospital-copy{width:100%;max-width:none}
 .hospital-guideline-note{padding:10px 12px;border-left:4px solid #0066cc;border-radius:4px;background:#f0f4f8}
 .hospital-gallery{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:20px}
-.hospital-card{width:min(100%,1100px);min-width:0;margin:0 auto;text-align:center}
+.hospital-card{width:100%;min-width:0;margin:0;text-align:center}
 .hospital-thumb{display:block;width:100%;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#eef2f6}
 .hospital-thumb img{display:block;width:100%;height:auto;object-fit:contain}
 .hospital-card figcaption{margin-top:8px;color:var(--muted);font-size:14px;font-weight:600}
