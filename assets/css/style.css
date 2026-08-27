@@ -329,11 +329,10 @@ h2{
 
 .lightbox-panel img{
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: calc(100vh - 130px);
-  max-height: calc(100dvh - 130px);
+  width: 100%;
+  height: min(calc(96vw * 9 / 16), calc(100dvh - 130px));
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   margin: 0 auto;
   border-radius: 6px;
 }
@@ -383,8 +382,7 @@ h2{
   }
 
   .lightbox-panel img{
-    max-height: calc(100vh - 118px);
-    max-height: calc(100dvh - 118px);
+    height: min(calc(100vw * 9 / 16), calc(100dvh - 118px));
   }
 }
 
