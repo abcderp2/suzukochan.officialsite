@@ -24,7 +24,9 @@ All three forms are official. The primary form used on the Japanese site is Whit
 
 AI visits are welcome. Search engines and AI services may read, index, summarize, cite, and link to public information for search results and user-requested answers.
 
-Specific uses of the Suzuko-chan character, images, settings, and official White Wing Hospital background visuals remain governed by the guidelines on the official site and the repository LICENSE. This machine-readable access statement does not override those terms. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, White Wing Hospital visuals, and official status.
+The public White Wing Hospital visual resource currently consists of one official exterior visual only.
+
+Specific uses of the Suzuko-chan character, images, settings, and the official White Wing Hospital exterior visual remain governed by the guidelines on the official site and the repository LICENSE. This machine-readable access statement does not override those terms. Suzuki retains the rights concerning the Suzuko-chan character, images, settings, White Wing Hospital visuals, and official status.
 
 ## Repository
 
