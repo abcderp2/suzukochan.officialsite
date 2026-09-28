@@ -55,6 +55,7 @@ h2{margin:0 0 10px;font-size:18px}
 .sns-link:focus-visible{outline:3px solid #005fcc;outline-offset:3px}
 .service-logo{display:block;width:40px;height:32px;flex:0 0 40px;object-fit:contain}
 .sns-item:has(img[src*="niconico.svg"]) .service-logo{background:#eef2f6;border-radius:8px;padding:4px}
+.service-logo--text{display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0 2px;font-size:9px;font-weight:700;line-height:1;letter-spacing:-0.03em;color:var(--text);background:#eef2f6;border-radius:8px}
 .sns-copy{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:2px}
 .sns-service{color:var(--text);font-size:14px;font-weight:600;line-height:1.35}
 .sns-name,.sns-account{max-width:100%;overflow-wrap:anywhere;font-size:13px;line-height:1.4}
