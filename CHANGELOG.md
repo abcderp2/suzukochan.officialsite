@@ -6,7 +6,7 @@
 
 `YYYY-MM-DD | 変更理由 | 対象ファイル | 戻す単位`
 
-2026-10-14 | 公式ビジュアル バージョン1を1792×1008のWebPへ差し替え、日英ページの画像寸法と更新情報を整合。旧画像をリポジトリ内に保持 | index.html, en.html, scripts/check_site.py, assets/images/suzuko-chan-gallery-1.webp, assets/images/archive/suzuko-chan-gallery-1-original.webp, CHANGELOG.md | SquashコミットをRevert
+2026-10-14 | 公式ビジュアル バージョン1を1792×1008のWebPへ差し替え、日英ページの画像寸法と更新情報を整合。旧画像をリポジトリ内に保持 | index.html, en.html, scripts/check_site.py, assets/images/suzuko-chan-gallery-1.webp, assets/images/suzuko-chan-gallery-1-original.webp, CHANGELOG.md | SquashコミットをRevert
 
 2026-08-27 | White Wing病院の公開ビジュアルを外観1点に整理し、入口ホール・院内廊下・診察室の画像を非公開化。病院画像のCSS拡大表示を削除し、日英ページ、README、更新情報を整合。既存のレスポンシブ構成を維持 | index.html, en.html, assets/css/style.css, assets/images/white-wing-hospital/*.webp, README.md, CHANGELOG.md | SquashコミットをRevert
 
