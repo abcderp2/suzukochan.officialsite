@@ -866,7 +866,7 @@ def check_bilingual_page(
         if not {"p", "li"}.issubset(news_tags):
             reporter.error(f"{name}: update history must support both p and li entries")
         latest = parser.news_items[0]
-        if latest.get("datetime") != "2026-08-27" or expected_news_text not in latest.get("text", ""):
+        if latest.get("datetime") != "2026-10-14" or expected_news_text not in latest.get("text", ""):
             reporter.error(f"{name}: latest update history is incorrect")
 
     if parser.json_ld:
