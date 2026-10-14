@@ -943,7 +943,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "en.html",
         "English",
         "en",
-        "White Wing病院の公開ビジュアルを外観のみに整理し、病院画像の拡大表示機能を削除",
+        "公式ビジュアル バージョン1更新",
         reporter,
     )
     en = check_bilingual_page(
@@ -952,7 +952,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "index.html",
         "日本語",
         "ja",
-        "Limited the published White Wing Hospital visual to the exterior, removed hospital image enlargement",
+        "Updated official visual version 1",
         reporter,
     )
 
