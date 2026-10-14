@@ -866,7 +866,7 @@ def check_bilingual_page(
         if not {"p", "li"}.issubset(news_tags):
             reporter.error(f"{name}: update history must support both p and li entries")
         latest = parser.news_items[0]
-        if latest.get("datetime") != "2026-08-27" or expected_news_text not in latest.get("text", ""):
+        if latest.get("datetime") != "2026-10-14" or expected_news_text not in latest.get("text", ""):
             reporter.error(f"{name}: latest update history is incorrect")
 
     if parser.json_ld:
@@ -943,7 +943,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "en.html",
         "English",
         "en",
-        "White Wing病院の公開ビジュアルを外観のみに整理し、病院画像の拡大表示機能を削除",
+        "公式ビジュアル バージョン1更新",
         reporter,
     )
     en = check_bilingual_page(
@@ -952,7 +952,7 @@ def check_bilingual_pages(reporter: Reporter) -> None:
         "index.html",
         "日本語",
         "ja",
-        "Limited the published White Wing Hospital visual to the exterior, removed hospital image enlargement",
+        "Updated official visual version 1",
         reporter,
     )
 
