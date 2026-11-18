@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - fix/white-wing-exterior-only-final-20260827
   workflow_dispatch:
 
 permissions:
